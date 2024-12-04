@@ -1,0 +1,5 @@
+Package: mbadtools
+Type: Package
+Title: R tools for MBAD courses
+Version: 0.0.1.0
+RoxygenNote: 7.3.2
