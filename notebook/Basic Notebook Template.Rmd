@@ -1,0 +1,76 @@
+---
+title: "Basic Notebook Template"
+author:
+  name: "Bruce Hartman"
+  affiliation: "University of St. Francis"
+date: "`r lubridate::today()`"
+output: 
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+    theme: united
+abstract: |
+  This is a good notebook template to start with. 
+---
+
+# Introduction {-}
+Here write what you are going to do. Add a reference [(Hartman, 2004)](#r1).
+
+# Packages {-}
+Loading the standard packages for this course:
+```{r}
+library(tidyverse) # used to manipulate data and plot
+library(ggfortify) # some extra ggplot functions
+library(GGally) # pairs ggplot and other options
+library(skimr) # nice summaries
+library(broom) # neat model summary
+library(gt) # nice displays of printed data
+library(patchwork) # arranging graphs
+library(car) # useful tools for regression analysis
+library(yardstick) # for model performance metrics
+library(ggResidpanel) # for diagnostic residual plots
+```
+
+# Custom Packages for MBAD
+Install and load:
+```{r}
+# allow package installation from github
+library(devtools) # Make sure that the devtools library is loaded
+if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools")
+# load github packages
+library(mbadtools)
+```
+
+# Data {-}
+Here we get the data using Import Dataset or from a package.
+
+# Data Description {-}
+Describe the data using simple display, or `skim`.
+
+# Research Problem {-}
+You might want to state the problem you will solve.
+
+# Data Wrangling {-}
+Make changes to the data for analysis.
+
+# Data Visualization
+Graphic displays of data such as pairs plot
+
+# Analysis {-}
+Explain what analysis you are doing. Add a formula in math notation like this:
+::: {#eq1}
+$$E = mc^2\hspace{100pt} (1)$$
+:::
+
+## Analysis Section {-}
+An extension of the analysis. Notice two ## and space for header 2.
+> Blockquote some text from the text or an article
+
+# Conclusion {-}
+My conclusions are ...  Refer back to a formula: [Equation 1](#eq1)
+
+# References {-}
+::: {#r1}
+1. Hartman, B. (2024) Basic Notebook. 
+:::
+
