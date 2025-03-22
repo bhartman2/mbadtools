@@ -4,89 +4,95 @@
 #' residual plots.
 #'
 #' @param .data an lm() regression object
-#' @param items a vector of integers from 1 to 7; which of 7 plots to select; default 1:3
+#' @param items a vector of integers from 0 to 7; which of 7 plots to select; default 1:3
 #' @return a patchwork array of ggplot objects
+#' 
+#' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col 
+#'             geom_qq aes geom_abline geom_histogram geom_function
+#'             geom_qq_line
+#'
+#' @importFrom magrittr %>%
+#' @importFrom broom augment
+#' @importFrom stats dnorm density sd filter
+#' 
 #' @export
 #' @examples
-#' require(tidyverse)
 #' data(cars)
 #' fit = lm(dist~speed, data=cars)
-#' fit %>% gg_residual_plots()
-#' fit %>% gg_residual_plots(4:6)
+#' gg_residual_plots(fit, items=4:6)
 
 gg_residual_plots = function(.data, items=1:3) {
   
-  require(tidyverse)
-  require(broom)
-  require(patchwork)
-  require(GGally)
-  
   fit = .data
-  afit = fit %>% augment()
-  
-  # Currently you cannot change which items are plotted.
+  afit = fit %>% broom::augment()
   
   # item 1
-  gRF = afit %>% 
-    ggplot(aes(x = .fitted, y = .resid)) +
-    geom_point() +
-    geom_hline(aes(yintercept=0), linetype="dashed")+
-    geom_smooth(method="loess", se = FALSE, formula='y~x') +
-    labs(title="Residuals vs Fitted",
+  gRF = ggplot2::ggplot(afit,
+                    ggplot2::aes(x = afit$.fitted, y = afit$.resid)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
+    ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+    ggplot2::labs(title="Residuals vs Fitted",
          x = "Fitted value", y = "Residual")
+  
   # item 2
-  gQQ = afit %>% 
-    ggplot(aes(sample = .std.resid)) +
-    geom_qq() +
-    geom_qq_line(linetype="dashed") +
-    labs(title = "Normal Q-Q",
+  gQQ = ggplot2::ggplot(afit, 
+                        ggplot2::aes(sample = afit$.std.resid)) +
+    ggplot2::geom_qq() +
+    ggplot2::geom_qq_line(linetype="dashed") +
+    ggplot2::labs(title = "Normal Q-Q",
          x = "Theoretical quantiles", 
          y = "Observed quantiles")
+  
   # item 3 
-  gSL = afit %>% 
-    ggplot(aes(x = .fitted, y = sqrt(abs(.std.resid)))) +
-    geom_point() +
-    geom_smooth(method="loess", se = FALSE, formula='y~x') +
-    labs(title="Scale-Location",
+  gSL = ggplot2::ggplot(afit, ggplot2::aes(x = afit$.fitted, 
+                                           y = sqrt(abs(afit$.std.resid)))) +
+    ggplot2::geom_point() +
+    ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+    ggplot2::labs(title="Scale-Location",
          x = "Fitted value", 
          y = expression(sqrt(abs("Standard Residual")))
     )
   # item 4
-  gCD = afit %>% 
-    ggplot(aes(x = seq_along(.cooksd), y = .cooksd)) +
-    geom_col() +
-    labs(title="Cook's Distance",
+  gCD = ggplot2::ggplot(afit,
+                        ggplot2::aes(x = seq_along(afit$.cooksd), y = afit$.cooksd)) +
+    ggplot2::geom_col() +
+    ggplot2::labs(title="Cook's Distance",
          x = "Obs number", 
          y = "Cook's distance")
+  
   # item 5
-  gRH = afit %>% 
-    ggplot(aes(x=.hat, y = .std.resid))+
-    geom_point() +
-    geom_hline(aes(yintercept=0), linetype="dashed")+
-    geom_smooth(method="loess", se = FALSE, formula='y~x') +
-    labs(title="Residuals vs Leverage",
+  gRH = ggplot2::ggplot(afit, 
+                        ggplot2::aes(x=afit$.hat, y = afit$.std.resid))+
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
+    ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+    ggplot2::labs(title="Residuals vs Leverage",
          x = "Leverage", 
          y = "Standardized Residuals")
   
   # item 6
-  gCH = afit %>% 
-    ggplot(aes(x = .hat/(1-.hat), y = .cooksd)) +
-    geom_point() +
-    labs(title="Cook's Distance vs Leverage/(1-Leverage)",
+  gCH = ggplot2::ggplot(afit, aes(x = afit$.hat/(1-afit$.hat), y = afit$.cooksd)) +
+    ggplot2::geom_point() +
+    ggplot2::labs(title="Cook's Distance vs Leverage/(1-Leverage)",
          x = "Leverage/(1-Leverage)", 
          y = "Cook's distance")
+  
   lapply(0:7, 
          function(i) gCH <<- gCH + 
-           geom_abline(aes(slope=i, intercept=0), linetype="dashed") )
+           ggplot2::geom_abline(aes(slope=i, intercept=0), linetype="dashed") )
   
   # item 7
-  gHI = afit %>% ggplot() +
-    geom_histogram(aes(x=.resid,y=after_stat(density)), fill="lightgray", color="black") +
-    geom_function(fun = dnorm, 
+  gHI =  ggplot2::ggplot(afit) +
+    ggplot2::geom_histogram(
+      ggplot2::aes(x=afit$.resid,
+                   y=ggplot2::after_stat(density)), 
+      fill="lightgray", color="black") +
+    ggplot2::geom_function(fun = dnorm, 
                   args = list(mean = mean(afit$.resid), 
                               sd = sd(afit$.resid)),
                   linetype="dashed") +
-    labs(title="Histogram of Residuals",
+    ggplot2::labs(title="Histogram of Residuals",
          x="Residuals",
          y="Density")
   
@@ -98,7 +104,7 @@ gg_residual_plots = function(.data, items=1:3) {
   
   # layout 
   return(
-    P[items] %>% wrap_plots(ncol=2, nrow=3)
+    P[items] %>% patchwork::wrap_plots(ncol=2)
   )
   
 }
