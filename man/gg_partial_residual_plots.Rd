@@ -13,10 +13,14 @@ gg_partial_residual_plots(.data)
 a patchwork plot layout containing the partial residual plots.
 }
 \description{
-Draw partial residual plots with ggplot methods. Automatically plots all driver partial plots in the model.
+Draw partial residual plots with ggplot methods. Automatically plots all driver
+partial plots in the model.
 }
 \examples{
-fit = lm(mpg ~ horsepower + weight + acceleration, data=Auto)
-fit \%>\%  gg_partial_residual_plots()
+\dontrun{
+library(ISLR2);
+fit = lm(mpg ~ horsepower + weight + acceleration, data=Auto);
+fit \%>\%  gg_partial_residual_plots();
+}
 
 }

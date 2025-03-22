@@ -9,18 +9,22 @@ gt_add_significance(.data, level = 0.05, digits = 4)
 \arguments{
 \item{.data}{A tidy or glance tibble resulting from an lm model.}
 
-\item{level}{The significance level selected. default .05}
+\item{level}{The significance level selected. default = .05}
+
+\item{digits}{number of digits to retain in numeric columns; default = 4}
 }
 \value{
 a gt table with the pvalue column colored where result is significant.
 }
 \description{
-Makes a gt table, and adds colored significance notation, to a data frame containing p_value column. 
+Makes a gt table, and adds colored significance notation, to a data frame containing \code{p.value} column.
 Useful for glance and tidy output from lm models.
 }
 \examples{
-require(tidyverse);
+\dontrun{
+data(cars)
 fit = lm(dist~speed, data=cars);
-fit \%>\% broom::tidy() \%>\% add_significance();
+gt_add_significance(broom::tidy(fit))
+}
 
 }

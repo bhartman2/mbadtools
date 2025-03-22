@@ -9,19 +9,17 @@ gg_residual_plots(.data, items = 1:3)
 \arguments{
 \item{.data}{an lm() regression object}
 
-\item{items}{a vector of integers from 1 to 7; which of 7 plots to select; default 1:3}
+\item{items}{a vector of integers from 0 to 7; which of 7 plots to select; default 1:3}
 }
 \value{
 a patchwork array of ggplot objects
 }
 \description{
-ggplot versions of common residual plots meant to mimic the plot.lm() and ggfortify::autoplot.lm() 
+ggplot versions of common residual plots meant to mimic the plot.lm() and ggfortify::autoplot.lm()
 residual plots.
 }
 \examples{
-require(tidyverse)
 data(cars)
 fit = lm(dist~speed, data=cars)
-fit \%>\% gg_residual_plots()
-fit \%>\% gg_residual_plots(4:6)
+gg_residual_plots(fit, items=4:6)
 }
