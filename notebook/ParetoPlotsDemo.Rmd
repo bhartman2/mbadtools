@@ -1,0 +1,353 @@
+---
+title: "Pareto Plots"
+author:
+  name: "Bruce Hartman"
+  affiliation: "University of St. Francis"
+date: "`r lubridate::today()`"
+output: 
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+    theme: united
+abstract: |
+  We demonstrate Pareto Plots from the `qcc` package and then test our own functions for them based on `ggplot`.
+---
+
+# Pareto Plots
+Pareto plots are a good way to understand what's important in data with categories. 
+
+# Packages
+```{r}
+library(tidyverse) # used to manipulate data and plot
+library(ggfortify) # some extra ggplot functions
+library(GGally) # pairs ggplot and other options
+library(skimr) # nice summaries
+library(broom) # neat model summary
+library(gt) # nice displays of printed data
+library(patchwork) # arranging graphs
+library(car) # useful tools for regression analysis
+library(yardstick) # for model performance metrics
+library(ggResidpanel) # for diagnostic residual plots
+```
+
+# Custom Packages for MBAD
+Install and load:
+```{r}
+# allow package installation from github
+library(devtools) # Make sure that the devtools library is loaded
+if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools")
+# load github packages
+library(mbadtools)
+```
+
+# Package `qcc`
+```{r}
+library(qcc)
+```
+
+# Data 
+Package `qcc` has several datasets with examples of Pareto Plots.
+```{r}
+data(mtcars) # from qcc package
+mtcars
+cyl_count <- table(mtcars$cyl)
+pareto.chart(cyl_count, main = "Pareto Chart of Car Cylinders")
+```
+
+`HairEycolor` is stored as a table.
+```{r}
+data(HairEyeColor)
+HairEyeColor %>% str()
+HairEyeColor
+eye_count <- apply(HairEyeColor, c(2), sum) #2 refers to eyes
+pareto.chart(eye_count, main = "Pareto Chart of Eye Colors")
+```
+
+`Titanic` is stored as a table.
+```{r}
+data(Titanic)
+Titanic
+class_count <- apply(Titanic, c(1), sum) #1 refers to Class
+pareto.chart(class_count, main = "Pareto Chart of Passenger Classes")
+```
+
+`defects` is stored as an ordered vector of counts.
+```{r}
+defects <- c("Scratches" = 40, "Dents" = 25, "Misalignment" = 15, "Discoloration" = 10, "Other" = 5)
+pareto.chart(defects, main = "Pareto Chart of Product Defects")
+```
+
+These plots are not structured with `ggplot`. But they work.
+
+# The `mbadtools` Method
+We use the data management and plotting functions in my package. All begin with `pareto_`.
+
+First step is to create a summarized dataset.
+```{r}
+A = mtcars %>% mutate(cyl= as.character(cyl))
+A1 = A %>% group_by(cyl) %>% summarize(c_count=n())
+A1
+```
+Can apply `pareto_arrange_data()` function to A1.
+
+```{r}
+A2 = A1 %>% pareto_arrange_data(c_count)
+A2
+```
+Noiw the basic plot.
+```{r}
+A2 %>% pareto_plot(cyl, c_count)
+```
+
+
+
+```{r}
+mc = max(A2$c_count)
+A2 %>% pareto_plot(cyl, c_count) +
+  pareto_sec_axis(mc)
+```
+Add labels. You can control them with `nudge_y` and `size`.
+```{r}
+mc = max(A2$c_count)
+A2 %>% pareto_plot(cyl, c_count) +
+  pareto_sec_axis(mc) +
+  pareto_pct_labels(mc, nudge_y=1, size=3)
+```
+
+Add plot labeling:
+```{r}
+mc = max(A2$c_count)
+A2 %>% pareto_plot(cyl, c_count) +
+    pareto_sec_axis(mc) +
+    pareto_pct_labels(mc, nudge_y=.8, size=3) +
+    pareto_cutoff_line(mc) +
+    labs(title = "Pareto Chart of cylinder counts",
+       x = "No of Cylinders",
+       y = "Frequency")
+```
+
+This is what we want our Pareto chart to look like, with all the attachments. You may not want both the right hand axis and the cutoff line.
+
+# Examples from ChatGPT
+I had ChatGPT find some data examples that would work for Pareto plots.
+
+## US Cities
+
+```{r}
+data("us.cities", package="maps")  # U.S. cities dataset
+# us.cities
+U = us.cities %>% group_by(country.etc) %>% 
+  summarize(cpop = sum(pop))
+U1 = U %>% pareto_arrange_data(cpop)
+U1
+```
+
+```{r}
+U1 %>% head(19) %>% 
+  pareto_plot(country.etc, cpop) + 
+  labs(title = "Pareto Chart of Top U.S. States by Population",
+       x = "State",
+       y = "Population Count") +
+  pareto_pct_labels(max(U1$cpop), size=2.7) +
+  pareto_sec_axis(max(U1$cpop)) +
+  pareto_cutoff_line(max(U1$cpop)) +
+  geom_text(aes(x=country.etc, y=cpop/2,
+                label = round(cpop/1e6,1))
+            ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=45, hjust=1))
+```
+19 states make up 80% of the US population.
+
+## NYC Flights
+```{r}
+library(nycflights13)
+
+# Group by delay reason and count occurrences
+delay_data <- flights %>%
+  filter(dep_delay > 0) %>%
+  mutate(delay_category = case_when(
+    dep_delay < 15 ~ "Short Delay",
+    dep_delay < 60 ~ "Medium Delay",
+    TRUE ~ "Long Delay"
+  )) %>%
+  group_by(delay_category) %>%
+  summarise(count = n()) 
+delay_data
+
+D1 = delay_data %>% pareto_arrange_data(count)
+mx=max(D1$count)
+D1 %>% pareto_plot(delay_category, count) +
+  pareto_pct_labels(mx, nudge_y=1000) +
+  pareto_sec_axis(mx) +
+  geom_text(aes(x=delay_category,
+                y=count/1.5,
+                label = paste0("~",round(count,-2)))
+            ) +
+  labs(title = "Pareto Chart of Flight Delays",
+       x = "Delay Category") +
+  theme_minimal()
+
+```
+
+## Airline Arrival Delays
+```{r warning=FALSE}
+library(readr)
+airline_2m <- read_csv("airline_2m.csv")
+# airline_2m
+```
+
+```{r}
+airline_delay = airline_2m %>% 
+  select(FlightDate,
+         Reporting_Airline,
+         Origin,
+         OriginState,
+         Dest,
+         DestState,
+         DepDelay,
+         ArrDelay,
+         Distance
+         )
+airline_delay %>% skim
+```
+
+Pareto chart of departure delay DepDelay by Reporting_Airline. Notice our numeric variable isn't a count, but an average delay.
+
+```{r}
+airdel = airline_delay %>% 
+  select(Reporting_Airline, DepDelay) %>% 
+  group_by(Reporting_Airline) %>% 
+  summarize(delays=mean(DepDelay, na.rm=T))
+airdel %>% skim
+
+AD = airdel %>%  pareto_arrange_data(delays)
+AD
+```
+
+Set the number in `head()` to give just more than 80%.
+```{r}
+AD %>% head(23) %>% 
+  pareto_plot(Reporting_Airline, delays) +
+  pareto_pct_labels(max(AD$delays)) +
+  pareto_sec_axis(max(AD$delays)) +
+  pareto_cutoff_line(max(AD$delays)) +
+  labs(title="Pareto Chart of average delays by Airline",
+       x="Airline Code",
+       y="Average of delays")
+```
+
+Not really any extremely bad performers.
+
+## Logistics
+Container flows for countries from 2010 thru 2019.
+
+```{r}
+library(readxl)
+ContainerFlows <- read_excel(
+  "API_IS.SHP.GOOD.TU_DS2_en_excel_v2_1657.xls",
+  skip = 3)
+ContainerFlows %>% skim()
+```
+
+Select the years with most nations' data complete.
+```{r}
+CF = ContainerFlows %>% select(`Country Name`, `Country Code`, 
+                               `2010`, `2011`, `2012`, `2013`, `2014`,
+                               `2015`, `2016`, `2017`, `2018`, `2019`)
+CF %>% skim
+```
+
+Pivot longer.
+```{r}
+CF1 = CF %>% pivot_longer(cols=3:12, names_to = "Year", 
+                          values_to = "Flow")
+CF1 %>% glimpse
+```
+
+```{r}
+CF2 = CF1 %>% mutate(Year = as.numeric(Year)) %>%
+  rename(Country=`Country Code`, CName=`Country Name`)
+CF2 %>% glimpse
+```
+
+```{r}
+CF2 %>% skim
+```
+
+Remove missing data.
+```{r}
+CF3 = CF2 %>% na.omit
+CF3 %>% skim
+```
+
+Pareto data frame: use mean of flow over the 10 years for each country. Change mean to millions of containers.
+```{r}
+CF4 = CF3 %>% group_by(Country) %>% 
+  summarize(cflow = mean(Flow, na.rm=T)/1e6) 
+CF4
+```
+
+Filter only the Country column items that correspond to countries, rather than other statistical units. display in a `gt` table.
+```{r}
+df = CF4 %>% filter(
+  !(Country %in% c("CEB","CSS","EAP","EAR",
+                 "EAS","ECS","EMU","EUU",
+                 "FCS","HIC","IBD","IBT",
+                 "IDA","IDB","LAC","LCN",
+                 "LMC","LMY","LTE","MEA",
+                 "MIC","MNA","NAC","OED",
+                 "OSS","PRE","PSS","PST",
+                 "SSA","SST","TEA","TEC",
+                 "TLA","TMN","TSA","TSS",
+                 "UMC","WLD","ARB","AFW",
+                 "SSF")) 
+              )
+
+df %>% gt() %>% fmt_number(decimals=3) %>% opt_interactive()
+```
+
+Get data ready and make Pareto Plot.
+```{r}
+df1 = df %>% pareto_arrange_data(cflow)
+df1 %>% gt() %>% fmt_number(decimals=3) %>% opt_interactive()
+mc = max(df1$cflow)
+```
+
+Pick a number for about 80% and make Pareto Plot.
+```{r}
+q=25
+C = df1 %>% head(q) %>% 
+  pareto_plot(Country, cflow) +
+  labs(title=paste0("Pareto Plot of Flow, ",q," largest Countries"),
+       x="Country Code",
+       y="Average Trade Flow 2010-2019") +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) +
+  # pareto_pct_labels(mc) +
+  pareto_cutoff_line(mc) +
+  pareto_sec_axis(mc)
+list(C) %>% wrap_plots(nrow=1, ncol=1) 
+```
+
+We don't know country codes, so extract the names and make a `gt` table.
+```{r}
+a = df$Country %>% enframe(value="Country")
+
+b = data.frame(cn = CF3 %>% distinct(CName), 
+               Country = CF3 %>% distinct(Country)
+               )
+c = left_join(a, b, by="Country")
+w = c %>% select(-name)
+ww = w %>% filter(Country %in% (df1 %>% head(q) %>% pull(Country)) )
+ww %>% gt() %>% opt_interactive()
+```
+
+Add the table to the plot display. Note that we do not have to make the table of countries a `gt` table; `wrap_table` does that for us. We may have to change the height and width of the plot, and we specify a design to make the Pareto plot 75% of the plot width.
+
+```{r fig.height=9, fig.width=12}
+list(C, W=wrap_table(ww)) %>% wrap_plots(design = "CCCW") 
+```
+
+
+# Conclusion
+Tests show the Pareto plots are working.
