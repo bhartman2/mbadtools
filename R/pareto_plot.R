@@ -30,7 +30,7 @@ pareto_arrange_data = function (.data, countcol) {
     dplyr::arrange(dplyr::desc({{countcol}})) 
   df2 = df1 %>%
     mutate(Cumulative = cumsum({{countcol}}), # Cumulative sum
-           Percentage = df$Cumulative / sum({{countcol}}) * 100) # Cumulative percentage
+           Percentage = Cumulative / sum({{countcol}}) * 100) # Cumulative percentage
   return(df2)
 }
 
@@ -68,10 +68,10 @@ pareto_plot = function (.data, category, count) {
     # Bar chart for frequencies
     ggplot2::geom_bar(stat = "identity", fill = "steelblue") +
     # Points for cum%
-    ggplot2::geom_point(aes(y = df$Percentage*max({{count}})/100), 
+    ggplot2::geom_point(aes(y = Percentage*max({{count}})/100), 
                color = "red", size = 2) + 
     # Line for cum%
-    ggplot2::geom_line(aes(y = df$Percentage*max({{count}})/100, group = 1), 
+    ggplot2::geom_line(aes(y = Percentage*max({{count}})/100, group = 1), 
               color = "red", linewidth = 1)
   
   return(P)
