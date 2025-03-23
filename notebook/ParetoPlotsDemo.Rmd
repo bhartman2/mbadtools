@@ -162,10 +162,9 @@ U1 %>% head(19) %>%
 ## NYC Flights
 ```{r}
 library(nycflights13)
-
 # Group by delay reason and count occurrences
-delay_data <- flights %>%
-  filter(dep_delay > 0) %>%
+delay_data <- flights %>% 
+  dplyr::filter(dep_delay > 0) %>%
   mutate(delay_category = case_when(
     dep_delay < 15 ~ "Short Delay",
     dep_delay < 60 ~ "Medium Delay",
@@ -193,7 +192,7 @@ D1 %>% pareto_plot(delay_category, count) +
 ## Airline Arrival Delays
 ```{r warning=FALSE}
 library(readr)
-airline_2m <- read_csv("airline_2m.csv")
+airline_2m <- read_csv("../inst/airline_2m.csv")
 # airline_2m
 ```
 
@@ -212,7 +211,7 @@ airline_delay = airline_2m %>%
 airline_delay %>% skim
 ```
 
-Pareto chart of departure delay DepDelay by Reporting_Airline. Notice our numeric variable isn't a count, but an average delay.
+Pareto chart of departure delay `DepDelay` by `Reporting_Airline`. Notice our numeric variable isn't a count, but an average delay.
 
 ```{r}
 airdel = airline_delay %>% 
@@ -245,7 +244,7 @@ Container flows for countries from 2010 thru 2019.
 ```{r}
 library(readxl)
 ContainerFlows <- read_excel(
-  "API_IS.SHP.GOOD.TU_DS2_en_excel_v2_1657.xls",
+  "../inst/API_IS.SHP.GOOD.TU_DS2_en_excel_v2_1657.xls",
   skip = 3)
 ContainerFlows %>% skim()
 ```
@@ -285,12 +284,13 @@ Pareto data frame: use mean of flow over the 10 years for each country. Change m
 ```{r}
 CF4 = CF3 %>% group_by(Country) %>% 
   summarize(cflow = mean(Flow, na.rm=T)/1e6) 
-CF4
+CF4 %>% glimpse
 ```
 
-Filter only the Country column items that correspond to countries, rather than other statistical units. display in a `gt` table.
+Filter only the Country column items that correspond to countries, rather than other statistical units. Display in a `gt` table.
 ```{r}
-df = CF4 %>% filter(
+CF4
+df = dplyr::filter(CF4,
   !(Country %in% c("CEB","CSS","EAP","EAR",
                  "EAS","ECS","EMU","EUU",
                  "FCS","HIC","IBD","IBT",
@@ -338,7 +338,7 @@ b = data.frame(cn = CF3 %>% distinct(CName),
                )
 c = left_join(a, b, by="Country")
 w = c %>% select(-name)
-ww = w %>% filter(Country %in% (df1 %>% head(q) %>% pull(Country)) )
+ww = w %>% dplyr::filter(Country %in% (df1 %>% head(q) %>% pull(Country)) )
 ww %>% gt() %>% opt_interactive()
 ```
 
@@ -346,6 +346,14 @@ Add the table to the plot display. Note that we do not have to make the table of
 
 ```{r fig.height=9, fig.width=12}
 list(C, W=wrap_table(ww)) %>% wrap_plots(design = "CCCW") 
+```
+
+# Example for package
+```{r}
+data(chickwts, package="datasets")
+K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
+K1 = pareto_arrange_data(K, avwt)
+K1 %>% pareto_plot(feed, avwt)
 ```
 
 
