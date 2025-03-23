@@ -13,14 +13,11 @@
 #' @importFrom dplyr mutate summarize group_by
 #'
 #' @examples
-#' \dontrun{
-#' library(qcc)
-#' data(mtcars)
-#' A = mtcars %>% mutate(cyl= as.character(cyl))
-#' A1 = A %>% group_by(cyl) %>% summarize(c_count=n())
-#' A2 = pareto_arrange_data(A1, c_count)
-#' print(A2)
-#' }
+#' data(chickwts, package="datasets")
+#' K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
+#' K1 = pareto_arrange_data(K, avwt)
+#' print(K1)
+#' 
 pareto_arrange_data = function (.data, countcol) {
   
   # require(tidyverse)
@@ -46,15 +43,11 @@ pareto_arrange_data = function (.data, countcol) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(qcc)
-#' library(dplyr)
-#' data(mtcars)
-#' A = mtcars %>% mutate(cyl = as.character(cyl))
-#' A1 = A %>% group_by(cyl) %>% summarize(c_count=n())
-#' A2 = pareto_arrange_data(A1, c_count)
-#' A2 %>% pareto_plot(cyl, c_count)
-#' }
+#' data(chickwts, package="datasets")
+#' K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
+#' K1 = pareto_arrange_data(K, avwt)
+#' pareto_plot(K1, feed, avwt)
+#' 
 pareto_plot = function (.data, category, count) {
   
   # require(tidyverse)
@@ -83,18 +76,13 @@ pareto_plot = function (.data, category, count) {
 #'
 #' @returns a ggplot layer 
 #'
-#' @examples
-#' \dontrun{
-#' library(qcc)
-#' library(dplyr)
-#' data(mtcars)
-#' A = mtcars %>% mutate(cyl = as.character(cyl))
-#' A1 = A %>% group_by(cyl) %>% summarize(c_count=n())
-#' A2 = pareto_arrange_data(A1, c_count)
-#' A2 %>% pareto_plot(cyl, c_count) +
-#'   pareto_sec_axis(max(A2$c_count))
-#'   }
 #' @export
+#' @examples
+#' data(chickwts, package="datasets")
+#' K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
+#' K1 = pareto_arrange_data(K, avwt)
+#' pareto_plot(K1, feed, avwt) +
+#'   pareto_sec_axis(max(K1$avwt))
 #' 
 pareto_sec_axis = function(maxcount) {
   
@@ -127,18 +115,11 @@ pareto_sec_axis = function(maxcount) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(qcc)
-#' library(dplyr)
-#' data(mtcars)
-#' A = mtcars %>% mutate(cyl = as.character(cyl))
-#' A1 = A %>% group_by(cyl) %>% summarize(c_count=n())
-#' A2 = pareto_arrange_data(A1, c_count)
-#' mc = max(A2$c_count)
-#' A2 %>% pareto_plot(cyl, c_count) +
-#'   pareto_sec_axis(mc) +
-#'   pareto_pct_labels(mc, nudge_y=1, size=3)
-#' }
+#' data(chickwts, package="datasets")
+#' K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
+#' K1 = pareto_arrange_data(K, avwt)
+#' pareto_plot(K1, feed, avwt) +
+#'   pareto_pct_labels(max(K1$avwt), nudge_y=1, size=3)
 #'   
 pareto_pct_labels = function(maxcount,...) {
   
@@ -164,18 +145,11 @@ pareto_pct_labels = function(maxcount,...) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(qcc)
-#' library(dplyr)
-#' data(mtcars, package="qcc")
-#' A = mtcars %>% mutate(cyl = as.character(cyl))
-#' A1 = A %>% group_by(cyl) %>% summarize(c_count=n())
-#' A2 = pareto_arrange_data(A1, c_count)
-#' mc = max(A2$c_count)
-#' A2 %>% pareto_plot(cyl, c_count) +
-#'   pareto_sec_axis(mc) +
-#'   pareto_pct_labels(mc, nudge_y=1, size=3) +
-#'   pareto_cutoff_line(mc)
+#' data(chickwts, package="datasets")
+#' K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
+#' K1 = pareto_arrange_data(K, avwt)
+#' pareto_plot(K1, feed, avwt) +
+#'   pareto_cutoff_line(max(K1$avwt))
 #'   }
 pareto_cutoff_line = function (maxcount, percent=80) {
   
