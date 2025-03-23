@@ -189,55 +189,6 @@ D1 %>% pareto_plot(delay_category, count) +
 
 ```
 
-## Airline Arrival Delays
-```{r warning=FALSE}
-library(readr)
-airline_2m <- read_csv("../inst/airline_2m.csv")
-# airline_2m
-```
-
-```{r}
-airline_delay = airline_2m %>% 
-  select(FlightDate,
-         Reporting_Airline,
-         Origin,
-         OriginState,
-         Dest,
-         DestState,
-         DepDelay,
-         ArrDelay,
-         Distance
-         )
-airline_delay %>% skim
-```
-
-Pareto chart of departure delay `DepDelay` by `Reporting_Airline`. Notice our numeric variable isn't a count, but an average delay.
-
-```{r}
-airdel = airline_delay %>% 
-  select(Reporting_Airline, DepDelay) %>% 
-  group_by(Reporting_Airline) %>% 
-  summarize(delays=mean(DepDelay, na.rm=T))
-airdel %>% skim
-
-AD = airdel %>%  pareto_arrange_data(delays)
-AD
-```
-
-Set the number in `head()` to give just more than 80%.
-```{r}
-AD %>% head(23) %>% 
-  pareto_plot(Reporting_Airline, delays) +
-  pareto_pct_labels(max(AD$delays)) +
-  pareto_sec_axis(max(AD$delays)) +
-  pareto_cutoff_line(max(AD$delays)) +
-  labs(title="Pareto Chart of average delays by Airline",
-       x="Airline Code",
-       y="Average of delays")
-```
-
-Not really any extremely bad performers.
-
 ## Logistics
 Container flows for countries from 2010 thru 2019.
 
