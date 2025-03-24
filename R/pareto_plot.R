@@ -150,7 +150,7 @@ pareto_pct_labels = function(maxcount,...) {
 #' K1 = pareto_arrange_data(K, avwt)
 #' pareto_plot(K1, feed, avwt) +
 #'   pareto_cutoff_line(max(K1$avwt))
-#'   }
+#'
 pareto_cutoff_line = function (maxcount, percent=80) {
   
   # require(tidyverse)
