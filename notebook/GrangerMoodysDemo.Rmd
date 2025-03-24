@@ -1,0 +1,229 @@
+---
+title: "Moodys Calculation"
+output: html_notebook
+---
+
+# Introduction
+We will apply a Granger causality test to see if we can replicate Moodys' results published in their February 17 Newsletter.
+
+# Research Problem
+Here is the story from [Moodys, page 5](#r1).
+
+>Income sentiment could mislead
+
+>Persistently strong inflation requires consumers to expect
+higher incomes that allow them to finance these price
+increases. A potential silver lining for the Fed is that the net
+percentage of consumers expecting higher incomes in the
+next six months has fallen. Historically, this measure of
+income sentiment is strongly correlated with the Atlanta
+Fed's Wage Growth Tracker. We used a Granger causality
+test to determine if there is a causal relationship between
+the two. With various lags, income sentiment was found to
+Granger-cause changes in the Atlanta Fed wage tracker. The
+causal relationship runs in only one direction.
+
+We could not access the Consumer Confidence Index, prepared by The Conference Board, without paying $995.00. So we went for the [University of Michigan's Index of Consumer Sentiment (ICS)](#r2)   The Atlanta Fed Wage Tracker (AFWT) is publicly available, and we obtained it.
+
+# Packages
+We load the standard MBAD packages.
+```{r}
+library(tidyverse) # used to manipulate data and plot
+library(ggfortify) # some extra ggplot functions
+library(GGally) # pairs ggplot and other options
+library(skimr) # nice summaries
+library(broom) # neat model summary
+library(gt) # nice displays of printed data
+library(patchwork) # arranging graphs
+library(car) # useful tools for regression analysis
+library(yardstick) # for model performance metrics
+library(ggResidpanel) # for diagnostic residual plots
+```
+
+# Custom Packages for MBAD
+Install and load:
+```{r}
+# allow package installation from github
+library(devtools) # Make sure that the devtools library is loaded
+if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools")
+# load github packages
+library(mbadtools)
+```
+
+# Data
+
+## Atlanta Fed Wage Tracker
+First we load this dataset.
+```{r}
+library(readxl)
+wage_growth_data <- read_excel("../inst/wage-growth-data.xlsx", 
+    skip = 1)
+glimpse(wage_growth_data)
+```
+
+## UM Consumer Confidence
+```{r}
+library(readxl)
+redbk01a <- read_excel("../inst/redbk01a.xls")
+glimpse(redbk01a)
+```
+
+# Data Description
+Fed Wage Growth Data:
+```{r}
+wage_growth_data
+```
+
+```{r}
+redbk01a
+```
+
+# Data Wrangling
+
+## AFWT
+```{r warning=FALSE}
+waget = wage_growth_data %>% select(1,2) %>% rename(Date=1, Wgrowth=2) %>%
+  mutate(Wgrowth=as.numeric(Wgrowth)) %>% na.omit %>%
+  mutate(Month = lubridate::month(Date), Year=lubridate::year(Date))
+glimpse(waget)
+```
+
+Visualizing:
+```{r}
+waget %>% ggplot() +
+  geom_point(aes(Date, Wgrowth)) +
+  geom_line(aes(Date, Wgrowth))
+```
+
+
+## ICS
+```{r}
+umics = redbk01a %>% 
+  rename(Month=`Date  of  Survey`, Year=2) %>% na.omit %>% 
+  mutate(Mo = match(Month, month.name)) %>%
+  mutate(Date=paste0(Year,"-",Mo,"-01"), 
+         Datep=as.POSIXct(as.Date(Date))%m+%months(1))
+glimpse(umics)
+umics
+```
+
+```{r}
+umics %>% ggplot() + 
+  geom_point(aes(Datep,ICS)) +
+  geom_line(aes(Datep,ICS))
+```
+
+And together:
+```{r}
+ggplot(umics %>% dplyr::filter(Datep>=waget[1,]$Date)) + 
+  geom_point(aes(Datep,ICS, color="Consumer Confidence")) +
+  geom_line(aes(Datep,ICS), linetype="dotted") +
+  geom_point(aes(Date,Wgrowth*28, color="Wage Growth"), data=waget) +
+  geom_line(aes(Date,Wgrowth*28), data=waget, linetype="dotted") +
+  # labs(y="ICS and Wage Growth*25") +
+  scale_color_manual(values=c("red","black"), name="")+
+  theme(legend.position = "bottom") +
+  scale_y_continuous(name = "Consumer Confidence Index", 
+    sec.axis = sec_axis(~./28, name = "Wage Growth*25")) 
+```
+It seems like Wage growth starts latest, so we must select only data in its data range for inclusion.
+```{r}
+waget[1,]$Date
+```
+
+```{r}
+umics1 = umics %>% 
+  dplyr::filter(Datep>=waget[1,]$Date) %>% 
+  select(Datep, ICS) #%>% 
+umics2 = umics1 %>% mutate(Datep=Datep + days(1) + hours(6) + minutes(59))
+waget1 = waget %>% select(Date, Wgrowth)
+data.frame(umics2, waget1)
+```
+
+
+```{r}
+moody = data.frame(waget, umics1) %>% select(Date, Wgrowth, ICS)
+glimpse(moody)
+```
+
+```{r}
+ggplot(moody) + 
+  geom_pointline(aes(Date,ICS, color="Consumer Confidence")) +
+  geom_pointline(aes(Date,Wgrowth*25, color="Wage Growth")) +
+  # labs(y="ICS and Wage Growth*25") +
+  scale_color_manual(values=c("red","black"), name="")+
+  theme(legend.position = "bottom") +
+  scale_y_continuous(name = "Consumer Confidence Index", 
+    sec.axis = sec_axis(~./25, name = "Wage Growth*25")) 
+```
+It seems that consumer confidence drops hard just after wage growth peaks.
+
+# Granger Causality
+We will test Granger causality between these two series, using 4 lags.
+
+## `ICS` =G=> `Wgrowth`
+```{r}
+lmtest::grangertest(Wgrowth~ICS, data=moody, order=4)
+```
+
+Yes, it appears `ICS` does Granger-cause `Wgrowth`.
+
+## `Wgrowth` =G=> `ICS`
+```{r}
+grangertest(ICS~Wgrowth, data=moody, order=4)
+```
+
+`Wgrowth` does not Granger-cause `ICS.`
+
+# `mbadtools` function
+We will tune the order parameter by choosing different lags of 1 through 10 for the Granger-causality test. We'll run both directions of causality, and plot the results. Package `mbadtools` contains a function to test for all lags up to a number given by `max.lags`, which defaults to 10.
+
+```{r}
+gpv = moody %>% GrangerTestPvals(ICS, Wgrowth, max.lags=10)
+gpv
+```
+
+We can plot this dataset with another function from `mbadtools`.
+```{r fig.height=9, fig.width=12}
+gpv %>% GrangerPlot() %>% wrap_plots(nrow=2)
+```
+
+Clearly ICS =G=> Wgrowth, with better than .05 p-value for lags 1, 4, 7, and 8.  And for all lags, p-value is below .10.
+
+On the other hand, Wgrowth !=G=> ICS for any tested lag, with all p-values exceeding .25.
+
+# EU Stock Markets
+This dataset contains time series of four indices from the EU stockmarkets. Does any of them Granger-cause another? We will test `FTSE` and `DAX`.
+```{r}
+data(EuStockMarkets)
+EuStockMarkets %>% glimpse
+# Convert to data frame for easy handling
+df <- as.data.frame(EuStockMarkets)
+df
+```
+
+Perform Granger causality test (e.g., DAX causing FTSE and the reverse)
+
+```{r}
+gt = GrangerTestPvals(df, FTSE, DAX)
+gt
+```
+
+Plot the results
+```{r fig.height=10, fig.width=10}
+gt %>% GrangerPlot() %>% wrap_plots(nrow=2)
+```
+
+# Conclusion
+Our result confirms what [the Moodys article](#r1) says. Consumer confidence Granger-causes Wage growth, but not the reverse. This is telling, because consumer confidence should lead to more spending, and that would generate wage growth. 
+
+We also tested FTSE and DAX indices from the `EUStockMarkets` dataset. We found that FTSE Granger-causes DAX, but not the reverse.
+
+# References
+::: {#r1}
+1. https://www.moodys.com/researchdocumentcontentpage.aspx?docid=PBC_1319860
+:::
+
+:::{#r2}
+2. https://data.sca.isr.umich.edu/tables.php
+:::
