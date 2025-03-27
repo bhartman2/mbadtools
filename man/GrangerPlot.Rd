@@ -21,3 +21,7 @@ data(moody, package="datasets")
 gpv = GrangerTestPvals(moody, ICS, Wgrowth, max.lags=10)
 GrangerPlot(gpv)
 }
+\seealso{
+\href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtyhT7YLcuCOMiy1A?e=LMf1Xa}{Examples},
+\code{\link[lmtest]{grangertest}}
+}

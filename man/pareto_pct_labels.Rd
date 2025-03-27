@@ -26,3 +26,7 @@ pareto_plot(K1, feed, avwt) +
   pareto_pct_labels(max(K1$avwt), nudge_y=1, size=3)
   
 }
+\seealso{
+\href{https://1drv.ms/u/s!AvpG0vuEDBBQoOt0X0A8jVrshpaYQg?e=01d2ZT}{Pareto Plot Examples},
+\code{\link[qcc]{pareto.chart}}
+}

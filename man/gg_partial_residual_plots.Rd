@@ -23,3 +23,8 @@ gg_residual_plots(fit)
 gg_partial_residual_plots(fit)
 
 }
+\seealso{
+\href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtzFq9LnQE23CVAUg?e=52crMv}{Residual Plot Examples},
+\code{\link[ggfortify]{autoplot.lm}},
+\code{\link[ggResidpanel]{resid_panel}}
+}

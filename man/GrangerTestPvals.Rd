@@ -24,5 +24,8 @@ Computes p.values for Granger cause test of two time series, in both directions.
 \examples{
 data(moody, package="mbadtools")
 GrangerTestPvals(moody, ICS, Wgrowth)
-
+}
+\seealso{
+\href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtyhT7YLcuCOMiy1A?e=LMf1Xa}{Examples},
+\code{\link[lmtest]{grangertest}}
 }

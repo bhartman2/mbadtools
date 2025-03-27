@@ -25,3 +25,8 @@ gg_residual_plots(fit)
 gg_residual_plots(fit, items=4:6)
 
 }
+\seealso{
+\href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtzFq9LnQE23CVAUg?e=52crMv}{Residual Plot Examples},
+\code{\link[ggfortify]{autoplot.lm}},
+\code{\link[ggResidpanel]{resid_panel}}
+}

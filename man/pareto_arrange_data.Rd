@@ -25,3 +25,7 @@ K1 = pareto_arrange_data(K, avwt)
 print(K1)
 
 }
+\seealso{
+\href{https://1drv.ms/u/s!AvpG0vuEDBBQoOt0X0A8jVrshpaYQg?e=01d2ZT}{Pareto Plot Examples},
+\code{\link[qcc]{pareto.chart}}
+}
