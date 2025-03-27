@@ -45,13 +45,15 @@ Install and load:
 ```{r}
 # allow package installation from github
 library(devtools) # Make sure that the devtools library is loaded
-if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools")
+if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools", force=T)
 # load github packages
 library(mbadtools)
 ```
 
 # Data
+The next sections show how to get the data for the Moody report. But we have already installed the data required inthe `mbadtools` package as dataset `moody`.
 
+<!---
 ## Atlanta Fed Wage Tracker
 First we load this dataset.
 ```{r}
@@ -139,17 +141,18 @@ umics2 = umics1 %>% mutate(Datep=Datep + days(1) + hours(6) + minutes(59))
 waget1 = waget %>% select(Date, Wgrowth)
 data.frame(umics2, waget1)
 ```
-
+--->
 
 ```{r}
-moody = data.frame(waget, umics1) %>% select(Date, Wgrowth, ICS)
+# moody = data.frame(waget, umics1) %>% select(Date, Wgrowth, ICS)
+data(moody, package="mbadtools")
 glimpse(moody)
 ```
 
 ```{r}
 ggplot(moody) + 
-  geom_pointline(aes(Date,ICS, color="Consumer Confidence")) +
-  geom_pointline(aes(Date,Wgrowth*25, color="Wage Growth")) +
+  geom_point(aes(Date,ICS, color="Consumer Confidence")) +
+  geom_point(aes(Date,Wgrowth*25, color="Wage Growth")) +
   # labs(y="ICS and Wage Growth*25") +
   scale_color_manual(values=c("red","black"), name="")+
   theme(legend.position = "bottom") +
@@ -170,15 +173,16 @@ Yes, it appears `ICS` does Granger-cause `Wgrowth`.
 
 ## `Wgrowth` =G=> `ICS`
 ```{r}
-grangertest(ICS~Wgrowth, data=moody, order=4)
+lmtest::grangertest(ICS~Wgrowth, data=moody, order=4)
 ```
 
 `Wgrowth` does not Granger-cause `ICS.`
 
-# `mbadtools` function
-We will tune the order parameter by choosing different lags of 1 through 10 for the Granger-causality test. We'll run both directions of causality, and plot the results. Package `mbadtools` contains a function to test for all lags up to a number given by `max.lags`, which defaults to 10.
+# `mbadtools` functions
+We will tune the order parameter by choosing different lags of 1 through 10 for the Granger-causality test. We'll run both directions of causality, and plot the results. Package `mbadtools` contains functions to test and plot for all lags up to a number given by `max.lags`, which defaults to 10.
 
 ```{r}
+# test Granger Causality
 gpv = moody %>% GrangerTestPvals(ICS, Wgrowth, max.lags=10)
 gpv
 ```
@@ -193,10 +197,10 @@ Clearly ICS =G=> Wgrowth, with better than .05 p-value for lags 1, 4, 7, and 8. 
 On the other hand, Wgrowth !=G=> ICS for any tested lag, with all p-values exceeding .25.
 
 # EU Stock Markets
-This dataset contains time series of four indices from the EU stockmarkets. Does any of them Granger-cause another? We will test `FTSE` and `DAX`.
+This dataset from the `datasets` package contains time series of four indices from the EU stockmarkets. Does any of them Granger-cause another? We will test `FTSE` and `DAX`.
+
 ```{r}
 data(EuStockMarkets)
-EuStockMarkets %>% glimpse
 # Convert to data frame for easy handling
 df <- as.data.frame(EuStockMarkets)
 df

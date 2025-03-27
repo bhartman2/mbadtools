@@ -17,10 +17,15 @@ library(yardstick) # for model performance metrics
 library(ggResidpanel) # for diagnostic residual plots
 ```
 
+# Example for package
+
 ```{r}
 data(freeny, package="datasets")
 fit = lm(y ~ ., data=freeny)
+fit %>% tidy
 gg_residual_plots(fit)
 gg_partial_residual_plots(fit)
 ```
 
+# Conclusion
+This shows that the residual plots are working.

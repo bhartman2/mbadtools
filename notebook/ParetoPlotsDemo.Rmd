@@ -99,14 +99,13 @@ Noiw the basic plot.
 A2 %>% pareto_plot(cyl, c_count)
 ```
 
-
-
+Add second axis label:
 ```{r}
 mc = max(A2$c_count)
 A2 %>% pareto_plot(cyl, c_count) +
   pareto_sec_axis(mc)
 ```
-Add labels. You can control them with `nudge_y` and `size`.
+Add percent labels on the cumulative percent line. You can control them with `nudge_y` and `size`.
 ```{r}
 mc = max(A2$c_count)
 A2 %>% pareto_plot(cyl, c_count) +
@@ -114,7 +113,7 @@ A2 %>% pareto_plot(cyl, c_count) +
   pareto_pct_labels(mc, nudge_y=1, size=3)
 ```
 
-Add plot labeling:
+Add a percent cutoff line and plot labeling:
 ```{r}
 mc = max(A2$c_count)
 A2 %>% pareto_plot(cyl, c_count) +
@@ -132,7 +131,6 @@ This is what we want our Pareto chart to look like, with all the attachments. Yo
 I had ChatGPT find some data examples that would work for Pareto plots.
 
 ## US Cities
-
 ```{r}
 data("us.cities", package="maps")  # U.S. cities dataset
 # us.cities
@@ -215,6 +213,7 @@ CF1 = CF %>% pivot_longer(cols=3:12, names_to = "Year",
 CF1 %>% glimpse
 ```
 
+Make Year nueric and rename `Country Code` and `Country Name` columns.
 ```{r}
 CF2 = CF1 %>% mutate(Year = as.numeric(Year)) %>%
   rename(Country=`Country Code`, CName=`Country Name`)
@@ -231,7 +230,7 @@ CF3 = CF2 %>% na.omit
 CF3 %>% skim
 ```
 
-Pareto data frame: use mean of flow over the 10 years for each country. Change mean to millions of containers.
+Make Pareto data frame: use mean of flow over the 10 years for each country. Change mean to millions of containers.
 ```{r}
 CF4 = CF3 %>% group_by(Country) %>% 
   summarize(cflow = mean(Flow, na.rm=T)/1e6) 
@@ -261,11 +260,11 @@ df %>% gt() %>% fmt_number(decimals=3) %>% opt_interactive()
 Get data ready and make Pareto Plot.
 ```{r}
 df1 = df %>% pareto_arrange_data(cflow)
-df1 %>% gt() %>% fmt_number(decimals=3) %>% opt_interactive()
+df1
 mc = max(df1$cflow)
 ```
 
-Pick a number for about 80% and make Pareto Plot.
+Pick a number of countries for about 80% and make Pareto Plot.
 ```{r}
 q=25
 C = df1 %>% head(q) %>% 
@@ -277,10 +276,10 @@ C = df1 %>% head(q) %>%
   # pareto_pct_labels(mc) +
   pareto_cutoff_line(mc) +
   pareto_sec_axis(mc)
-list(C) %>% wrap_plots(nrow=1, ncol=1) 
+C
 ```
 
-We don't know country codes, so extract the names and make a `gt` table.
+We don't know country codes, so extract the names and make a dataframe with `Country` and `CName`.
 ```{r}
 a = df$Country %>% enframe(value="Country")
 
@@ -290,7 +289,6 @@ b = data.frame(cn = CF3 %>% distinct(CName),
 c = left_join(a, b, by="Country")
 w = c %>% select(-name)
 ww = w %>% dplyr::filter(Country %in% (df1 %>% head(q) %>% pull(Country)) )
-ww %>% gt() %>% opt_interactive()
 ```
 
 Add the table to the plot display. Note that we do not have to make the table of countries a `gt` table; `wrap_table` does that for us. We may have to change the height and width of the plot, and we specify a design to make the Pareto plot 75% of the plot width.
@@ -304,9 +302,10 @@ list(C, W=wrap_table(ww)) %>% wrap_plots(design = "CCCW")
 data(chickwts, package="datasets")
 K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
 K1 = pareto_arrange_data(K, avwt)
-K1 %>% pareto_plot(feed, avwt)
+K1 %>% pareto_plot(feed, avwt) +
+  labs(x="feed",
+       y="average weight")
 ```
-
 
 # Conclusion
 Tests show the Pareto plots are working.
