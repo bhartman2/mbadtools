@@ -6,12 +6,15 @@
 #' @param .data a dataframe object created by `GrangerTestPvals`.
 #'
 #' @returns a list of two plots for each direction of Granger Causality test
-#' @export
-#'
+#' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtyhT7YLcuCOMiy1A?e=LMf1Xa}{Examples},
+#' \code{\link[lmtest]{grangertest}}
+#' 
 #' @examples
 #' data(moody, package="datasets")
 #' gpv = GrangerTestPvals(moody, ICS, Wgrowth, max.lags=10)
 #' GrangerPlot(gpv)
+#' @export
+#' 
 GrangerPlot = function (.data) {
   
   d = .data
@@ -64,11 +67,12 @@ GrangerPlot = function (.data) {
 #' @param max.lags integer, maximum number of lags to consider, default =10.
 #'
 #' @returns data frame with lags and p.values of two granger tests
-#' @export
-#'
+#' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtyhT7YLcuCOMiy1A?e=LMf1Xa}{Examples},
+#' \code{\link[lmtest]{grangertest}}
 #' @examples
 #' data(moody, package="mbadtools")
 #' GrangerTestPvals(moody, ICS, Wgrowth)
+#' @export
 #' 
 GrangerTestPvals = function(.data, s1, s2, max.lags=10) {
   

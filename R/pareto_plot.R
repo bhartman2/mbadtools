@@ -7,11 +7,12 @@
 #' @param countcol name of the column with the counts, no quotes required
 #'
 #' @returns a dataframe with the category and count columns plus the Cumulative and Percentage columns.
+#' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOt0X0A8jVrshpaYQg?e=01d2ZT}{Pareto Plot Examples},
+#' \code{\link[qcc]{pareto.chart}}
 #' @export
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr mutate summarize group_by
-#'
 #' @examples
 #' data(chickwts, package="datasets")
 #' K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
@@ -40,8 +41,9 @@ pareto_arrange_data = function (.data, countcol) {
 #' @param count name of the count column
 #'
 #' @returns a ggplot object
+#' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOt0X0A8jVrshpaYQg?e=01d2ZT}{Pareto Plot Examples},
+#' \code{\link[qcc]{pareto.chart}}
 #' @export
-#'
 #' @examples
 #' data(chickwts, package="datasets")
 #' K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
@@ -75,6 +77,8 @@ pareto_plot = function (.data, category, count) {
 #' @param maxcount numeric, maximum value of the count column
 #'
 #' @returns a ggplot layer 
+#' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOt0X0A8jVrshpaYQg?e=01d2ZT}{Pareto Plot Examples},
+#' \code{\link[qcc]{pareto.chart}}
 #'
 #' @export
 #' @examples
@@ -112,6 +116,8 @@ pareto_sec_axis = function(maxcount) {
 #' @param ... additional parameters to `geom_text`
 #'
 #' @returns added ggplot layer
+#' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOt0X0A8jVrshpaYQg?e=01d2ZT}{Pareto Plot Examples},
+#' \code{\link[qcc]{pareto.chart}}
 #' @export
 #'
 #' @examples
@@ -142,6 +148,8 @@ pareto_pct_labels = function(maxcount,...) {
 #' @param percent cutoff percent, default=80
 #'
 #' @returns added ggplot layer with the Pareto percentage line
+#' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOt0X0A8jVrshpaYQg?e=01d2ZT}{Pareto Plot Examples},
+#' \code{\link[qcc]{pareto.chart}}
 #' @export
 #'
 #' @examples
