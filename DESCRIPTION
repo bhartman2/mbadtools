@@ -1,9 +1,10 @@
 Package: mbadtools
 Title: MBAD Data Analytics Functions
-Version: 0.0.0.1100
+Version: 0.0.1.0000
 Authors@R: 
     person("Bruce", "Hartman", , "bruce@ahartman.net", role = c("aut", "cre"))
-Description: Some functions useful for my MBAD courses on Data Analytics.
+Description: Some functions useful for my MBAD courses on Data Analytics. 
+    Includes Residual plots, Pareto plots, and adding significance color to pvalues in a gt table.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -12,3 +13,7 @@ Depends: R (>= 3.5.0), tidyverse(>= 2.0.0), broom(>= 1.0.7), ggplot2(>= 3.5.1), 
 Imports: rlang (>= 1.1.4), patchwork (>= 1.3.0), GGally (>= 2.2.1), gt (>= 0.11.1),
   lmtest(>= 0.9-40), magrittr(>= 2.0.3)
 LazyData: true
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+URL: https://github.com/bhartman2/mbadtools
+BugReports: https://github.com/bhartman2/mbadtools/Issues
