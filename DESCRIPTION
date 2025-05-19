@@ -5,6 +5,7 @@ Authors@R:
     person("Bruce", "Hartman", , "bruce@ahartman.net", role = c("aut", "cre"))
 Description: Some functions useful for my MBAD courses on Data Analytics. 
     Includes Residual plots, Pareto plots, and adding significance color to pvalues in a gt table.
+    Includes lib_packages function to load packages from a character package list.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
