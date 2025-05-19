@@ -1,6 +1,6 @@
 Package: mbadtools
 Title: MBAD Data Analytics Functions
-Version: 0.0.1.0000
+Version: 0.0.1.1000
 Authors@R: 
     person("Bruce", "Hartman", , "bruce@ahartman.net", role = c("aut", "cre"))
 Description: Some functions useful for my MBAD courses on Data Analytics. 
