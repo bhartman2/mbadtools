@@ -17,28 +17,20 @@ abstract: |
 Here write what you are going to do. Add a reference [(Hartman, 2004)](#r1).
 
 # Packages {-}
-Loading the standard packages for this course:
-```{r}
-library(tidyverse) # used to manipulate data and plot
-library(ggfortify) # some extra ggplot functions
-library(GGally) # pairs ggplot and other options
-library(skimr) # nice summaries
-library(broom) # neat model summary
-library(gt) # nice displays of printed data
-library(patchwork) # arranging graphs
-library(car) # useful tools for regression analysis
-library(yardstick) # for model performance metrics
-library(ggResidpanel) # for diagnostic residual plots
-```
-
-# Custom Packages for MBAD
-Install and load:
+The `devtools` package will be installed, if you have not already done so, and loaded. Then we install and load package `mbadtools` from GitHub. This package is used in USF's MBAD courses and is not on CRAN. The `mbad_standard_packages` object contains a list of required packages for this course that you will need to install first.   
 ```{r}
 # allow package installation from github
+if(!("devtools" %in% installed.packages())) install.packages("devtools")
 library(devtools) # Make sure that the devtools library is loaded
+# install mbadtools from github
 if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools")
 # load github packages
 library(mbadtools)
+# list of packages to install
+data("mbad_standard_packages")
+mbad_standard_packages
+# load packages to the notebook
+lib_packages(mbad_standard_packages, quiet=TRUE)
 ```
 
 # Data {-}
@@ -67,10 +59,10 @@ An extension of the analysis. Notice two ## and space for header 2.
 > Blockquote some text from the text or an article
 
 # Conclusion {-}
-My conclusions are ...  Refer back to a formula: [Equation 1](#eq1)
+My conclusions are ...  Refer back to a formula or location in this document: [Equation 1](#eq1)
 
 # References {-}
 ::: {#r1}
-1. Hartman, B. (2024) Basic Notebook. 
+1. Hartman, B. (2024) Basic Notebook Template. (https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd)
 :::
 

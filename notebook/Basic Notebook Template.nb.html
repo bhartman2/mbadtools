@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2025-03-03" />
+<meta name="date" content="2025-05-20" />
 
 <title>Basic Notebook Template</title>
 
@@ -2895,7 +2895,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Basic Notebook Template</h1>
 <h4 class="author">Bruce Hartman</h4>
 <address class="author_afil">
-University of St. Francis<br><h4 class="date">2025-03-03</h4>
+University of St. Francis<br><h4 class="date">2025-05-20</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>This is a good notebook template to start with.</p>
@@ -2911,38 +2911,38 @@ University of St. Francis<br><h4 class="date">2025-03-03</h4>
 </div>
 <div id="packages" class="section level1 unnumbered">
 <h1 class="unnumbered">Packages</h1>
-<p>Loading the standard packages for this course:</p>
+<p>The <code>devtools</code> package will be installed, if you have not
+already done so, and loaded. Then we install and load package
+<code>mbadtools</code> from GitHub. This package is used in USF’s MBAD
+courses and is not on CRAN. The <code>mbad_standard_packages</code>
+object contains a list of required packages for this course that you
+will need to install first.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpICMgdXNlZCB0byBtYW5pcHVsYXRlIGRhdGEgYW5kIHBsb3RcbmxpYnJhcnkoZ2dmb3J0aWZ5KSAjIHNvbWUgZXh0cmEgZ2dwbG90IGZ1bmN0aW9uc1xubGlicmFyeShHR2FsbHkpICMgcGFpcnMgZ2dwbG90IGFuZCBvdGhlciBvcHRpb25zXG5saWJyYXJ5KHNraW1yKSAjIG5pY2Ugc3VtbWFyaWVzXG5saWJyYXJ5KGJyb29tKSAjIG5lYXQgbW9kZWwgc3VtbWFyeVxubGlicmFyeShndCkgIyBuaWNlIGRpc3BsYXlzIG9mIHByaW50ZWQgZGF0YVxubGlicmFyeShwYXRjaHdvcmspICMgYXJyYW5naW5nIGdyYXBoc1xubGlicmFyeShjYXIpICMgdXNlZnVsIHRvb2xzIGZvciByZWdyZXNzaW9uIGFuYWx5c2lzXG5saWJyYXJ5KHlhcmRzdGljaykgIyBmb3IgbW9kZWwgcGVyZm9ybWFuY2UgbWV0cmljc1xubGlicmFyeShnZ1Jlc2lkcGFuZWwpICMgZm9yIGRpYWdub3N0aWMgcmVzaWR1YWwgcGxvdHNcbmBgYCJ9 -->
-<pre class="r"><code>library(tidyverse) # used to manipulate data and plot
-library(ggfortify) # some extra ggplot functions
-library(GGally) # pairs ggplot and other options
-library(skimr) # nice summaries
-library(broom) # neat model summary
-library(gt) # nice displays of printed data
-library(patchwork) # arranging graphs
-library(car) # useful tools for regression analysis
-library(yardstick) # for model performance metrics
-library(ggResidpanel) # for diagnostic residual plots</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="custom-packages-for-mbad" class="section level1">
-<h1>Custom Packages for MBAD</h1>
-<p>Install and load:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGdpdGh1YlxubGlicmFyeShkZXZ0b29scykgIyBNYWtlIHN1cmUgdGhhdCB0aGUgZGV2dG9vbHMgbGlicmFyeSBpcyBsb2FkZWRcbmlmKCEoXFxtYmFkdG9vbHNcXCAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKFxcYmhhcnRtYW4yL21iYWR0b29sc1xcKVxuIyBsb2FkIGdpdGh1YiBwYWNrYWdlc1xubGlicmFyeShtYmFkdG9vbHMpXG5gYGBcbmBgYCJ9 -->
-<pre class="r"><code>```r
-# allow package installation from github
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGdpdGh1YlxuaWYoIShcImRldnRvb2xzXCIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGluc3RhbGwucGFja2FnZXMoXCJkZXZ0b29sc1wiKVxubGlicmFyeShkZXZ0b29scykgIyBNYWtlIHN1cmUgdGhhdCB0aGUgZGV2dG9vbHMgbGlicmFyeSBpcyBsb2FkZWRcbiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWJcbmlmKCEoXCJtYmFkdG9vbHNcIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKFwiYmhhcnRtYW4yL21iYWR0b29sc1wiKVxuIyBsb2FkIGdpdGh1YiBwYWNrYWdlc1xubGlicmFyeShtYmFkdG9vbHMpXG4jIGxpc3Qgb2YgcGFja2FnZXMgdG8gaW5zdGFsbFxuZGF0YShcIm1iYWRfc3RhbmRhcmRfcGFja2FnZXNcIilcbm1iYWRfc3RhbmRhcmRfcGFja2FnZXNcbmBgYCJ9 -->
+<pre class="r"><code># allow package installation from github
+if(!(&quot;devtools&quot; %in% installed.packages())) install.packages(&quot;devtools&quot;)
 library(devtools) # Make sure that the devtools library is loaded
-if(!(\mbadtools\ %in% installed.packages())) devtools::install_github(\bhartman2/mbadtools\)
+# install mbadtools from github
+if(!(&quot;mbadtools&quot; %in% installed.packages())) devtools::install_github(&quot;bhartman2/mbadtools&quot;)
 # load github packages
-library(mbadtools)</code></pre>
-<p>```</p>
+library(mbadtools)
+# list of packages to install
+data(&quot;mbad_standard_packages&quot;)
+mbad_standard_packages</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcInRpZHl2ZXJzZVwiICAgIFwiZ2dmb3J0aWZ5XCIgICAgXCJHR2FsbHlcIiAgICAgICBcInNraW1yXCIgICAgICAgIFwiYnJvb21cIiAgICAgICAgXCJndFwiICAgICAgICAgIFxuIFs3XSBcInBhdGNod29ya1wiICAgIFwiY2FyXCIgICAgICAgICAgXCJ5YXJkc3RpY2tcIiAgICBcImdnUmVzaWRwYW5lbFwiXG4ifQ== -->
+<pre><code> [1] &quot;tidyverse&quot;    &quot;ggfortify&quot;    &quot;GGally&quot;       &quot;skimr&quot;        &quot;broom&quot;        &quot;gt&quot;          
+ [7] &quot;patchwork&quot;    &quot;car&quot;          &quot;yardstick&quot;    &quot;ggResidpanel&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIHBhY2thZ2VzIHRvIHRoZSBub3RlYm9va1xubGliX3BhY2thZ2VzKG1iYWRfc3RhbmRhcmRfcGFja2FnZXMsIHF1aWV0PVRSVUUpXG5gYGAifQ== -->
+<pre class="r"><code># load packages to the notebook
+lib_packages(mbad_standard_packages, quiet=TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyBNQkFEIHBhY2thZ2VzOlxuIHRpZHl2ZXJzZSBnZ2ZvcnRpZnkgR0dhbGx5IHNraW1yIGJyb29tIGd0IHBhdGNod29yayBjYXIgeWFyZHN0aWNrIGdnUmVzaWRwYW5lbFxuIn0= -->
+<pre><code>Loading MBAD packages:
+ tidyverse ggfortify GGally skimr broom gt patchwork car yardstick ggResidpanel</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -2979,20 +2979,20 @@ mc^2\hspace{100pt} (1)\]</span> :::</p>
 </div>
 <div id="conclusion" class="section level1 unnumbered">
 <h1 class="unnumbered">Conclusion</h1>
-<p>My conclusions are … Refer back to a formula: <a href="#eq1">Equation
-1</a></p>
+<p>My conclusions are … Refer back to a formula or location in this
+document: <a href="#eq1">Equation 1</a></p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
 <div id="r1">
 <ol style="list-style-type: decimal">
-<li>Hartman, B. (2024) Basic Notebook.</li>
+<li>Hartman, B. (2024) Basic Notebook Template. (<a href="https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd" class="uri">https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd</a>)</li>
 </ol>
 </div>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkJhc2ljIE5vdGVib29rIFRlbXBsYXRlIg0KYXV0aG9yOg0KICBuYW1lOiAiQnJ1Y2UgSGFydG1hbiINCiAgYWZmaWxpYXRpb246ICJVbml2ZXJzaXR5IG9mIFN0LiBGcmFuY2lzIg0KZGF0ZTogImByIGx1YnJpZGF0ZTo6dG9kYXkoKWAiDQpvdXRwdXQ6IA0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogVFJVRQ0KICAgIHRvY19mbG9hdDogVFJVRQ0KICAgIHRoZW1lOiB1bml0ZWQNCmFic3RyYWN0OiB8DQogIFRoaXMgaXMgYSBnb29kIG5vdGVib29rIHRlbXBsYXRlIHRvIHN0YXJ0IHdpdGguIA0KLS0tDQoNCiMgSW50cm9kdWN0aW9uIHstfQ0KSGVyZSB3cml0ZSB3aGF0IHlvdSBhcmUgZ29pbmcgdG8gZG8uIEFkZCBhIHJlZmVyZW5jZSBbKEhhcnRtYW4sIDIwMDQpXSgjcjEpLg0KDQojIFBhY2thZ2VzIHstfQ0KTG9hZGluZyB0aGUgc3RhbmRhcmQgcGFja2FnZXMgZm9yIHRoaXMgY291cnNlOg0KYGBge3J9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkgIyB1c2VkIHRvIG1hbmlwdWxhdGUgZGF0YSBhbmQgcGxvdA0KbGlicmFyeShnZ2ZvcnRpZnkpICMgc29tZSBleHRyYSBnZ3Bsb3QgZnVuY3Rpb25zDQpsaWJyYXJ5KEdHYWxseSkgIyBwYWlycyBnZ3Bsb3QgYW5kIG90aGVyIG9wdGlvbnMNCmxpYnJhcnkoc2tpbXIpICMgbmljZSBzdW1tYXJpZXMNCmxpYnJhcnkoYnJvb20pICMgbmVhdCBtb2RlbCBzdW1tYXJ5DQpsaWJyYXJ5KGd0KSAjIG5pY2UgZGlzcGxheXMgb2YgcHJpbnRlZCBkYXRhDQpsaWJyYXJ5KHBhdGNod29yaykgIyBhcnJhbmdpbmcgZ3JhcGhzDQpsaWJyYXJ5KGNhcikgIyB1c2VmdWwgdG9vbHMgZm9yIHJlZ3Jlc3Npb24gYW5hbHlzaXMNCmxpYnJhcnkoeWFyZHN0aWNrKSAjIGZvciBtb2RlbCBwZXJmb3JtYW5jZSBtZXRyaWNzDQpsaWJyYXJ5KGdnUmVzaWRwYW5lbCkgIyBmb3IgZGlhZ25vc3RpYyByZXNpZHVhbCBwbG90cw0KYGBgDQoNCiMgQ3VzdG9tIFBhY2thZ2VzIGZvciBNQkFEDQpJbnN0YWxsIGFuZCBsb2FkOg0KYGBge3J9DQojIGFsbG93IHBhY2thZ2UgaW5zdGFsbGF0aW9uIGZyb20gZ2l0aHViDQpsaWJyYXJ5KGRldnRvb2xzKSAjIE1ha2Ugc3VyZSB0aGF0IHRoZSBkZXZ0b29scyBsaWJyYXJ5IGlzIGxvYWRlZA0KaWYoISgibWJhZHRvb2xzIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKCJiaGFydG1hbjIvbWJhZHRvb2xzIikNCiMgbG9hZCBnaXRodWIgcGFja2FnZXMNCmxpYnJhcnkobWJhZHRvb2xzKQ0KYGBgDQoNCiMgRGF0YSB7LX0NCkhlcmUgd2UgZ2V0IHRoZSBkYXRhIHVzaW5nIEltcG9ydCBEYXRhc2V0IG9yIGZyb20gYSBwYWNrYWdlLg0KDQojIERhdGEgRGVzY3JpcHRpb24gey19DQpEZXNjcmliZSB0aGUgZGF0YSB1c2luZyBzaW1wbGUgZGlzcGxheSwgb3IgYHNraW1gLg0KDQojIFJlc2VhcmNoIFByb2JsZW0gey19DQpZb3UgbWlnaHQgd2FudCB0byBzdGF0ZSB0aGUgcHJvYmxlbSB5b3Ugd2lsbCBzb2x2ZS4NCg0KIyBEYXRhIFdyYW5nbGluZyB7LX0NCk1ha2UgY2hhbmdlcyB0byB0aGUgZGF0YSBmb3IgYW5hbHlzaXMuDQoNCiMgRGF0YSBWaXN1YWxpemF0aW9uDQpHcmFwaGljIGRpc3BsYXlzIG9mIGRhdGEgc3VjaCBhcyBwYWlycyBwbG90DQoNCiMgQW5hbHlzaXMgey19DQpFeHBsYWluIHdoYXQgYW5hbHlzaXMgeW91IGFyZSBkb2luZy4gQWRkIGEgZm9ybXVsYSBpbiBtYXRoIG5vdGF0aW9uIGxpa2UgdGhpczoNCjo6OiB7I2VxMX0NCiQkRSA9IG1jXjJcaHNwYWNlezEwMHB0fSAoMSkkJA0KOjo6DQoNCiMjIEFuYWx5c2lzIFNlY3Rpb24gey19DQpBbiBleHRlbnNpb24gb2YgdGhlIGFuYWx5c2lzLiBOb3RpY2UgdHdvICMjIGFuZCBzcGFjZSBmb3IgaGVhZGVyIDIuDQo+IEJsb2NrcXVvdGUgc29tZSB0ZXh0IGZyb20gdGhlIHRleHQgb3IgYW4gYXJ0aWNsZQ0KDQojIENvbmNsdXNpb24gey19DQpNeSBjb25jbHVzaW9ucyBhcmUgLi4uICBSZWZlciBiYWNrIHRvIGEgZm9ybXVsYTogW0VxdWF0aW9uIDFdKCNlcTEpDQoNCiMgUmVmZXJlbmNlcyB7LX0NCjo6OiB7I3IxfQ0KMS4gSGFydG1hbiwgQi4gKDIwMjQpIEJhc2ljIE5vdGVib29rLiANCjo6Og0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkJhc2ljIE5vdGVib29rIFRlbXBsYXRlIg0KYXV0aG9yOg0KICBuYW1lOiAiQnJ1Y2UgSGFydG1hbiINCiAgYWZmaWxpYXRpb246ICJVbml2ZXJzaXR5IG9mIFN0LiBGcmFuY2lzIg0KZGF0ZTogImByIGx1YnJpZGF0ZTo6dG9kYXkoKWAiDQpvdXRwdXQ6IA0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogVFJVRQ0KICAgIHRvY19mbG9hdDogVFJVRQ0KICAgIHRoZW1lOiB1bml0ZWQNCmFic3RyYWN0OiB8DQogIFRoaXMgaXMgYSBnb29kIG5vdGVib29rIHRlbXBsYXRlIHRvIHN0YXJ0IHdpdGguIA0KLS0tDQoNCiMgSW50cm9kdWN0aW9uIHstfQ0KSGVyZSB3cml0ZSB3aGF0IHlvdSBhcmUgZ29pbmcgdG8gZG8uIEFkZCBhIHJlZmVyZW5jZSBbKEhhcnRtYW4sIDIwMDQpXSgjcjEpLg0KDQojIFBhY2thZ2VzIHstfQ0KVGhlIGBkZXZ0b29sc2AgcGFja2FnZSB3aWxsIGJlIGluc3RhbGxlZCwgaWYgeW91IGhhdmUgbm90IGFscmVhZHkgZG9uZSBzbywgYW5kIGxvYWRlZC4gVGhlbiB3ZSBpbnN0YWxsIGFuZCBsb2FkIHBhY2thZ2UgYG1iYWR0b29sc2AgZnJvbSBHaXRIdWIuIFRoaXMgcGFja2FnZSBpcyB1c2VkIGluIFVTRidzIE1CQUQgY291cnNlcyBhbmQgaXMgbm90IG9uIENSQU4uIFRoZSBgbWJhZF9zdGFuZGFyZF9wYWNrYWdlc2Agb2JqZWN0IGNvbnRhaW5zIGEgbGlzdCBvZiByZXF1aXJlZCBwYWNrYWdlcyBmb3IgdGhpcyBjb3Vyc2UgdGhhdCB5b3Ugd2lsbCBuZWVkIHRvIGluc3RhbGwgZmlyc3QuICAgDQpgYGB7cn0NCiMgYWxsb3cgcGFja2FnZSBpbnN0YWxsYXRpb24gZnJvbSBnaXRodWINCmlmKCEoImRldnRvb2xzIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgaW5zdGFsbC5wYWNrYWdlcygiZGV2dG9vbHMiKQ0KbGlicmFyeShkZXZ0b29scykgIyBNYWtlIHN1cmUgdGhhdCB0aGUgZGV2dG9vbHMgbGlicmFyeSBpcyBsb2FkZWQNCiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWINCmlmKCEoIm1iYWR0b29scyIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YigiYmhhcnRtYW4yL21iYWR0b29scyIpDQojIGxvYWQgZ2l0aHViIHBhY2thZ2VzDQpsaWJyYXJ5KG1iYWR0b29scykNCiMgbGlzdCBvZiBwYWNrYWdlcyB0byBpbnN0YWxsDQpkYXRhKCJtYmFkX3N0YW5kYXJkX3BhY2thZ2VzIikNCm1iYWRfc3RhbmRhcmRfcGFja2FnZXMNCiMgbG9hZCBwYWNrYWdlcyB0byB0aGUgbm90ZWJvb2sNCmxpYl9wYWNrYWdlcyhtYmFkX3N0YW5kYXJkX3BhY2thZ2VzLCBxdWlldD1UUlVFKQ0KYGBgDQoNCiMgRGF0YSB7LX0NCkhlcmUgd2UgZ2V0IHRoZSBkYXRhIHVzaW5nIEltcG9ydCBEYXRhc2V0IG9yIGZyb20gYSBwYWNrYWdlLg0KDQojIERhdGEgRGVzY3JpcHRpb24gey19DQpEZXNjcmliZSB0aGUgZGF0YSB1c2luZyBzaW1wbGUgZGlzcGxheSwgb3IgYHNraW1gLg0KDQojIFJlc2VhcmNoIFByb2JsZW0gey19DQpZb3UgbWlnaHQgd2FudCB0byBzdGF0ZSB0aGUgcHJvYmxlbSB5b3Ugd2lsbCBzb2x2ZS4NCg0KIyBEYXRhIFdyYW5nbGluZyB7LX0NCk1ha2UgY2hhbmdlcyB0byB0aGUgZGF0YSBmb3IgYW5hbHlzaXMuDQoNCiMgRGF0YSBWaXN1YWxpemF0aW9uDQpHcmFwaGljIGRpc3BsYXlzIG9mIGRhdGEgc3VjaCBhcyBwYWlycyBwbG90DQoNCiMgQW5hbHlzaXMgey19DQpFeHBsYWluIHdoYXQgYW5hbHlzaXMgeW91IGFyZSBkb2luZy4gQWRkIGEgZm9ybXVsYSBpbiBtYXRoIG5vdGF0aW9uIGxpa2UgdGhpczoNCjo6OiB7I2VxMX0NCiQkRSA9IG1jXjJcaHNwYWNlezEwMHB0fSAoMSkkJA0KOjo6DQoNCiMjIEFuYWx5c2lzIFNlY3Rpb24gey19DQpBbiBleHRlbnNpb24gb2YgdGhlIGFuYWx5c2lzLiBOb3RpY2UgdHdvICMjIGFuZCBzcGFjZSBmb3IgaGVhZGVyIDIuDQo+IEJsb2NrcXVvdGUgc29tZSB0ZXh0IGZyb20gdGhlIHRleHQgb3IgYW4gYXJ0aWNsZQ0KDQojIENvbmNsdXNpb24gey19DQpNeSBjb25jbHVzaW9ucyBhcmUgLi4uICBSZWZlciBiYWNrIHRvIGEgZm9ybXVsYSBvciBsb2NhdGlvbiBpbiB0aGlzIGRvY3VtZW50OiBbRXF1YXRpb24gMV0oI2VxMSkNCg0KIyBSZWZlcmVuY2VzIHstfQ0KOjo6IHsjcjF9DQoxLiBIYXJ0bWFuLCBCLiAoMjAyNCkgQmFzaWMgTm90ZWJvb2sgVGVtcGxhdGUuIChodHRwczovL2dpdGh1Yi5jb20vYmhhcnRtYW4yL21iYWR0b29scy9ibG9iL21haW4vbm90ZWJvb2svQmFzaWMlMjBOb3RlYm9vayUyMFRlbXBsYXRlLlJtZCkNCjo6Og0KDQo=</div>
 
 
 </div>
