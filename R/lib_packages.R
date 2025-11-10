@@ -10,8 +10,10 @@
 #'
 #' @seealso \code{\link{library}}, \code{\link{suppressPackageStartupMessages}}
 #' @examples
-#' pkgs = c("tidyverse","MASS")
+#' \dontrun{
+#' pkgs = c("tidyverse","car")
 #' lib_packages(pkgs)
+#' }
 #' 
 lib_packages = function(pkgtxtvector, quiet=FALSE) {
   cat("Loading MBAD packages:\n",pkgtxtvector)
