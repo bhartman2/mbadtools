@@ -18,8 +18,10 @@ same as \code{\link{library}}
 enables packages listed in a character vector to an R script
 }
 \examples{
-pkgs = c("tidyverse","MASS")
+\dontrun{
+pkgs = c("tidyverse","car")
 lib_packages(pkgs)
+}
 
 }
 \seealso{
