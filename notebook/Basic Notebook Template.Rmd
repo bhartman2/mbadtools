@@ -17,18 +17,30 @@ abstract: |
 Here write what you are going to do. Add a reference [(Hartman, 2004)](#r1).
 
 # Packages {-}
-The `devtools` package will be installed, if you have not already done so, and loaded. Then we install and load package `mbadtools` from GitHub. This package is used in USF's MBAD courses and is not on CRAN. The `mbad_standard_packages` object contains a list of required packages for this course that you will need to install first.   
+The `devtools` package will be installed, if you have not already done so, and loaded. You only need to do this once in the term. 
 ```{r}
 # allow package installation from github
 if(!("devtools" %in% installed.packages())) install.packages("devtools")
 library(devtools) # Make sure that the devtools library is loaded
+```
+
+Then we install package `mbadtools` from GitHub. This package is used in USF's MBAD courses and is not on CRAN. We only need to do this once, after we do the above. 
+```{r}
 # install mbadtools from github
 if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools")
+```
+
+The `mbad_standard_packages` object contains a list of required packages for this course that you will need to install first. You only need to see this if you are unsure which packages have been installed. 
+```{r}
+data("mbad_standard_packages")
+mbad_standard_packages
+```
+
+This is the key step: load the `mbadtools` package and then the standard packages using the `lib_packages()` function. You will use this in every new notebook!!
+```{r}
 # load github packages
 library(mbadtools)
 # list of packages to install
-data("mbad_standard_packages")
-mbad_standard_packages
 # load packages to the notebook
 lib_packages(mbad_standard_packages, quiet=TRUE)
 ```
@@ -37,25 +49,27 @@ lib_packages(mbad_standard_packages, quiet=TRUE)
 Here we get the data using Import Dataset or from a package.
 
 # Data Description {-}
-Describe the data using simple display, or `skim`.
+Describe the data using simple display, or `skim`. You might want `glimpse` to see just the columns and a short sample.
 
 # Research Problem {-}
 You might want to state the problem you will solve.
 
 # Data Wrangling {-}
-Make changes to the data for analysis.
+Make changes to the data to prepare it for analysis.
 
 # Data Visualization
-Graphic displays of data such as pairs plot
+Graphic displays of data such as pairs plot.
 
 # Analysis {-}
 Explain what analysis you are doing. Add a formula in math notation like this:
+
 ::: {#eq1}
 $$E = mc^2\hspace{100pt} (1)$$
 :::
 
 ## Analysis Section {-}
-An extension of the analysis. Notice two ## and space for header 2.
+An extension of the analysis. Notice two ## and space for header level 2.
+
 > Blockquote some text from the text or an article
 
 # Conclusion {-}

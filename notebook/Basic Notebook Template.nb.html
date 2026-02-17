@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2025-05-20" />
+<meta name="date" content="2026-02-17" />
 
 <title>Basic Notebook Template</title>
 
@@ -2895,7 +2895,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Basic Notebook Template</h1>
 <h4 class="author">Bruce Hartman</h4>
 <address class="author_afil">
-University of St. Francis<br><h4 class="date">2025-05-20</h4>
+University of St. Francis<br><h4 class="date">2026-02-17</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>This is a good notebook template to start with.</p>
@@ -2912,36 +2912,67 @@ University of St. Francis<br><h4 class="date">2025-05-20</h4>
 <div id="packages" class="section level1 unnumbered">
 <h1 class="unnumbered">Packages</h1>
 <p>The <code>devtools</code> package will be installed, if you have not
-already done so, and loaded. Then we install and load package
-<code>mbadtools</code> from GitHub. This package is used in USF’s MBAD
-courses and is not on CRAN. The <code>mbad_standard_packages</code>
-object contains a list of required packages for this course that you
-will need to install first.</p>
+already done so, and loaded. You only need to do this once in the
+term.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGdpdGh1YlxuaWYoIShcImRldnRvb2xzXCIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGluc3RhbGwucGFja2FnZXMoXCJkZXZ0b29sc1wiKVxubGlicmFyeShkZXZ0b29scykgIyBNYWtlIHN1cmUgdGhhdCB0aGUgZGV2dG9vbHMgbGlicmFyeSBpcyBsb2FkZWRcbiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWJcbmlmKCEoXCJtYmFkdG9vbHNcIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKFwiYmhhcnRtYW4yL21iYWR0b29sc1wiKVxuIyBsb2FkIGdpdGh1YiBwYWNrYWdlc1xubGlicmFyeShtYmFkdG9vbHMpXG4jIGxpc3Qgb2YgcGFja2FnZXMgdG8gaW5zdGFsbFxuZGF0YShcIm1iYWRfc3RhbmRhcmRfcGFja2FnZXNcIilcbm1iYWRfc3RhbmRhcmRfcGFja2FnZXNcbmBgYCJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJoYkd4dmR5QndZV05yWVdkbElHbHVjM1JoYkd4aGRHbHZiaUJtY205dElHZHBkR2gxWWx4dWFXWW9JU2hjSW1SbGRuUnZiMnh6WENJZ0pXbHVKU0JwYm5OMFlXeHNaV1F1Y0dGamEyRm5aWE1vS1NrcElHbHVjM1JoYkd3dWNHRmphMkZuWlhNb1hDSmtaWFowYjI5c2Mxd2lLVnh1YkdsaWNtRnllU2hrWlhaMGIyOXNjeWtnSXlCTllXdGxJSE4xY21VZ2RHaGhkQ0IwYUdVZ1pHVjJkRzl2YkhNZ2JHbGljbUZ5ZVNCcGN5QnNiMkZrWldSY2JtQmdZQ0o5IC0tPlxuXG5gYGByXG4jIGFsbG93IHBhY2thZ2UgaW5zdGFsbGF0aW9uIGZyb20gZ2l0aHViXG5pZighKFwiZGV2dG9vbHNcIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgaW5zdGFsbC5wYWNrYWdlcyhcImRldnRvb2xzXCIpXG5saWJyYXJ5KGRldnRvb2xzKSAjIE1ha2Ugc3VyZSB0aGF0IHRoZSBkZXZ0b29scyBsaWJyYXJ5IGlzIGxvYWRlZFxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGdpdGh1YlxuaWYoIShcImRldnRvb2xzXCIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGluc3RhbGwucGFja2FnZXMoXCJkZXZ0b29sc1wiKVxubGlicmFyeShkZXZ0b29scykgIyBNYWtlIHN1cmUgdGhhdCB0aGUgZGV2dG9vbHMgbGlicmFyeSBpcyBsb2FkZWRcbmBgYCJ9 -->
 <pre class="r"><code># allow package installation from github
 if(!(&quot;devtools&quot; %in% installed.packages())) install.packages(&quot;devtools&quot;)
-library(devtools) # Make sure that the devtools library is loaded
-# install mbadtools from github
-if(!(&quot;mbadtools&quot; %in% installed.packages())) devtools::install_github(&quot;bhartman2/mbadtools&quot;)
-# load github packages
-library(mbadtools)
-# list of packages to install
-data(&quot;mbad_standard_packages&quot;)
+library(devtools) # Make sure that the devtools library is loaded</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Then we install package <code>mbadtools</code> from GitHub. This
+package is used in USF’s MBAD courses and is not on CRAN. We only need
+to do this once, after we do the above.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJwYm5OMFlXeHNJRzFpWVdSMGIyOXNjeUJtY205dElHZHBkR2gxWWx4dWFXWW9JU2hjSW0xaVlXUjBiMjlzYzF3aUlDVnBiaVVnYVc1emRHRnNiR1ZrTG5CaFkydGhaMlZ6S0NrcEtTQmtaWFowYjI5c2N6bzZhVzV6ZEdGc2JGOW5hWFJvZFdJb1hDSmlhR0Z5ZEcxaGJqSXZiV0poWkhSdmIyeHpYQ0lwWEc1Z1lHQWlmUT09IC0tPlxuXG5gYGByXG4jIGluc3RhbGwgbWJhZHRvb2xzIGZyb20gZ2l0aHViXG5pZighKFwibWJhZHRvb2xzXCIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YihcImJoYXJ0bWFuMi9tYmFkdG9vbHNcIilcbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1YlxuaWYoIShcIm1iYWR0b29sc1wiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSBkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoXCJiaGFydG1hbjIvbWJhZHRvb2xzXCIpXG5gYGAifQ== -->
+<pre class="r"><code># install mbadtools from github
+if(!(&quot;mbadtools&quot; %in% installed.packages())) devtools::install_github(&quot;bhartman2/mbadtools&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The <code>mbad_standard_packages</code> object contains a list of
+required packages for this course that you will need to install first.
+You only need to see this if you are unsure which packages have been
+installed.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVaR0YwWVNoY0ltMWlZV1JmYzNSaGJtUmhjbVJmY0dGamEyRm5aWE5jSWlsY2JtMWlZV1JmYzNSaGJtUmhjbVJmY0dGamEyRm5aWE5jYm1CZ1lDSjkgLS0+XG5cbmBgYHJcbmRhdGEoXCJtYmFkX3N0YW5kYXJkX3BhY2thZ2VzXCIpXG5tYmFkX3N0YW5kYXJkX3BhY2thZ2VzXG5gYGBcblxuPCEtLSBybmItc291cmNlLWVuZCAtLT5cbiJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YShcIm1iYWRfc3RhbmRhcmRfcGFja2FnZXNcIilcbm1iYWRfc3RhbmRhcmRfcGFja2FnZXNcbmBgYCJ9 -->
+<pre class="r"><code>data(&quot;mbad_standard_packages&quot;)
 mbad_standard_packages</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcInRpZHl2ZXJzZVwiICAgIFwiZ2dmb3J0aWZ5XCIgICAgXCJHR2FsbHlcIiAgICAgICBcInNraW1yXCIgICAgICAgIFwiYnJvb21cIiAgICAgICAgXCJndFwiICAgICAgICAgIFxuIFs3XSBcInBhdGNod29ya1wiICAgIFwiY2FyXCIgICAgICAgICAgXCJ5YXJkc3RpY2tcIiAgICBcImdnUmVzaWRwYW5lbFwiXG4ifQ== -->
-<pre><code> [1] &quot;tidyverse&quot;    &quot;ggfortify&quot;    &quot;GGally&quot;       &quot;skimr&quot;        &quot;broom&quot;        &quot;gt&quot;          
- [7] &quot;patchwork&quot;    &quot;car&quot;          &quot;yardstick&quot;    &quot;ggResidpanel&quot;</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIHBhY2thZ2VzIHRvIHRoZSBub3RlYm9va1xubGliX3BhY2thZ2VzKG1iYWRfc3RhbmRhcmRfcGFja2FnZXMsIHF1aWV0PVRSVUUpXG5gYGAifQ== -->
-<pre class="r"><code># load packages to the notebook
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwidGlkeXZlcnNlXCIgICAgXCJnZ2ZvcnRpZnlcIiAgICBcIkdHYWxseVwiICAgICAgIFwic2tpbXJcIiAgICAgICAgXCJndFwiICAgICAgICAgICBcInBhdGNod29ya1wiICAgIFwiY2FyXCIgICAgICAgICBcbls4XSBcInlhcmRzdGlja1wiICAgIFwiZ2dSZXNpZHBhbmVsXCJcbiJ9 -->
+<pre><code>[1] &quot;tidyverse&quot;    &quot;ggfortify&quot;    &quot;GGally&quot;       &quot;skimr&quot;        &quot;gt&quot;           &quot;patchwork&quot;    &quot;car&quot;         
+[8] &quot;yardstick&quot;    &quot;ggResidpanel&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>This is the key step: load the <code>mbadtools</code> package and
+then the standard packages using the <code>lib_packages()</code>
+function. You will use this in every new notebook!!</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJzYjJGa0lHZHBkR2gxWWlCd1lXTnJZV2RsYzF4dWJHbGljbUZ5ZVNodFltRmtkRzl2YkhNcFhHNGpJR3hwYzNRZ2IyWWdjR0ZqYTJGblpYTWdkRzhnYVc1emRHRnNiRnh1SXlCc2IyRmtJSEJoWTJ0aFoyVnpJSFJ2SUhSb1pTQnViM1JsWW05dmExeHViR2xpWDNCaFkydGhaMlZ6S0cxaVlXUmZjM1JoYm1SaGNtUmZjR0ZqYTJGblpYTXNJSEYxYVdWMFBWUlNWVVVwWEc1Z1lHQWlmUT09IC0tPlxuXG5gYGByXG4jIGxvYWQgZ2l0aHViIHBhY2thZ2VzXG5saWJyYXJ5KG1iYWR0b29scylcbiMgbGlzdCBvZiBwYWNrYWdlcyB0byBpbnN0YWxsXG4jIGxvYWQgcGFja2FnZXMgdG8gdGhlIG5vdGVib29rXG5saWJfcGFja2FnZXMobWJhZF9zdGFuZGFyZF9wYWNrYWdlcywgcXVpZXQ9VFJVRSlcbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIGdpdGh1YiBwYWNrYWdlc1xubGlicmFyeShtYmFkdG9vbHMpXG4jIGxpc3Qgb2YgcGFja2FnZXMgdG8gaW5zdGFsbFxuIyBsb2FkIHBhY2thZ2VzIHRvIHRoZSBub3RlYm9va1xubGliX3BhY2thZ2VzKG1iYWRfc3RhbmRhcmRfcGFja2FnZXMsIHF1aWV0PVRSVUUpXG5gYGAifQ== -->
+<pre class="r"><code># load github packages
+library(mbadtools)
+# list of packages to install
+# load packages to the notebook
 lib_packages(mbad_standard_packages, quiet=TRUE)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyBNQkFEIHBhY2thZ2VzOlxuIHRpZHl2ZXJzZSBnZ2ZvcnRpZnkgR0dhbGx5IHNraW1yIGJyb29tIGd0IHBhdGNod29yayBjYXIgeWFyZHN0aWNrIGdnUmVzaWRwYW5lbFxuIn0= -->
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyBNQkFEIHBhY2thZ2VzOlxuIHRpZHl2ZXJzZSBnZ2ZvcnRpZnkgR0dhbGx5IHNraW1yIGd0IHBhdGNod29yayBjYXIgeWFyZHN0aWNrIGdnUmVzaWRwYW5lbFxuIn0= -->
 <pre><code>Loading MBAD packages:
- tidyverse ggfortify GGally skimr broom gt patchwork car yardstick ggResidpanel</code></pre>
+ tidyverse ggfortify GGally skimr gt patchwork car yardstick ggResidpanel</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2952,7 +2983,9 @@ lib_packages(mbad_standard_packages, quiet=TRUE)</code></pre>
 </div>
 <div id="data-description" class="section level1 unnumbered">
 <h1 class="unnumbered">Data Description</h1>
-<p>Describe the data using simple display, or <code>skim</code>.</p>
+<p>Describe the data using simple display, or <code>skim</code>. You
+might want <code>glimpse</code> to see just the columns and a short
+sample.</p>
 </div>
 <div id="research-problem" class="section level1 unnumbered">
 <h1 class="unnumbered">Research Problem</h1>
@@ -2960,21 +2993,26 @@ lib_packages(mbad_standard_packages, quiet=TRUE)</code></pre>
 </div>
 <div id="data-wrangling" class="section level1 unnumbered">
 <h1 class="unnumbered">Data Wrangling</h1>
-<p>Make changes to the data for analysis.</p>
+<p>Make changes to the data to prepare it for analysis.</p>
 </div>
 <div id="data-visualization" class="section level1">
 <h1>Data Visualization</h1>
-<p>Graphic displays of data such as pairs plot</p>
+<p>Graphic displays of data such as pairs plot.</p>
 </div>
 <div id="analysis" class="section level1 unnumbered">
 <h1 class="unnumbered">Analysis</h1>
 <p>Explain what analysis you are doing. Add a formula in math notation
-like this: ::: {#eq1} <span class="math display">\[E =
-mc^2\hspace{100pt} (1)\]</span> :::</p>
+like this:</p>
+<div id="eq1">
+<p><span class="math display">\[E = mc^2\hspace{100pt} (1)\]</span></p>
+</div>
 <div id="analysis-section" class="section level2 unnumbered">
 <h2 class="unnumbered">Analysis Section</h2>
-<p>An extension of the analysis. Notice two ## and space for header 2.
-&gt; Blockquote some text from the text or an article</p>
+<p>An extension of the analysis. Notice two ## and space for header
+level 2.</p>
+<blockquote>
+<p>Blockquote some text from the text or an article</p>
+</blockquote>
 </div>
 </div>
 <div id="conclusion" class="section level1 unnumbered">
@@ -2992,7 +3030,7 @@ document: <a href="#eq1">Equation 1</a></p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkJhc2ljIE5vdGVib29rIFRlbXBsYXRlIg0KYXV0aG9yOg0KICBuYW1lOiAiQnJ1Y2UgSGFydG1hbiINCiAgYWZmaWxpYXRpb246ICJVbml2ZXJzaXR5IG9mIFN0LiBGcmFuY2lzIg0KZGF0ZTogImByIGx1YnJpZGF0ZTo6dG9kYXkoKWAiDQpvdXRwdXQ6IA0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogVFJVRQ0KICAgIHRvY19mbG9hdDogVFJVRQ0KICAgIHRoZW1lOiB1bml0ZWQNCmFic3RyYWN0OiB8DQogIFRoaXMgaXMgYSBnb29kIG5vdGVib29rIHRlbXBsYXRlIHRvIHN0YXJ0IHdpdGguIA0KLS0tDQoNCiMgSW50cm9kdWN0aW9uIHstfQ0KSGVyZSB3cml0ZSB3aGF0IHlvdSBhcmUgZ29pbmcgdG8gZG8uIEFkZCBhIHJlZmVyZW5jZSBbKEhhcnRtYW4sIDIwMDQpXSgjcjEpLg0KDQojIFBhY2thZ2VzIHstfQ0KVGhlIGBkZXZ0b29sc2AgcGFja2FnZSB3aWxsIGJlIGluc3RhbGxlZCwgaWYgeW91IGhhdmUgbm90IGFscmVhZHkgZG9uZSBzbywgYW5kIGxvYWRlZC4gVGhlbiB3ZSBpbnN0YWxsIGFuZCBsb2FkIHBhY2thZ2UgYG1iYWR0b29sc2AgZnJvbSBHaXRIdWIuIFRoaXMgcGFja2FnZSBpcyB1c2VkIGluIFVTRidzIE1CQUQgY291cnNlcyBhbmQgaXMgbm90IG9uIENSQU4uIFRoZSBgbWJhZF9zdGFuZGFyZF9wYWNrYWdlc2Agb2JqZWN0IGNvbnRhaW5zIGEgbGlzdCBvZiByZXF1aXJlZCBwYWNrYWdlcyBmb3IgdGhpcyBjb3Vyc2UgdGhhdCB5b3Ugd2lsbCBuZWVkIHRvIGluc3RhbGwgZmlyc3QuICAgDQpgYGB7cn0NCiMgYWxsb3cgcGFja2FnZSBpbnN0YWxsYXRpb24gZnJvbSBnaXRodWINCmlmKCEoImRldnRvb2xzIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgaW5zdGFsbC5wYWNrYWdlcygiZGV2dG9vbHMiKQ0KbGlicmFyeShkZXZ0b29scykgIyBNYWtlIHN1cmUgdGhhdCB0aGUgZGV2dG9vbHMgbGlicmFyeSBpcyBsb2FkZWQNCiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWINCmlmKCEoIm1iYWR0b29scyIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YigiYmhhcnRtYW4yL21iYWR0b29scyIpDQojIGxvYWQgZ2l0aHViIHBhY2thZ2VzDQpsaWJyYXJ5KG1iYWR0b29scykNCiMgbGlzdCBvZiBwYWNrYWdlcyB0byBpbnN0YWxsDQpkYXRhKCJtYmFkX3N0YW5kYXJkX3BhY2thZ2VzIikNCm1iYWRfc3RhbmRhcmRfcGFja2FnZXMNCiMgbG9hZCBwYWNrYWdlcyB0byB0aGUgbm90ZWJvb2sNCmxpYl9wYWNrYWdlcyhtYmFkX3N0YW5kYXJkX3BhY2thZ2VzLCBxdWlldD1UUlVFKQ0KYGBgDQoNCiMgRGF0YSB7LX0NCkhlcmUgd2UgZ2V0IHRoZSBkYXRhIHVzaW5nIEltcG9ydCBEYXRhc2V0IG9yIGZyb20gYSBwYWNrYWdlLg0KDQojIERhdGEgRGVzY3JpcHRpb24gey19DQpEZXNjcmliZSB0aGUgZGF0YSB1c2luZyBzaW1wbGUgZGlzcGxheSwgb3IgYHNraW1gLg0KDQojIFJlc2VhcmNoIFByb2JsZW0gey19DQpZb3UgbWlnaHQgd2FudCB0byBzdGF0ZSB0aGUgcHJvYmxlbSB5b3Ugd2lsbCBzb2x2ZS4NCg0KIyBEYXRhIFdyYW5nbGluZyB7LX0NCk1ha2UgY2hhbmdlcyB0byB0aGUgZGF0YSBmb3IgYW5hbHlzaXMuDQoNCiMgRGF0YSBWaXN1YWxpemF0aW9uDQpHcmFwaGljIGRpc3BsYXlzIG9mIGRhdGEgc3VjaCBhcyBwYWlycyBwbG90DQoNCiMgQW5hbHlzaXMgey19DQpFeHBsYWluIHdoYXQgYW5hbHlzaXMgeW91IGFyZSBkb2luZy4gQWRkIGEgZm9ybXVsYSBpbiBtYXRoIG5vdGF0aW9uIGxpa2UgdGhpczoNCjo6OiB7I2VxMX0NCiQkRSA9IG1jXjJcaHNwYWNlezEwMHB0fSAoMSkkJA0KOjo6DQoNCiMjIEFuYWx5c2lzIFNlY3Rpb24gey19DQpBbiBleHRlbnNpb24gb2YgdGhlIGFuYWx5c2lzLiBOb3RpY2UgdHdvICMjIGFuZCBzcGFjZSBmb3IgaGVhZGVyIDIuDQo+IEJsb2NrcXVvdGUgc29tZSB0ZXh0IGZyb20gdGhlIHRleHQgb3IgYW4gYXJ0aWNsZQ0KDQojIENvbmNsdXNpb24gey19DQpNeSBjb25jbHVzaW9ucyBhcmUgLi4uICBSZWZlciBiYWNrIHRvIGEgZm9ybXVsYSBvciBsb2NhdGlvbiBpbiB0aGlzIGRvY3VtZW50OiBbRXF1YXRpb24gMV0oI2VxMSkNCg0KIyBSZWZlcmVuY2VzIHstfQ0KOjo6IHsjcjF9DQoxLiBIYXJ0bWFuLCBCLiAoMjAyNCkgQmFzaWMgTm90ZWJvb2sgVGVtcGxhdGUuIChodHRwczovL2dpdGh1Yi5jb20vYmhhcnRtYW4yL21iYWR0b29scy9ibG9iL21haW4vbm90ZWJvb2svQmFzaWMlMjBOb3RlYm9vayUyMFRlbXBsYXRlLlJtZCkNCjo6Og0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkJhc2ljIE5vdGVib29rIFRlbXBsYXRlIg0KYXV0aG9yOg0KICBuYW1lOiAiQnJ1Y2UgSGFydG1hbiINCiAgYWZmaWxpYXRpb246ICJVbml2ZXJzaXR5IG9mIFN0LiBGcmFuY2lzIg0KZGF0ZTogImByIGx1YnJpZGF0ZTo6dG9kYXkoKWAiDQpvdXRwdXQ6IA0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogVFJVRQ0KICAgIHRvY19mbG9hdDogVFJVRQ0KICAgIHRoZW1lOiB1bml0ZWQNCmFic3RyYWN0OiB8DQogIFRoaXMgaXMgYSBnb29kIG5vdGVib29rIHRlbXBsYXRlIHRvIHN0YXJ0IHdpdGguIA0KLS0tDQoNCiMgSW50cm9kdWN0aW9uIHstfQ0KSGVyZSB3cml0ZSB3aGF0IHlvdSBhcmUgZ29pbmcgdG8gZG8uIEFkZCBhIHJlZmVyZW5jZSBbKEhhcnRtYW4sIDIwMDQpXSgjcjEpLg0KDQojIFBhY2thZ2VzIHstfQ0KVGhlIGBkZXZ0b29sc2AgcGFja2FnZSB3aWxsIGJlIGluc3RhbGxlZCwgaWYgeW91IGhhdmUgbm90IGFscmVhZHkgZG9uZSBzbywgYW5kIGxvYWRlZC4gWW91IG9ubHkgbmVlZCB0byBkbyB0aGlzIG9uY2UgaW4gdGhlIHRlcm0uIA0KYGBge3J9DQojIGFsbG93IHBhY2thZ2UgaW5zdGFsbGF0aW9uIGZyb20gZ2l0aHViDQppZighKCJkZXZ0b29scyIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGluc3RhbGwucGFja2FnZXMoImRldnRvb2xzIikNCmxpYnJhcnkoZGV2dG9vbHMpICMgTWFrZSBzdXJlIHRoYXQgdGhlIGRldnRvb2xzIGxpYnJhcnkgaXMgbG9hZGVkDQpgYGANCg0KVGhlbiB3ZSBpbnN0YWxsIHBhY2thZ2UgYG1iYWR0b29sc2AgZnJvbSBHaXRIdWIuIFRoaXMgcGFja2FnZSBpcyB1c2VkIGluIFVTRidzIE1CQUQgY291cnNlcyBhbmQgaXMgbm90IG9uIENSQU4uIFdlIG9ubHkgbmVlZCB0byBkbyB0aGlzIG9uY2UsIGFmdGVyIHdlIGRvIHRoZSBhYm92ZS4gDQpgYGB7cn0NCiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWINCmlmKCEoIm1iYWR0b29scyIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YigiYmhhcnRtYW4yL21iYWR0b29scyIpDQpgYGANCg0KVGhlIGBtYmFkX3N0YW5kYXJkX3BhY2thZ2VzYCBvYmplY3QgY29udGFpbnMgYSBsaXN0IG9mIHJlcXVpcmVkIHBhY2thZ2VzIGZvciB0aGlzIGNvdXJzZSB0aGF0IHlvdSB3aWxsIG5lZWQgdG8gaW5zdGFsbCBmaXJzdC4gWW91IG9ubHkgbmVlZCB0byBzZWUgdGhpcyBpZiB5b3UgYXJlIHVuc3VyZSB3aGljaCBwYWNrYWdlcyBoYXZlIGJlZW4gaW5zdGFsbGVkLiANCmBgYHtyfQ0KZGF0YSgibWJhZF9zdGFuZGFyZF9wYWNrYWdlcyIpDQptYmFkX3N0YW5kYXJkX3BhY2thZ2VzDQpgYGANCg0KVGhpcyBpcyB0aGUga2V5IHN0ZXA6IGxvYWQgdGhlIGBtYmFkdG9vbHNgIHBhY2thZ2UgYW5kIHRoZW4gdGhlIHN0YW5kYXJkIHBhY2thZ2VzIHVzaW5nIHRoZSBgbGliX3BhY2thZ2VzKClgIGZ1bmN0aW9uLiBZb3Ugd2lsbCB1c2UgdGhpcyBpbiBldmVyeSBuZXcgbm90ZWJvb2shIQ0KYGBge3J9DQojIGxvYWQgZ2l0aHViIHBhY2thZ2VzDQpsaWJyYXJ5KG1iYWR0b29scykNCiMgbGlzdCBvZiBwYWNrYWdlcyB0byBpbnN0YWxsDQojIGxvYWQgcGFja2FnZXMgdG8gdGhlIG5vdGVib29rDQpsaWJfcGFja2FnZXMobWJhZF9zdGFuZGFyZF9wYWNrYWdlcywgcXVpZXQ9VFJVRSkNCmBgYA0KDQojIERhdGEgey19DQpIZXJlIHdlIGdldCB0aGUgZGF0YSB1c2luZyBJbXBvcnQgRGF0YXNldCBvciBmcm9tIGEgcGFja2FnZS4NCg0KIyBEYXRhIERlc2NyaXB0aW9uIHstfQ0KRGVzY3JpYmUgdGhlIGRhdGEgdXNpbmcgc2ltcGxlIGRpc3BsYXksIG9yIGBza2ltYC4gWW91IG1pZ2h0IHdhbnQgYGdsaW1wc2VgIHRvIHNlZSBqdXN0IHRoZSBjb2x1bW5zIGFuZCBhIHNob3J0IHNhbXBsZS4NCg0KIyBSZXNlYXJjaCBQcm9ibGVtIHstfQ0KWW91IG1pZ2h0IHdhbnQgdG8gc3RhdGUgdGhlIHByb2JsZW0geW91IHdpbGwgc29sdmUuDQoNCiMgRGF0YSBXcmFuZ2xpbmcgey19DQpNYWtlIGNoYW5nZXMgdG8gdGhlIGRhdGEgdG8gcHJlcGFyZSBpdCBmb3IgYW5hbHlzaXMuDQoNCiMgRGF0YSBWaXN1YWxpemF0aW9uDQpHcmFwaGljIGRpc3BsYXlzIG9mIGRhdGEgc3VjaCBhcyBwYWlycyBwbG90Lg0KDQojIEFuYWx5c2lzIHstfQ0KRXhwbGFpbiB3aGF0IGFuYWx5c2lzIHlvdSBhcmUgZG9pbmcuIEFkZCBhIGZvcm11bGEgaW4gbWF0aCBub3RhdGlvbiBsaWtlIHRoaXM6DQoNCjo6OiB7I2VxMX0NCiQkRSA9IG1jXjJcaHNwYWNlezEwMHB0fSAoMSkkJA0KOjo6DQoNCiMjIEFuYWx5c2lzIFNlY3Rpb24gey19DQpBbiBleHRlbnNpb24gb2YgdGhlIGFuYWx5c2lzLiBOb3RpY2UgdHdvICMjIGFuZCBzcGFjZSBmb3IgaGVhZGVyIGxldmVsIDIuDQoNCj4gQmxvY2txdW90ZSBzb21lIHRleHQgZnJvbSB0aGUgdGV4dCBvciBhbiBhcnRpY2xlDQoNCiMgQ29uY2x1c2lvbiB7LX0NCk15IGNvbmNsdXNpb25zIGFyZSAuLi4gIFJlZmVyIGJhY2sgdG8gYSBmb3JtdWxhIG9yIGxvY2F0aW9uIGluIHRoaXMgZG9jdW1lbnQ6IFtFcXVhdGlvbiAxXSgjZXExKQ0KDQojIFJlZmVyZW5jZXMgey19DQo6OjogeyNyMX0NCjEuIEhhcnRtYW4sIEIuICgyMDI0KSBCYXNpYyBOb3RlYm9vayBUZW1wbGF0ZS4gKGh0dHBzOi8vZ2l0aHViLmNvbS9iaGFydG1hbjIvbWJhZHRvb2xzL2Jsb2IvbWFpbi9ub3RlYm9vay9CYXNpYyUyME5vdGVib29rJTIwVGVtcGxhdGUuUm1kKQ0KOjo6DQoNCg==</div>
 
 
 </div>
