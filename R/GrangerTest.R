@@ -23,8 +23,8 @@ GrangerPlot = function (.data) {
   
   # plot 1
   gpd1 = ggplot2::ggplot(d) +
-    ggplot2::geom_point(ggplot2::aes(lag, d[,2], color="P-values")) +
-    ggplot2::geom_line(ggplot2::aes(lag, d[,2]), linetype="dotted") +
+    ggh4x::geom_pointpath(ggplot2::aes(lag, d[,2], color="P-values"),
+                          linetype="dotted") +
     ggplot2::geom_hline(
       ggplot2::aes(yintercept=.05, color="Significance level 95%")) +
     ggplot2::scale_x_continuous(breaks=c(1:mx), 
