@@ -38,6 +38,7 @@ library(patchwork) # arranging graphs
 library(car) # useful tools for regression analysis
 library(yardstick) # for model performance metrics
 library(ggResidpanel) # for diagnostic residual plots
+library(ggh4x)
 ```
 
 # Custom Packages for MBAD
