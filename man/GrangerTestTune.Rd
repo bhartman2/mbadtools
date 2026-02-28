@@ -17,10 +17,8 @@ GrangerTestTune(ts1, ts2, max.lags = 10)
 a list containing two ggplot objects, showing variation in p-value of Granger causality test in each  directionwith number of lags; can be plotted by new('ggmultiplot') or other means.
 }
 \description{
-Use this function two time series that were taken at the same times.
-}
-\details{
-Run a Granger Causality test in both directions for one time series versus another, over a range of different orders
+Run a Granger Causality test in both directions for one time series versus another, over a range of different orders.
+Use this function for two time series that were taken at the same times.
 }
 \examples{
 \dontrun{
