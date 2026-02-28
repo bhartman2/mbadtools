@@ -21,8 +21,6 @@
 #' 
 pareto_arrange_data = function (.data, countcol) {
   
-  # require(tidyverse)
-  
   df = .data
   df1 <- df %>%
     dplyr::arrange(dplyr::desc({{countcol}})) 
@@ -52,8 +50,6 @@ pareto_arrange_data = function (.data, countcol) {
 #' 
 pareto_plot = function (.data, category, count) {
   
-  # require(tidyverse)
-
   df = .data
   # Create the Pareto chart
   P = ggplot2::ggplot(df, 
@@ -89,8 +85,6 @@ pareto_plot = function (.data, category, count) {
 #'   pareto_sec_axis(max(K1$avwt))
 #' 
 pareto_sec_axis = function(maxcount) {
-  
-  # require(tidyverse)
   
   list(
     ggplot2::scale_y_continuous(
@@ -129,8 +123,6 @@ pareto_sec_axis = function(maxcount) {
 #'   
 pareto_pct_labels = function(maxcount,...) {
   
-  # require(tidyverse)
-  
   list (
     # add percentage labels to line
     ggplot2::geom_text(ggplot2::aes(y=Percentage*maxcount/100, 
@@ -160,8 +152,6 @@ pareto_pct_labels = function(maxcount,...) {
 #'   pareto_cutoff_line(max(K1$avwt))
 #'
 pareto_cutoff_line = function (maxcount, percent=80) {
-  
-  # require(tidyverse)
   
   list (
     

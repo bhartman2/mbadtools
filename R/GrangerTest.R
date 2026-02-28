@@ -1,18 +1,22 @@
 #' GrangerPlot
 #' 
 #' Creates list of plots of Granger test p-values for multiple lags from dataframe 
-#' created by `GrangerTestPvals`.
-#'
-#' @param .data a dataframe object created by `GrangerTestPvals`.
+#' created by `GrangerTable`. 
+#' 
+#' @description Use this function on a data frame if the data column observations 
+#' were taken at the same times
+#'    
+#' @param .data a dataframe object created by `GrangerTable`.
 #'
 #' @returns a list of two plots for each direction of Granger Causality test
 #' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtyhT7YLcuCOMiy1A?e=LMf1Xa}{Examples},
 #' \code{\link[lmtest]{grangertest}}
 #' 
 #' @examples
-#' data(moody, package="datasets")
-#' gpv = GrangerTestPvals(moody, ICS, Wgrowth, max.lags=10)
-#' GrangerPlot(gpv)
+#' \dontrun{
+#' data(moody, package="mbadtools")
+#' moody %>% GrangerTable(ICS, Wgrowth) %>% GrangerPlot() %>% patchwork::wrap_plots(nrow=2)
+#' }
 #' @export
 #' 
 GrangerPlot = function (.data) {
@@ -24,32 +28,36 @@ GrangerPlot = function (.data) {
   # plot 1
   gpd1 = ggplot2::ggplot(d) +
     ggh4x::geom_pointpath(ggplot2::aes(lag, d[,2], color="P-values"),
-                          linetype="dotted") +
+                          linewidth=1.2) +
     ggplot2::geom_hline(
-      ggplot2::aes(yintercept=.05, color="Significance level 95%")) +
+      ggplot2::aes(yintercept=.05, 
+                   color="Significance level 95%"), 
+      linewidth=1.5, linetype="dotted") +
     ggplot2::scale_x_continuous(breaks=c(1:mx), 
                                 labels=as.character(c(1:mx))) +
     ggplot2::labs(title=nm[2], 
                   x="Lag Order of Granger Test", 
                   y="Significance (p-value)") +
     ggplot2::geom_smooth(ggplot2::aes(lag, d[,2], color="loess fit"),
-                         method="loess", formula='y~x', linetype="dotted") +
+                         method="loess", formula='y~x', linewidth=.7) +
     ggplot2::scale_color_manual(values=c("blue","black", "red"))+
     ggplot2::theme(legend.position="none")
   
   # plot 2 
   gpd2 = ggplot2::ggplot(.data) +
-    ggplot2::geom_point(ggplot2::aes(lag, d[,3], color="P-values")) +
-    ggplot2::geom_line(ggplot2::aes(lag, d[,3]), linetype="dotted") +
+    ggh4x::geom_pointpath(ggplot2::aes(lag, d[,3], color="P-values"),
+                          linewidth=1.2) +
     ggplot2::geom_hline(
-      ggplot2::aes(yintercept=.05, color="Significance level 95%")) +
+      ggplot2::aes(yintercept=.05, 
+                   color="Significance level 95%"),
+      linewidth=1.5, linetype="dotted") +
     ggplot2::scale_x_continuous(breaks=c(1:mx), 
                                 labels=as.character(c(1:mx))) +
     ggplot2::labs(title=nm[3], 
                   x="Lag Order of Granger test", 
                   y="Significance (p-value)") +
     ggplot2::geom_smooth(ggplot2::aes(lag, d[,3], color="loess fit"),
-                         method="loess", formula='y~x', linetype="dotted") +
+                         method="loess", formula='y~x', linewidth=.7) +
     ggplot2::scale_color_manual(values=c("blue","black", "red")) +
     ggplot2::theme(legend.position = "bottom")
   
@@ -57,13 +65,15 @@ GrangerPlot = function (.data) {
   return(plots)
 }
 
-#' GrangerTestPvals
+#' GrangerTable
 #' 
-#' Computes p.values for Granger cause test of two time series, in both directions.
+#' Computes p.values for Granger cause test of two time series, in both directions. Can
+#'   be supplied as input to `mbadtools::GrangerPlot()`. Use this if the data is in 
+#'   a dataframe and you are sure the two series observations are taken at the same times.
 #'
-#' @param .data dataframe containing two series columns
-#' @param s1 series 1 name
-#' @param s2 series 2 name
+#' @param .data dataframe containing two numeric columns
+#' @param s1 series 1 numeric column name
+#' @param s2 series 2 numeric column name
 #' @param max.lags integer, maximum number of lags to consider, default =10.
 #'
 #' @returns data frame with lags and p.values of two granger tests
@@ -71,13 +81,13 @@ GrangerPlot = function (.data) {
 #' \code{\link[lmtest]{grangertest}}
 #' @examples
 #' data(moody, package="mbadtools")
-#' GrangerTestPvals(moody, ICS, Wgrowth)
+#' moody %>% GrangerTable(ICS, Wgrowth)
 #' @export
 #' 
-GrangerTestPvals = function(.data, s1, s2, max.lags=10) {
+GrangerTable = function(.data, s1, s2, max.lags=10) {
   
   df=.data %>% 
-    dplyr::select({{s1}}, {{s2}} )
+    dplyr::select( {{s1}}, {{s2}} )
 
   # s2 causes s1
   g.pvalue=c()
@@ -99,6 +109,7 @@ GrangerTestPvals = function(.data, s1, s2, max.lags=10) {
   pv = data.frame(lag=1:max.lags, 
                  g.pvalue, 
                  g.pvalue2)
+  
   names(pv)[2] = pvnames[1]
   names(pv)[3] = pvnames[2]
   
