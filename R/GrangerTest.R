@@ -1,9 +1,7 @@
 #' GrangerPlot
 #' 
 #' Creates list of plots of Granger test p-values for multiple lags from dataframe 
-#' created by `GrangerTable`. 
-#' 
-#' @description Use this function on a data frame if the data column observations 
+#' created by `GrangerTable`.  Use this function on a data frame if the data column observations 
 #' were taken at the same times
 #'    
 #' @param .data a dataframe object created by `GrangerTable`.

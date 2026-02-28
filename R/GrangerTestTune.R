@@ -1,8 +1,7 @@
 #' GrangerTestTune
 #' 
-#' Run a Granger Causality test in both directions for one time series versus another, over a range of different orders
-#'
-#' @description Use this function two time series that were taken at the same times.
+#' Run a Granger Causality test in both directions for one time series versus another, over a range of different orders.  
+#'    Use this function for two time series that were taken at the same times.
 #' 
 #' @param ts1 time series 
 #' @param ts2 time series
