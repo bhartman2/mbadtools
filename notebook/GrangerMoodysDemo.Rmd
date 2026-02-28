@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 # Introduction
-We will apply a Granger causality test to see if we can replicate Moodys' results published in their February 17 Newsletter.
+We will apply a Granger causality test to see if we can replicate Moodys' results published in their February 17 2026 Newsletter.
 
 # Research Problem
 Here is the story from [Moodys, page 5](#r1).
@@ -44,17 +44,13 @@ library(ggh4x)
 # Custom Packages for MBAD
 Install and load:
 ```{r}
-# allow package installation from github
-library(devtools) # Make sure that the devtools library is loaded
-if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools", force=T)
-# load github packages
 library(mbadtools)
+lib_packages(mbad_standard_packages)
 ```
 
 # Data
 The next sections show how to get the data for the Moody report. But we have already installed the data required inthe `mbadtools` package as dataset `moody`.
 
-<!---
 ## Atlanta Fed Wage Tracker
 First we load this dataset.
 ```{r}
@@ -94,8 +90,7 @@ glimpse(waget)
 Visualizing:
 ```{r}
 waget %>% ggplot() +
-  geom_point(aes(Date, Wgrowth)) +
-  geom_line(aes(Date, Wgrowth))
+  geom_pointpath(aes(Date, Wgrowth)) 
 ```
 
 
@@ -112,22 +107,20 @@ umics
 
 ```{r}
 umics %>% ggplot() + 
-  geom_point(aes(Datep,ICS)) +
-  geom_line(aes(Datep,ICS))
+  geom_pointpath(aes(Datep,ICS))
 ```
 
-And together:
+And plotting together:
 ```{r}
 ggplot(umics %>% dplyr::filter(Datep>=waget[1,]$Date)) + 
-  geom_point(aes(Datep,ICS, color="Consumer Confidence")) +
-  geom_line(aes(Datep,ICS), linetype="dotted") +
-  geom_point(aes(Date,Wgrowth*28, color="Wage Growth"), data=waget) +
-  geom_line(aes(Date,Wgrowth*28), data=waget, linetype="dotted") +
+  geom_pointpath(aes(Datep,ICS, color="Consumer Confidence")) +
+  geom_pointpath(aes(Date,Wgrowth*28, color="Wage Growth"), 
+                 data=waget) +
   # labs(y="ICS and Wage Growth*25") +
   scale_color_manual(values=c("red","black"), name="")+
   theme(legend.position = "bottom") +
   scale_y_continuous(name = "Consumer Confidence Index", 
-    sec.axis = sec_axis(~./28, name = "Wage Growth*25")) 
+    sec.axis = sec_axis(~./25, name = "Wage Growth*25")) 
 ```
 It seems like Wage growth starts latest, so we must select only data in its data range for inclusion.
 ```{r}
@@ -142,28 +135,27 @@ umics2 = umics1 %>% mutate(Datep=Datep + days(1) + hours(6) + minutes(59))
 waget1 = waget %>% select(Date, Wgrowth)
 data.frame(umics2, waget1)
 ```
---->
 
+# The `moody` Data
 ```{r}
-# moody = data.frame(waget, umics1) %>% select(Date, Wgrowth, ICS)
 data(moody, package="mbadtools")
 glimpse(moody)
 ```
 
 ```{r}
 ggplot(moody) + 
-  geom_point(aes(Date,ICS, color="Consumer Confidence")) +
-  geom_point(aes(Date,Wgrowth*25, color="Wage Growth")) +
+  geom_pointpath(aes(Date,ICS, color="Consumer Confidence")) +
+  geom_pointpath(aes(Date,Wgrowth*25, color="Wage Growth")) +
   # labs(y="ICS and Wage Growth*25") +
   scale_color_manual(values=c("red","black"), name="")+
   theme(legend.position = "bottom") +
   scale_y_continuous(name = "Consumer Confidence Index", 
     sec.axis = sec_axis(~./25, name = "Wage Growth*25")) 
 ```
-It seems that consumer confidence drops hard just after wage growth peaks.
+It seems that consumer confidence drops hard just after wage growth peaks. The `moody` data matches the data gleaned form the other sources. 
 
 # Granger Causality
-We will test Granger causality between these two series, using 4 lags.
+We will test Granger causality between these two series, using 4 lags, with the `lmtest::grangertest()` function. Its limitation is that you have to do one lag at a time, and one direction at a time.
 
 ## `ICS` =G=> `Wgrowth`
 ```{r}
@@ -179,18 +171,26 @@ lmtest::grangertest(ICS~Wgrowth, data=moody, order=4)
 
 `Wgrowth` does not Granger-cause `ICS.`
 
-# `mbadtools` functions
-We will tune the order parameter by choosing different lags of 1 through 10 for the Granger-causality test. We'll run both directions of causality, and plot the results. Package `mbadtools` contains functions to test and plot for all lags up to a number given by `max.lags`, which defaults to 10.
-
+# Granger Causality with `mbadtools`
+We will tune the order parameter, which represents the number of lags, by choosing different lags of 1 through 10 (or a user-chosen number) for the Granger-causality test. We'll run both directions of causality, and plot the results. Package `mbadtools` contains functions to test and plot for all lags up to a number given by `max.lags`, which defaults to 10.
+ 
+Test the `moody` data with `wgrowth` and `ICS`.
 ```{r}
-# test Granger Causality
-gpv = moody %>% GrangerTestPvals(ICS, Wgrowth, max.lags=10)
-gpv
+moody %>% str
 ```
 
-We can plot this dataset with another function from `mbadtools`.
-```{r fig.height=9, fig.width=12}
-gpv %>% GrangerPlot() %>% wrap_plots(nrow=2)
+The dataset is a data frame. so we use the data frame functions from `mbadtools`.
+```{r fig.height=7}
+moody %>% GrangerTable(ICS, Wgrowth) %>% 
+  GrangerPlot() %>% patchwork::wrap_plots(nrow=2)
+```
+
+We can also do it as a time series.
+```{r fig.height=7}
+ICSt = moody %>% select(ICS) %>% ts
+Wgrt = moody %>% select(Wgrowth) %>% ts
+GrangerTestPvals(ICSt, Wgrt)
+GrangerTestTune(ICSt, Wgrt) %>% patchwork::wrap_plots(nrow=2)
 ```
 
 Clearly ICS =G=> Wgrowth, with better than .05 p-value for lags 1, 4, 7, and 8.  And for all lags, p-value is below .10.
@@ -200,23 +200,24 @@ On the other hand, Wgrowth !=G=> ICS for any tested lag, with all p-values excee
 # EU Stock Markets
 This dataset from the `datasets` package contains time series of four indices from the EU stockmarkets. Does any of them Granger-cause another? We will test `FTSE` and `DAX`.
 
-```{r}
+Perform Granger causality test (e.g., `DAX` causing `FTSE` and the reverse), using a data frame: 
+
+```{r fig.height=7}
 data(EuStockMarkets)
-# Convert to data frame for easy handling
-df <- as.data.frame(EuStockMarkets)
-df
+EuStockMarkets %>% glimpse
+# Convert to data frame for non-time-series handling.
+EuStockMarkets %>% data.frame %>% 
+  GrangerTable(DAX, FTSE) %>% 
+  GrangerPlot() %>% patchwork::wrap_plots(nrow=2)
 ```
 
-Perform Granger causality test (e.g., DAX causing FTSE and the reverse)
-
-```{r}
-gt = GrangerTestPvals(df, FTSE, DAX)
-gt
-```
-
-Plot the results
-```{r fig.height=10, fig.width=10}
-gt %>% GrangerPlot() %>% wrap_plots(nrow=2)
+Using time-series directly: columns of `EuStockMarkets` are time series.
+```{r fig.height=7}
+DAX = EuStockMarkets[,"DAX"]
+FTSE = EuStockMarkets[,"FTSE"]
+GrangerTestPvals(DAX, FTSE)
+GrangerTestTune(DAX, FTSE) %>% 
+  wrap_plots(nrow=2)
 ```
 
 # Conclusion
