@@ -27,25 +27,13 @@ We could not access the Consumer Confidence Index, prepared by The Conference Bo
 
 # Packages
 We load the standard MBAD packages.
-```{r}
-library(tidyverse) # used to manipulate data and plot
-library(ggfortify) # some extra ggplot functions
-library(GGally) # pairs ggplot and other options
-library(skimr) # nice summaries
-library(broom) # neat model summary
-library(gt) # nice displays of printed data
-library(patchwork) # arranging graphs
-library(car) # useful tools for regression analysis
-library(yardstick) # for model performance metrics
-library(ggResidpanel) # for diagnostic residual plots
-library(ggh4x)
-```
 
 # Custom Packages for MBAD
 Install and load:
 ```{r}
 library(mbadtools)
 lib_packages(mbad_standard_packages)
+library(lmtest)
 ```
 
 # Data
