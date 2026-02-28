@@ -7,19 +7,21 @@
 GrangerPlot(.data)
 }
 \arguments{
-\item{.data}{a dataframe object created by \code{GrangerTestPvals}.}
+\item{.data}{a dataframe object created by \code{GrangerTable}.}
 }
 \value{
 a list of two plots for each direction of Granger Causality test
 }
 \description{
 Creates list of plots of Granger test p-values for multiple lags from dataframe
-created by \code{GrangerTestPvals}.
+created by \code{GrangerTable}.  Use this function on a data frame if the data column observations
+were taken at the same times
 }
 \examples{
-data(moody, package="datasets")
-gpv = GrangerTestPvals(moody, ICS, Wgrowth, max.lags=10)
-GrangerPlot(gpv)
+\dontrun{
+data(moody, package="mbadtools")
+moody \%>\% GrangerTable(ICS, Wgrowth) \%>\% GrangerPlot() \%>\% patchwork::wrap_plots(nrow=2)
+}
 }
 \seealso{
 \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtyhT7YLcuCOMiy1A?e=LMf1Xa}{Examples},
