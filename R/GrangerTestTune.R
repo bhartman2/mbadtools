@@ -40,7 +40,8 @@ GrangerTestTune = function(ts1, ts2, max.lags=10) {
   gpd1 =ggplot() +
     ggh4x::geom_pointpath(aes(1:max.lags, g.pvalue, color="p-value"), 
                           linewidth=1.2) +
-    geom_hline(aes(yintercept=.05, color="Significance level 95%"), size=1.5, 
+    geom_hline(aes(yintercept=.05, color="Significance level 95%"), 
+               linewidth=1.5, 
                linetype="dotted") +
     scale_x_continuous(breaks=c(1:max.lags), labels=as.character(c(1:max.lags))) +
     labs(title=paste0(ff2, " =G=> ", ff1), 
@@ -57,7 +58,8 @@ GrangerTestTune = function(ts1, ts2, max.lags=10) {
   gpd2 =ggplot() +
     ggh4x::geom_pointpath(aes(1:max.lags, g.pvalue2, color="P-values"), 
                           linewidth=1.2) +
-    geom_hline(aes(yintercept=.05, color="Significance level 95%"), size=1.5, linetype="dotted") +
+    geom_hline(aes(yintercept=.05, color="Significance level 95%"), 
+               linewidth=1.5, linetype="dotted") +
     scale_x_continuous(breaks=c(1:max.lags), labels=as.character(c(1:max.lags))) +
     labs(title=paste0(ff1, " =G=> ",ff2), 
          x="Order of Granger test", y="Significance level (p-value)") +
