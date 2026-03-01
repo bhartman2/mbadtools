@@ -9,6 +9,7 @@ output:
     toc: TRUE
     toc_float: TRUE
     theme: united
+    highlight: tango
 abstract: |
   We demonstrate Pareto Plots from the `qcc` package and then test our own functions for them based on `ggplot`.
 ---
@@ -18,37 +19,17 @@ Pareto plots are a good way to understand what's important in data with categori
 
 # Packages
 ```{r}
-library(tidyverse) # used to manipulate data and plot
-library(ggfortify) # some extra ggplot functions
-library(GGally) # pairs ggplot and other options
-library(skimr) # nice summaries
-library(broom) # neat model summary
-library(gt) # nice displays of printed data
-library(patchwork) # arranging graphs
-library(car) # useful tools for regression analysis
-library(yardstick) # for model performance metrics
-library(ggResidpanel) # for diagnostic residual plots
-```
-
-# Custom Packages for MBAD
-Install and load:
-```{r}
-# allow package installation from github
-library(devtools) # Make sure that the devtools library is loaded
-if(!("mbadtools" %in% installed.packages())) devtools::install_github("bhartman2/mbadtools")
-# load github packages
 library(mbadtools)
-```
-
-# Package `qcc`
-```{r}
-library(qcc)
+lib_packages(mbad_standard_packages)
+library(lmtest)
+library(qcc) # for some pareto plot tools
 ```
 
 # Data 
-Package `qcc` has several datasets with examples of Pareto Plots.
+Package `qcc` has several datasets with examples of Pareto Plots using their functions.
+
 ```{r}
-data(mtcars) # from qcc package
+data(mtcars, package="qcc") # from qcc package
 mtcars
 cyl_count <- table(mtcars$cyl)
 pareto.chart(cyl_count, main = "Pareto Chart of Car Cylinders")
@@ -56,7 +37,7 @@ pareto.chart(cyl_count, main = "Pareto Chart of Car Cylinders")
 
 `HairEycolor` is stored as a table.
 ```{r}
-data(HairEyeColor)
+data(HairEyeColor, package="qcc")
 HairEyeColor %>% str()
 HairEyeColor
 eye_count <- apply(HairEyeColor, c(2), sum) #2 refers to eyes
@@ -65,7 +46,7 @@ pareto.chart(eye_count, main = "Pareto Chart of Eye Colors")
 
 `Titanic` is stored as a table.
 ```{r}
-data(Titanic)
+data(Titanic, package="qcc")
 Titanic
 class_count <- apply(Titanic, c(1), sum) #1 refers to Class
 pareto.chart(class_count, main = "Pareto Chart of Passenger Classes")
@@ -88,27 +69,28 @@ A = mtcars %>% mutate(cyl= as.character(cyl))
 A1 = A %>% group_by(cyl) %>% summarize(c_count=n())
 A1
 ```
-Can apply `pareto_arrange_data()` function to A1.
+Now apply `pareto_arrange_data()` function to A1.
 
 ```{r}
 A2 = A1 %>% pareto_arrange_data(c_count)
 A2
 ```
-Noiw the basic plot.
+Now the basic plot.
 ```{r}
-A2 %>% pareto_plot(cyl, c_count)
+PPlot = A2 %>% pareto_plot(cyl, c_count)
+PPlot
 ```
 
 Add second axis label:
 ```{r}
 mc = max(A2$c_count)
-A2 %>% pareto_plot(cyl, c_count) +
+PPlot +
   pareto_sec_axis(mc)
 ```
 Add percent labels on the cumulative percent line. You can control them with `nudge_y` and `size`.
 ```{r}
 mc = max(A2$c_count)
-A2 %>% pareto_plot(cyl, c_count) +
+PPlot +
   pareto_sec_axis(mc) +
   pareto_pct_labels(mc, nudge_y=1, size=3)
 ```
@@ -116,7 +98,7 @@ A2 %>% pareto_plot(cyl, c_count) +
 Add a percent cutoff line and plot labeling:
 ```{r}
 mc = max(A2$c_count)
-A2 %>% pareto_plot(cyl, c_count) +
+PPlot +
     pareto_sec_axis(mc) +
     pareto_pct_labels(mc, nudge_y=.8, size=3) +
     pareto_cutoff_line(mc) +
@@ -300,11 +282,12 @@ list(C, W=wrap_table(ww)) %>% wrap_plots(design = "CCCW")
 # Example for package
 ```{r}
 data(chickwts, package="datasets")
-K = chickwts %>% group_by(feed) %>% summarize(avwt = mean(weight))
-K1 = pareto_arrange_data(K, avwt)
-K1 %>% pareto_plot(feed, avwt) +
-  labs(x="feed",
-       y="average weight")
+chickwts %>% group_by(feed) %>% 
+  summarize(avwt = mean(weight)) %>%
+      pareto_arrange_data(avwt) %>%
+        pareto_plot(feed, avwt) +
+        labs(x="feed",
+             y="average weight")
 ```
 
 # Conclusion
