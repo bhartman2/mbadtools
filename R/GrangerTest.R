@@ -25,7 +25,7 @@ GrangerPlot = function (.data) {
   
   # plot 1
   gpd1 = ggplot2::ggplot(d) +
-    ggh4x::geom_pointpath(ggplot2::aes(lag, .data[[2]], color="P-values"),
+    ggh4x::geom_pointpath(ggplot2::aes(lag, .data[[nm[2]]], color="P-values"),
                           linewidth=1.2) +
     ggplot2::geom_hline(
       ggplot2::aes(yintercept=.05, 
@@ -36,14 +36,14 @@ GrangerPlot = function (.data) {
     ggplot2::labs(title=nm[2], 
                   x="Lag Order of Granger Test", 
                   y="Significance (p-value)") +
-    ggplot2::geom_smooth(ggplot2::aes(lag, d[[2]], color="loess fit"),
+    ggplot2::geom_smooth(ggplot2::aes(lag, .data[[nm[2]]], color="loess fit"),
                          method="loess", formula='y~x', linewidth=.7) +
     ggplot2::scale_color_manual(values=c("blue","black", "red"))+
     ggplot2::theme(legend.position="none")
   
   # plot 2 
   gpd2 = ggplot2::ggplot(.data) +
-    ggh4x::geom_pointpath(ggplot2::aes(lag, .data[[3]], color="P-values"),
+    ggh4x::geom_pointpath(ggplot2::aes(lag, .data[[nm[3]]], color="P-values"),
                           linewidth=1.2) +
     ggplot2::geom_hline(
       ggplot2::aes(yintercept=.05, 
@@ -54,7 +54,7 @@ GrangerPlot = function (.data) {
     ggplot2::labs(title=nm[3], 
                   x="Lag Order of Granger test", 
                   y="Significance (p-value)") +
-    ggplot2::geom_smooth(ggplot2::aes(lag, .data[[3]], color="loess fit"),
+    ggplot2::geom_smooth(ggplot2::aes(lag, .data[[nm[3]]], color="loess fit"),
                          method="loess", formula='y~x', linewidth=.7) +
     ggplot2::scale_color_manual(values=c("blue","black", "red")) +
     ggplot2::theme(legend.position = "bottom")
@@ -101,8 +101,10 @@ GrangerTable = function(.data, s1, s2, max.lags=10) {
   }
   
   # Use as_label for cleaner string conversion
-  n1 = paste0(rlang::as_label(rlang::enquo(s1)), " =G=> ", rlang::as_label(rlang::enquo(s2)))
-  n2 = paste0(rlang::as_label(rlang::enquo(s2)), " =G=> ", rlang::as_label(rlang::enquo(s1)))
+  n1 = paste0(rlang::as_label(rlang::enquo(s1)), " =G=> ", 
+              rlang::as_label(rlang::enquo(s2)))
+  n2 = paste0(rlang::as_label(rlang::enquo(s2)), " =G=> ", 
+              rlang::as_label(rlang::enquo(s1)))
   
   pv = data.frame(lag = 1:max.lags, 
                   g.pvalue = g.pvalue, 
