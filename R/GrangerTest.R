@@ -84,20 +84,19 @@ GrangerPlot = function (.data) {
 #' 
 GrangerTable = function(.data, s1, s2, max.lags=10) {
   
-  df=.data %>% 
+  df = .data %>% 
     dplyr::select( {{s1}}, {{s2}} )
 
   # s2 causes s1
   g.pvalue=c()
   for (i in 1:max.lags) {
-    g.pvalue[i] =  lmtest::grangertest(df, order=i)[2,4]
+    g.pvalue[i] =  lmtest::grangertest(df[,1], df[,2], order=i)[2,4]
   }
   
   # s1 causes s2
   g.pvalue2=c()
   for (i in 1:max.lags) {
-    g.pvalue2[i] =  lmtest::grangertest(df %>% 
-                      dplyr::relocate({{s2}}, .before=1), order=i)[2,4]
+    g.pvalue2[i] =  lmtest::grangertest(df[,2], df[,1], order=i)[2,4]
   }
   
   # Use as_label for cleaner string conversion
