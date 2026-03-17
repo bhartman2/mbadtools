@@ -1,0 +1,260 @@
+---
+title: "Bayesian VAR with bvartools"
+author:
+  name: "Bruce Hartman"
+  affiliation: "University of St. Francis"
+date: "`r lubridate::today()`"
+output: 
+  html_notebook:
+    toc: TRUE
+    toc_float: TRUE
+    theme: united
+abstract: |
+  We work some bayesian VAR applications with the `bvartools` package, from [Mohr, 2024](#r1). This package gives you a lot more options that the `vars` package, and can produce the same results.
+---
+
+# Introduction {-}
+We are going to reproduce and check some of the examples from [(Mohr, 2024)](#r1).
+
+# Packages {-}
+Load `bvartools` and the `mbadtools` package and then the standard packages using the `lib_packages()` function. Other packages needed are for special uses.
+```{r}
+library(bvartools)
+library(vars)
+library(forecast)
+# load github packages
+library(mbadtools)
+# list of packages to install
+# load packages to the notebook
+lib_packages(mbad_standard_packages, quiet=TRUE)
+```
+
+# Data {-}
+The data set `e1` from Lütkepohl (2006) is used. It contains data on West German fixed investment, disposable income and consumption expenditures in billions of DM from 1960Q1 to 1982Q4. Like in the textbook only the first 73 observations of the log-differenced series are used.
+
+```{r}
+# Load data
+data("e1")
+e1 %>% glimpse
+```
+
+# Data Description {-}
+Describe the data using simple display, or `skim`. It is a matrix of three `ts` timeseries.
+
+```{r}
+e1 %>% class
+e1 %>% skim
+```
+
+# Research Problem {-}
+We demonstrate use of the `bvartools` package functions to produce a VAR model on the `e1` dataset. We then compare the result with a similar model processed with `vars` to demonstrate the same results.`bvartools` i muych more flexible and allows Bayesian versions of VAR.
+
+# Data Wrangling {-}
+We work with first differences of the logged timeseries.
+```{r}
+e1d <- diff(log(e1)) * 100
+```
+
+Reduce number of oberservations, by limiting to last quarter of 1978.
+```{r}
+e1d <- window(e1d, end = c(1978, 4))
+```
+
+# Data Visualization
+Graphic displays of data.
+```{r}
+plot(e1d)
+```
+
+A better ggplot way to see the time series with correlograms:
+```{r}
+# grab names of series
+names = attr(e1d, "dimnames")[[2]]
+# time series displays with acf/pacf
+for (i in 1:3) e1d[,i] %>% 
+  forecast::ggtsdisplay(main = str_c("e1d series: ", names[i]))
+```
+
+All three series are pretty stationary.
+
+# Create models
+```{r}
+model <- gen_var(e1d, p = 2, deterministic = "const",
+                 iterations = 100, burnin = 10)
+```
+
+```{r}
+model %>% glimpse
+```
+
+## Add priors
+```{r}
+model_with_priors <- add_priors(model,
+                                coef = list(v_i = 0, v_i_det = 0),
+                                sigma = list(df = 1, scale = .0001))
+model_with_priors %>% glimpse
+```
+
+## Estimate model
+```{r}
+bvar_est <- draw_posterior(model_with_priors)
+# bvar_est %>% glimpse
+bvar_est %>% summary
+```
+
+
+## IRF Plots
+Functions currently sourced from `mbadtools` source.
+```{r}
+source("C:/Users/bruce/OneDrive/Documents/R Material/mbadtools/R/ggvar_irf.R")
+```
+
+`bvartools` only lets you do one response at a time. 
+
+And you have to convert the model output to the `vars::varirf` format using `mbadtools::bvarirf_to_varirf()`.
+
+Impulse `invest`:
+```{r}
+list(
+  bvartools::irf(bvar_est, impulse = "invest", response = "cons",
+                          cumulative=TRUE, 
+                          n.ahead=10) %>% 
+    bvarirf_to_varirf("invest","cons", cumulative=TRUE) %>% 
+    ggvar_irf(),
+  bvartools::irf(bvar_est, impulse = "invest", response = "income",
+                          cumulative=TRUE, 
+                          n.ahead=10) %>% 
+    bvarirf_to_varirf("invest","income", cumulative=TRUE) %>% 
+    ggvar_irf()
+) %>% wrap_plots(nrow=2)
+```
+
+Impulse `income`:
+```{r}
+list(
+  bvartools::irf(bvar_est, impulse = "income", response = "cons",
+                          cumulative=TRUE, 
+                          n.ahead=10) %>% 
+    bvarirf_to_varirf("income","cons", cumulative=TRUE) %>% 
+    ggvar_irf(),
+  bvartools::irf(bvar_est, impulse = "income", response = "invest",
+                          cumulative=TRUE, 
+                          n.ahead=10) %>% 
+    bvarirf_to_varirf("income","invest", cumulative=TRUE) %>% 
+    ggvar_irf()
+) %>% wrap_plots(nrow=2)
+```
+
+Impulse `cons`:
+```{r}
+list(
+  bvartools::irf(bvar_est, impulse = "cons", response = "income",
+                          cumulative=TRUE, 
+                          n.ahead=10) %>% 
+    bvarirf_to_varirf("cons","income", cumulative=TRUE) %>% 
+    ggvar_irf(),
+  bvartools::irf(bvar_est, impulse = "cons", response = "invest",
+                          cumulative=TRUE, 
+                          n.ahead=10) %>% 
+    bvarirf_to_varirf("cons","invest", cumulative=TRUE) %>% 
+    ggvar_irf()
+) %>% wrap_plots(nrow=2)
+```
+
+We see the long term effects of an impulse to any of the three variables.
+
+## Forecasts
+Predict 10 periods ahead, with confidence bands. Use the `mbadtools::ggvar_forecastplot()` function directly on the predictions class `bvarprd` object.
+
+```{r}
+bvar_pred <- predict(bvar_est, n.ahead = 10, new_d = rep(1, 10))
+bvar_pred %>% glimpse
+# plot(bvar_pred)
+bvar_pred %>% ggvar_forecastplot() %>%
+  wrap_plots(design="12\n3#")
+```
+
+# VAR Analysis {-}
+We are doing the VAR analysis with the `vars::VAR` function for comparison.
+
+## `vars` Model
+```{r}
+modelV = VAR(e1d, p=2)
+modelV %>% summary
+```
+
+## Covariances and testing
+```{r}
+# covariance matrices
+V.covariance = (modelV %>% summary)[["covres"]]
+B.covariance = (bvar_est %>% summary)[["sigma"]]$means
+#Compare using `covequal::test_covequal()`
+if(interactive()) cat("\nEqual covariance test `covequal::test_covequal()`\n")
+test_covequal(V.covariance,B.covariance)
+#Compare using `mvhtests::equal.cov()`:
+if(interactive()) cat("\nEqual covariance test `mvhtests::equal.cov()`\n")
+mvhtests::equal.cov(V.covariance,B.covariance)
+# prep for other `mvhtests` tests
+combined_data=rbind(V.covariance,B.covariance)
+ina = c(rep(1, nrow(V.covariance)), rep(2, nrow(B.covariance)))
+if(interactive()) cat("\nM test `mvhtests::Mtest()`\n")
+mvhtests::Mtest.cov(combined_data, ina = ina)
+if(interactive()) cat("\nLikelihood test `mvhtests::likel.cov()`\n")
+mvhtests::likel.cov(combined_data, ina = ina)
+```
+
+## Residual Tests
+```{r}
+modelV %>% serial.test(lags.pt = 10, type = "PT.asymptotic")
+modelV %>% normality.test()
+modelV %>% arch.test(lags.multi = 5)
+```
+
+## Stability Test
+```{r fig.height=12, message=FALSE}
+stab_test <- stability(modelV, type = "OLS-CUSUM")
+# stab_test %>% plot() # defaults to 1.2516 for limits
+# stab_test %>% plot(ylim=c(-1.2516, 1.2516 )) # shows what the limits are, 1.2516
+stab_test %>% ggvar_plot_stability() %>% wrap_plots(nrow=3)
+```
+## IRF plots
+```{r}
+list(
+  modelV %>% vars::irf(impulse="invest", response=c("income"),
+                      cumulative=TRUE) %>% ggvar_irf(),
+  modelV %>% vars::irf(impulse="invest", response=c("cons"),
+                      cumulative=TRUE) %>% ggvar_irf()
+) %>% wrap_plots(nrow=2)
+
+list(
+  modelV %>% vars::irf(impulse="income", response=c("invest"),
+                      cumulative=TRUE) %>% ggvar_irf(),
+  modelV %>% vars::irf(impulse="income", response=c("cons"),
+                      cumulative=TRUE) %>% ggvar_irf()
+) %>% wrap_plots(nrow=2)
+
+list(
+  modelV %>% vars::irf(impulse="cons", response=c("income"),
+                      cumulative=TRUE) %>% ggvar_irf(),
+  modelV %>% vars::irf(impulse="cons", response=c("invest"),
+                      cumulative=TRUE) %>% ggvar_irf()
+) %>% wrap_plots(nrow=2)
+```
+
+# Conclusion {-}
+We have modeled the E1 dataset from [Lütkepohl (2006)](#r2) using `bvartools`.  We compared the simplest model with one made by `vars::VAR()`. They are essentially the same, as we used simple independent priors, presented in [Mohr, 2024](#r1) for the Bayesian part. The covariance matrices of coefficients tested essentially the same at the .05 level of significance.
+
+The `bvartools` package is much more flexible and permits different modeling techniques to be used. It's designed for academics and people who need to hve modeling flexibility.
+
+# References {-}
+::: {#r1}
+1. Mohr, Franz X. (2024) Introduction to `bvartools`. Package vignette. (https://cran.r-project.org/web/packages/bvartools/vignettes/bvartools.html)
+:::
+
+::: {#r2}
+2. Lütkepohl, H. (2006). New introduction to multiple time series analysis (2nd ed.). Berlin: Springer.
+:::
+
+::: {#r3}
+3. Chan, J., Koop, G., Poirier, D. J., & Tobias, J. L. (2019). Bayesian Econometric Methods (2nd ed.). Cambridge: University Press.
+:::
