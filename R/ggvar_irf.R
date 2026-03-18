@@ -248,3 +248,68 @@ ggvar_forecastplot = function (bvar_pred) {
   }
   return(Plotlist)
 }
+
+#' ggvar_fevdplot
+#' 
+#' Forecast Error Variance Decomposition plots for `bvartools::bvar` objects; plots all
+#'  responses or any one 
+#'
+#' @param bvarobject a bvarest object 
+#' @param type character, type of fevd to create, no default, allowed types are
+#'    c("oir","gir","sir", "sgir"); only "oir" has sum to unity.
+#' @param ... other parameters for `fevd.bvar`; see documentation for details.
+#'
+#' @returns a named list of ggplots, named by response variables of model. 
+#'   Display with patchwork or just plot one list member.
+#' @export
+#'
+#' @examples
+#' #' # Load data
+#' library(bvartools)
+#' data("e1")
+#' e1 <- diff(log(e1)) * 100
+#' 
+#' # Generate model data
+#' model <- gen_var(e1, p = 2, deterministic = 2,
+#'                  iterations = 100, burnin = 10)
+#' 
+# Add prior specifications
+#' model <- add_priors(model)
+#' 
+#' # Obtain posterior draws
+#' object <- draw_posterior(model)
+#' 
+#' ggvar_fevdplot(object, type="oir", n.ahead=7)
+#' 
+ggvar_fevdplot = function(bvarobject, type="oir", ...) {
+  
+  nm = attr(bvarobject$y, "dimnames")[[2]]
+  nn = length(nm)
+  
+  FPplots = list()
+  for (i in 1:nn) {
+    vd = fevd(bvarobject, response=nm[i], type=type, )
+    nx=nrow(vd)
+    X1 = tibble::rownames_to_column(data.frame(vd), var="Period")
+    X1[,1] = as.numeric(X1[,1])-1
+    X1 = tidyr::pivot_longer(X1, cols=2:ncol(X1), 
+                             names_to = "impulse", values_to = "vard")
+    
+    P = ggplot2::ggplot(X1, 
+                        ggplot2::aes(x=Period, y = vard*100, fill=impulse)
+    ) +
+      ggplot2::geom_col(color="black") +
+      ggplot2::labs(y="Percentage", x="",
+                    title=paste("FEVD type", type, ":", nm[i], sep=" ")
+      ) +
+      ggplot2::scale_x_continuous(breaks=0:nx)+
+      ggplot2::theme_bw() +
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))     
+    
+    FPplots[[i]] = P
+    
+  }
+  
+  return( FPplots %>% stats::setNames(nm))
+  
+}
