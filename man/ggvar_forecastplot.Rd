@@ -7,7 +7,7 @@
 ggvar_forecastplot(bvar_pred)
 }
 \arguments{
-\item{bvar_pred}{predictions of class \code{bvarprd}}
+\item{bvar_pred}{predictions of class \code{bvarprd} or \code{varprd}}
 }
 \value{
 a list of ggplots
