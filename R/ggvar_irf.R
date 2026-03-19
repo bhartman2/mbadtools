@@ -116,6 +116,35 @@ ggvar_plot_stability = function(varstabil) {
   return(Plist)
 }
 
+#' ggvar_plot_stability_break
+#' 
+#' Adds layers to a `ggvar_plot_stability()` plot; a vertical line and a text 
+#'   notation of the max value, at the max of the stability index.
+#'
+#' @param pi breakpoint index; obtain from 
+#' @param bv breakpoint value; use pi to obtain from 
+#'
+#' @returns ggplot layers to add to a `ggvar_plot_stability()` plot
+#' @export
+#'
+#' @examples
+ggvar_plot_stability_break = function(pi, bv) {
+  
+  vj = -1; if(bv<=0) vj=-vj
+  
+  list(
+    # layer 1
+    ggplot2::geom_vline(ggplot2::aes(xintercept=pi - 1), linetype="dotted"),
+    # layer 2
+    ggplot2::annotate('text',
+                      x=pi,
+                      y=bv,
+                      label=bv,
+                      vjust=vj, fontface="italic")
+  )
+  
+}
+
 #' bvarirf_to_varirf
 #' 
 #' Transforms a `bvartools::bvarirf` object into a `vars::varirf` skeleton object
@@ -183,7 +212,7 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 #' plot multiple timeseries and forecasts made with `predict()`; 
 #'  use design and `patchwork::wrap_plots()` to plot from list 
 #'
-#' @param bvar_pred predictions of class `bvarprd`
+#' @param bvar_pred predictions of class `bvarprd` or `varprd`
 #'
 #' @returns a list of ggplots
 #' @export
@@ -211,25 +240,42 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 #' ggvar_forecastplot(pred)
 #' 
 ggvar_forecastplot = function (bvar_pred) {
+  
   P = bvar_pred
-  Phistory = P$y %>% data.frame
+  
+  if( class(P) == "bvarprd") Phistory = P$y 
+  else if (class(P) == "varprd") Phistory = P$model$y
+  
+  Phistory = Phistory %>% data.frame
   Pnames = names(Phistory)
+  
   # forecasts data frame
   Pdf = data.frame()
   for (i in 1:length(Pnames)) {
-    lo = P$fcst[[i]][,1]
-    up = P$fcst[[i]][,3]
-    fc = P$fcst[[i]][,2]
+    if (class(P) == "bvarprd") {
+      lo = P$fcst[[i]][,1]
+      up = P$fcst[[i]][,3]
+      fc = P$fcst[[i]][,2]      
+    } else
+    if (class(P)=="varprd") {
+      lo = P$fcst[[i]][,2]
+      up = P$fcst[[i]][,3]
+      fc = P$fcst[[i]][,1]      
+    }
+
     row = data.frame(impulse=Pnames[[i]],
                      .fitted=fc, .lower = lo, .upper=up)
     Pdf = bind_rows(Pdf, row)
   }
-  
+
   Plotlist = list()
   for (i in 1:length(Pnames)) {
-    X = Pdf %>% dplyr::filter(impulse==Pnames[i]) %>% dplyr::select(-impulse)
+    X = Pdf %>% 
+      dplyr::filter(impulse==Pnames[[i]]) %>% 
+      dplyr::select(-impulse)
     nx = nrow(X)
-    Plotlist[[i]] = 
+    
+    Plotlist[[Pnames[i]]] = 
       ggplot2::ggplot(Phistory) +
       ggplot2::geom_point(ggplot2::aes(1:nrow(Phistory), Phistory[,i])) +
       ggplot2::geom_point(data=X, 
