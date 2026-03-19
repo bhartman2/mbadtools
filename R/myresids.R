@@ -1,6 +1,7 @@
 #' myresids
 #'
-#' A character vector containing the four ggResidpanel::resid_panel() plots mbadtools recommends.
+#' A character vector containing the four \code{\link[ggResidpanel]{resid_panel}} 
+#' plots \code{mbadtools} recommends.
 #'
 #' @format A character vector with 4 entries:
 #' \describe{
@@ -9,5 +10,6 @@
 #'   \item{ls}{character, location-scale plot }
 #'   \item{hist}{character, histogram of residuals }
 #' }
-#' @source ggResidpanel package documentation.
+#' @source \code{\link[ggResidpanel]{ggResidpanel}} package documentation.
 "myresids"
+
