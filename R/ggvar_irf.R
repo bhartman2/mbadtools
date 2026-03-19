@@ -128,9 +128,18 @@ ggvar_plot_stability = function(varstabil) {
 #' @export
 #'
 #' @examples
+#' data("Canada", package="vars")
+#' var.2c <- vars::VAR(Canada, p = 2, type = "const")
+#' stab = vars::stability(var.2c)
+#' splot = (ggvar_plot_stability(stab))[[1]]
+#' stabprocess = stab$stability[[1]]$process
+#' pindex = which.max(abs(stabprocess))
+#' pvalue = round(stabprocess[pindex], 4)
+#' splot + ggvar_plot_stability_break(pi=pindex, bv=pvalue)
+#' 
 ggvar_plot_stability_break = function(pi, bv) {
   
-  vj = -1; if(bv<=0) vj=-vj
+  vj = -1; if(bv <=0 ) vj=-vj
   
   list(
     # layer 1
@@ -243,8 +252,8 @@ ggvar_forecastplot = function (bvar_pred) {
   
   P = bvar_pred
   
-  if( class(P) == "bvarprd") Phistory = P$y 
-  else if (class(P) == "varprd") Phistory = P$model$y
+  if( is(P, "bvarprd") ) Phistory = P$y 
+  else if (is(P,"varprd") ) Phistory = P$model$y
   
   Phistory = Phistory %>% data.frame
   Pnames = names(Phistory)
@@ -252,12 +261,12 @@ ggvar_forecastplot = function (bvar_pred) {
   # forecasts data frame
   Pdf = data.frame()
   for (i in 1:length(Pnames)) {
-    if (class(P) == "bvarprd") {
+    if (is(P,"bvarprd")) {
       lo = P$fcst[[i]][,1]
       up = P$fcst[[i]][,3]
       fc = P$fcst[[i]][,2]      
     } else
-    if (class(P)=="varprd") {
+    if (is(P,"varprd")) {
       lo = P$fcst[[i]][,2]
       up = P$fcst[[i]][,3]
       fc = P$fcst[[i]][,1]      
