@@ -11,7 +11,8 @@ mbad_standard_packages = c(
   "car",
   "yardstick",
   "ggResidpanel",
-  "ggh4x"
+  "ggh4x",
+  "ggpubr"
   )
 
 ## create dataset in /data folder
