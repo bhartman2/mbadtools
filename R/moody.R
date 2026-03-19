@@ -8,6 +8,6 @@
 #'   \item{Wgrowth}{numeric, wage growth at that time}
 #'   \item{ICS}{numeric consumer sentiment survey at that time }
 #' }
-#' @source consumer sentiment data from University of Michigan Survey; 
+#' @source Consumer sentiment data from University of Michigan Survey; 
 #'    Wage growth from Atlanta Fed Wage Tracker.
 "moody"
