@@ -343,7 +343,7 @@ ggvar_fevdplot = function(bvarobject, type="oir", ...) {
   
   FPplots = list()
   for (i in 1:nn) {
-    vd = fevd(bvarobject, response=nm[i], type=type, )
+    vd = bvartools::fevd(bvarobject, response=nm[i], type=type, )
     nx=nrow(vd)
     X1 = tibble::rownames_to_column(data.frame(vd), var="Period")
     X1[,1] = as.numeric(X1[,1])-1
