@@ -4,11 +4,12 @@
 \alias{ggvar_forecastplot}
 \title{ggvar_forecastplot}
 \usage{
-ggvar_forecastplot(bvar_pred)
+ggvar_forecastplot(bvar_pred, trun = 1)
 }
 \arguments{
 \item{bvar_pred}{predictions of class \code{\link[bvartools]{bvarprd}}
-or \code{\link[vars]{varprd}}.}
+or \code{\link[vars]{varprd}}.
+@param trun integer, start index of data to plot for all predictions; default 1}
 }
 \value{
 a list of ggplots
@@ -22,19 +23,14 @@ use design and \code{\link[patchwork]{wrap_plots}} to plot from list.
 library(bvartools)
 data("e1")
 e1 <- diff(log(e1)) * 100
-
 # Generate model data
 model <- gen_var(e1, p = 2, deterministic = 2,
                  iterations = 100, burnin = 10)
-
 model <- add_priors(model)
-
 # Obtain posterior draws
 object <- draw_posterior(model)
-
 # Calculate forecasts
 pred <- predict(object, new_d = rep(1, 10))
-
 # Plot forecasts
 ggvar_forecastplot(pred)
 
