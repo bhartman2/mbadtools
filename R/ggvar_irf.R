@@ -67,27 +67,56 @@ ggvar_irf = function (varirf) {
 
 #' ggvar_plot_stability
 #' 
-#' Plots the empirical fluctuation processes created by the `vars::stability()` test; 
-#'   one is created for each equation. Use `patchwork::wrap_plots(nrow=n)` to display, 
-#'   where n is the number of equations.
+#' Plots the list of empirical fluctuation processes created by the 
+#'   \code{\link[vars]{stability}} test; 
+#'   one is created for each equation. Use \code{\link[patchwork]{wrap_plots}} to display, 
+#'   where n is the number of plots. It wraps \code{\link{ggvar_plot_stability_break}} and
+#'   and \code{\link{ggvar_plot_stability_lines}}
+#'   
+#' If you want one or just some plots, make them into a list first
 #'
-#' @param varstabil a `varstabil` object created from `vars::stability()`
+#' @param varstabil a \code{\link[vars]{varstabil}} list object or 
+#'   a list of \code{\link[strucchange]{efp}} objects
+#' @param lines logical, plot the boundary lines? default TRUE
+#' @param breaks logical, plot vertical line at break and value, default TRUE
+#' @param a numeric, limit for boundary lines, default 1.2516; 
+#'   see \code{\link{ggvar_plot_stability_break}} for rationale
 #'
-#' @returns a list of ggplots one for each equation
+#' @returns a list of ggplots one for each variable
 #' @export
 #'
 #' @examples
 #' data("Canada", package="vars")
 #' var.2c <- vars::VAR(Canada, p = 2, type = "const")
 #' stab = vars::stability(var.2c)
-#' ggvar_plot_stability(stab)
+#' ggvar_plot_stability(stab, lines=FALSE, breaks=FALSE) # override defaults for generic plot
 #' 
-ggvar_plot_stability = function(varstabil) {
+ggvar_plot_stability = function(varstabil, lines=TRUE, breaks=TRUE, a=1.2516) {
   
-  V = varstabil  
-  A = V$stability
-  nv = A %>% length
+  if (a != 1.2516) {
+    warning("Don't change this parameter in most circumstances; 
+            know what you are doing.", call. = FALSE)
+    response = readline("Enter a new value (or press Enter to use 1.2516): ")
+    if (response == "") {
+      a <- 1.2516
+    } else {
+      x <- as.numeric(response)
+    }
+  }
   
+  # which type of list?
+  if ( is(varstabil, 'varstabil') ) {
+    V = varstabil  
+    A = V$stability
+    nv = length(A)
+    nm = V$names
+  } else 
+  if (is(varstabil, 'list')) {
+    A = varstabil
+    nm = names(A)
+    nv= length(A)
+  }
+
   Plist = list()
   
   for ( i in 1:nv) {
@@ -96,33 +125,40 @@ ggvar_plot_stability = function(varstabil) {
     nobs = A[[i]]$nobs
     tau = 0:nobs
     D = data.frame(tau=tau, process=process)
-    Plist[[i]] = ggplot2::ggplot(D, ggplot2::aes(x=tau) ) +
+    J = ggplot2::ggplot(D, ggplot2::aes(x=tau) ) +
       ggplot2::geom_line(ggplot2::aes(y=process)) +
-      ggplot2::labs(title=stringr::str_c(A[[i]]$type, "of equation", 
-                                         V$names[i], sep=" "), 
+      ggplot2::labs(title=stringr::str_c(A[[i]]$type, "process", 
+                                         nm[i], sep=" "), 
                     y = "Empirical fluctuation process",
                     x= "Time period") +
       ggplot2::scale_x_continuous(breaks = seq(0, nobs, by=10)) +
-      ggplot2::geom_hline(ggplot2::aes(yintercept=0)) +
-      ggplot2::geom_hline(ggplot2::aes(yintercept=1.2516), 
-                          color="red", linewidth=.2)+
-      ggplot2::geom_hline(ggplot2::aes(yintercept=-1.2516), 
-                          color="red", linewidth=.2)+
       ggplot2::theme_bw() +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
     
+    if (lines) J = J + ggvar_plot_stability_lines()
+    
+    if (breaks) {
+      pi = which.max(abs(D$process))
+      bv = round(D$process[pi],3)
+      J = J + ggvar_plot_stability_break(pi, bv)
+    }
+    
+    Plist[[i]] = J
   }
+  
   
   return(Plist)
 }
 
 #' ggvar_plot_stability_break
 #' 
-#' Adds layers to a `ggvar_plot_stability()` plot; a vertical line and a text 
-#'   notation of the max value, at the max of the stability index.
+#' Internal function that adds layers to a \code{\link{ggvar_plot_stability}} plot; 
+#'   a vertical line and a text 
+#'   notation of the max value, at the max of the stability index. 
+#'   Called by \code{\link{ggvar_plot_stability}} optionally.
 #'
-#' @param pi breakpoint index; obtain from 
-#' @param bv breakpoint value; use pi to obtain from 
+#' @param pi breakpoint index; obtain from process maximum point
+#' @param bv breakpoint value; use pi to obtain from process
 #'
 #' @returns ggplot layers to add to a `ggvar_plot_stability()` plot
 #' @export
@@ -131,43 +167,79 @@ ggvar_plot_stability = function(varstabil) {
 #' data("Canada", package="vars")
 #' var.2c <- vars::VAR(Canada, p = 2, type = "const")
 #' stab = vars::stability(var.2c)
-#' splot = (ggvar_plot_stability(stab))[[1]]
-#' stabprocess = stab$stability[[1]]$process
-#' pindex = which.max(abs(stabprocess))
-#' pvalue = round(stabprocess[pindex], 4)
-#' splot + ggvar_plot_stability_break(pi=pindex, bv=pvalue)
+#' ggvar_plot_stability(stab, lines=FALSE) # override default
 #' 
+
 ggvar_plot_stability_break = function(pi, bv) {
   
   vj = -1; if(bv <=0 ) vj=-vj
   
   list(
     # layer 1
-    ggplot2::geom_vline(ggplot2::aes(xintercept=pi - 1), linetype="dotted"),
+    ggplot2::geom_vline(ggplot2::aes(xintercept= pi - 1), linetype="dotted"),
     # layer 2
     ggplot2::annotate('text',
                       x=pi,
                       y=bv,
                       label=bv,
+                      vjust=vj, fontface="italic"),
+    ggplot2::annotate('text',
+                      x=pi,
+                      y=-1.2516,
+                      label=pi,
                       vjust=vj, fontface="italic")
+  )
+  
+}
+
+#' ggvar_plot_stability_lines
+#' 
+#' Internal function that adds layers to a \code{\link{ggvar_plot_stability}} plot; 
+#'   adds horizontal boundary lines. Called by
+#'   \code{\link{ggvar_plot_stability}} optionally.
+#'
+#' @param a limit for upper and lower bounds; default 1.2516, taken from 
+#'   Gemini discussion of limits for \code{\link[strucchange]{efp}}.
+#'
+#' @returns a ggplot
+#' @export
+#'
+#' @examples
+#' data("Canada", package="vars")
+#' var.2c <- vars::VAR(Canada, p = 2, type = "const")
+#' stab = vars::stability(var.2c)
+#' ggvar_plot_stability(stab, breaks=FALSE) # lines=T is default
+#' 
+ggvar_plot_stability_lines = function(a=1.2516) {
+  
+  list(
+    
+    # layer 1
+    ggplot2::geom_hline(ggplot2::aes(yintercept=0)),
+    # layer 2  
+    ggplot2::geom_hline(ggplot2::aes(yintercept=a), color="red", linewidth=.2),
+    #layer 3
+    ggplot2::geom_hline(ggplot2::aes(yintercept=-a), color="red", linewidth=.2)
+      
   )
   
 }
 
 #' bvarirf_to_varirf
 #' 
-#' Transforms a `bvartools::bvarirf` object into a `vars::varirf` skeleton object
-#'  for `ggvar_irf()` to plot. `bvartools` only allows one response at a time 
-#'  in its `bvarirf` object.
+#' Transforms a \code{\link[bvartools]{bvarirf}} object into 
+#'  a \code{\link[vars]{varirf}} skeleton object
+#'  for \code{\link{ggvar_irf}} to plot. \code{\link[bvartools]{bvarirf}} 
+#'  only contains one response at a time.
 #'
-#' @param bvarirf a `bvarirf` object made by `bvartools`
+#' @param bvarirf a bvarirf object made by \code{\link{bvartools}}
 #' @param impulse character, the impulse column name
 #' @param response character, the response column name
 #' @param cumulative logical, default TRUE
 #' @param ortho logical, default TRUE
 #' @param boot logical, default TRUE
 #'
-#' @returns a `varirf` skeleton object good enough for `mbadtools::ggvar_irf()` to plot.
+#' @returns a `varirf` skeleton object good enough for \code{\link{ggvar_irf}} to plot.
 #' @export
 #'
 #' @examples
@@ -218,10 +290,11 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 
 #' ggvar_forecastplot
 #' 
-#' plot multiple timeseries and forecasts made with `predict()`; 
-#'  use design and `patchwork::wrap_plots()` to plot from list 
+#' plot multiple timeseries and forecasts made with \code{\link{predict}}; 
+#'  use design and \code{\link[patchwork]{wrap_plots}} to plot from list.
 #'
-#' @param bvar_pred predictions of class `bvarprd` or `varprd`
+#' @param bvar_pred predictions of class \code{\link[bvartools]{bvarprd}}
+#'  or \code{\link[vars]{varprd}}.
 #'
 #' @returns a list of ggplots
 #' @export
@@ -306,13 +379,13 @@ ggvar_forecastplot = function (bvar_pred) {
 
 #' ggvar_fevdplot
 #' 
-#' Forecast Error Variance Decomposition plots for `bvartools::bvar` objects; plots all
-#'  responses or any one 
-#'
-#' @param bvarobject a bvarest object 
+#' Forecast Error Variance Decomposition plots for \code{\link[bvartools]{bvar}} objects; 
+#'   plots all responses or any one 
+#'  
+#' @param bvarobject a \code{\link[bvartools]{bvarest}} object 
 #' @param type character, type of fevd to create, no default, allowed types are
 #'    c("oir","gir","sir", "sgir"); only "oir" has sum to unity.
-#' @param ... other parameters for `fevd.bvar`; see documentation for details.
+#' @param ... other parameters for \code{\link[bvartools]{fevd.bvar}}; see documentation for details.
 #'
 #' @returns a named list of ggplots, named by response variables of model. 
 #'   Display with patchwork or just plot one list member.
