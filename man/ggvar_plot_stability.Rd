@@ -4,23 +4,35 @@
 \alias{ggvar_plot_stability}
 \title{ggvar_plot_stability}
 \usage{
-ggvar_plot_stability(varstabil)
+ggvar_plot_stability(varstabil, lines = TRUE, breaks = TRUE, a = 1.2516)
 }
 \arguments{
-\item{varstabil}{a \code{varstabil} object created from \code{vars::stability()}}
+\item{varstabil}{a \code{\link[vars]{varstabil}} list object or
+a list of \code{\link[strucchange]{efp}} objects}
+
+\item{lines}{logical, plot the boundary lines? default TRUE}
+
+\item{breaks}{logical, plot vertical line at break and value, default TRUE}
+
+\item{a}{numeric, limit for boundary lines, default 1.2516;
+see \code{\link{ggvar_plot_stability_break}} for rationale}
 }
 \value{
-a list of ggplots one for each equation
+a list of ggplots one for each variable
 }
 \description{
-Plots the empirical fluctuation processes created by the \code{vars::stability()} test;
-one is created for each equation. Use \code{patchwork::wrap_plots(nrow=n)} to display,
-where n is the number of equations.
+Plots the list of empirical fluctuation processes created by the
+\code{\link[vars]{stability}} test;
+one is created for each equation. Use \code{\link[patchwork]{wrap_plots}} to display,
+where n is the number of plots. It wraps \code{\link{ggvar_plot_stability_break}} and
+and \code{\link{ggvar_plot_stability_lines}}
+
+If you want one or just some plots, make them into a list first
 }
 \examples{
 data("Canada", package="vars")
 var.2c <- vars::VAR(Canada, p = 2, type = "const")
 stab = vars::stability(var.2c)
-ggvar_plot_stability(stab)
+ggvar_plot_stability(stab, lines=FALSE, breaks=FALSE) # override defaults for generic plot
 
 }

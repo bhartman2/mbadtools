@@ -7,14 +7,15 @@
 ggvar_forecastplot(bvar_pred)
 }
 \arguments{
-\item{bvar_pred}{predictions of class \code{bvarprd} or \code{varprd}}
+\item{bvar_pred}{predictions of class \code{\link[bvartools]{bvarprd}}
+or \code{\link[vars]{varprd}}.}
 }
 \value{
 a list of ggplots
 }
 \description{
-plot multiple timeseries and forecasts made with \code{predict()};
-use design and \code{patchwork::wrap_plots()} to plot from list
+plot multiple timeseries and forecasts made with \code{\link{predict}};
+use design and \code{\link[patchwork]{wrap_plots}} to plot from list.
 }
 \examples{
 # Load data

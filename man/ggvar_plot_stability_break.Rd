@@ -7,25 +7,23 @@
 ggvar_plot_stability_break(pi, bv)
 }
 \arguments{
-\item{pi}{breakpoint index; obtain from}
+\item{pi}{breakpoint index; obtain from process maximum point}
 
-\item{bv}{breakpoint value; use pi to obtain from}
+\item{bv}{breakpoint value; use pi to obtain from process}
 }
 \value{
 ggplot layers to add to a \code{ggvar_plot_stability()} plot
 }
 \description{
-Adds layers to a \code{ggvar_plot_stability()} plot; a vertical line and a text
+Internal function that adds layers to a \code{\link{ggvar_plot_stability}} plot;
+a vertical line and a text
 notation of the max value, at the max of the stability index.
+Called by \code{\link{ggvar_plot_stability}} optionally.
 }
 \examples{
 data("Canada", package="vars")
 var.2c <- vars::VAR(Canada, p = 2, type = "const")
 stab = vars::stability(var.2c)
-splot = (ggvar_plot_stability(stab))[[1]]
-stabprocess = stab$stability[[1]]$process
-pindex = which.max(abs(stabprocess))
-pvalue = round(stabprocess[pindex], 4)
-splot + ggvar_plot_stability_break(pi=pindex, bv=pvalue)
+ggvar_plot_stability(stab, lines=FALSE) # override default
 
 }

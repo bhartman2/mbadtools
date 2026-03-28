@@ -16,7 +16,7 @@ bvarirf_to_varirf(
 )
 }
 \arguments{
-\item{bvarirf}{a \code{bvarirf} object made by \code{bvartools}}
+\item{bvarirf}{a bvarirf object made by \code{\link{bvartools}}}
 
 \item{impulse}{character, the impulse column name}
 
@@ -29,12 +29,13 @@ bvarirf_to_varirf(
 \item{boot}{logical, default TRUE}
 }
 \value{
-a \code{varirf} skeleton object good enough for \code{mbadtools::ggvar_irf()} to plot.
+a \code{varirf} skeleton object good enough for \code{\link{ggvar_irf}} to plot.
 }
 \description{
-Transforms a \code{bvartools::bvarirf} object into a \code{vars::varirf} skeleton object
-for \code{ggvar_irf()} to plot. \code{bvartools} only allows one response at a time
-in its \code{bvarirf} object.
+Transforms a \code{\link[bvartools]{bvarirf}} object into
+a \code{\link[vars]{varirf}} skeleton object
+for \code{\link{ggvar_irf}} to plot. \code{\link[bvartools]{bvarirf}}
+only contains one response at a time.
 }
 \examples{
 # Load data
