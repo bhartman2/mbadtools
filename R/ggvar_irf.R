@@ -295,6 +295,7 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 #'
 #' @param bvar_pred predictions of class \code{\link[bvartools]{bvarprd}}
 #'  or \code{\link[vars]{varprd}}.
+#'  @param trun integer, start index of data to plot for all predictions; default 1
 #'
 #' @returns a list of ggplots
 #' @export
@@ -304,24 +305,19 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 #' library(bvartools)
 #' data("e1")
 #' e1 <- diff(log(e1)) * 100
-#' 
 #' # Generate model data
 #' model <- gen_var(e1, p = 2, deterministic = 2,
 #'                  iterations = 100, burnin = 10)
-#' 
 # Add prior specifications
 #' model <- add_priors(model)
-#' 
 #' # Obtain posterior draws
 #' object <- draw_posterior(model)
-#' 
 #' # Calculate forecasts
 #' pred <- predict(object, new_d = rep(1, 10))
-#' 
 #' # Plot forecasts
 #' ggvar_forecastplot(pred)
 #' 
-ggvar_forecastplot = function (bvar_pred) {
+ggvar_forecastplot = function (bvar_pred, trun=1) {
   
   P = bvar_pred
   
@@ -330,6 +326,9 @@ ggvar_forecastplot = function (bvar_pred) {
   
   Phistory = Phistory %>% data.frame
   Pnames = names(Phistory)
+  ng = nrow(Phistory)
+  
+  if ( trun!=1 ) Phistory = Phistory[trun:ng,]
   
   # forecasts data frame
   Pdf = data.frame()
@@ -359,13 +358,13 @@ ggvar_forecastplot = function (bvar_pred) {
     
     Plotlist[[Pnames[i]]] = 
       ggplot2::ggplot(Phistory) +
-      ggplot2::geom_point(ggplot2::aes(1:nrow(Phistory), Phistory[,i])) +
+      ggplot2::geom_point(ggplot2::aes(trun:ng, Phistory[,i])) +
       ggplot2::geom_point(data=X, 
-                          ggplot2::aes(x = nrow(Phistory)+seq_len(nx),
+                          ggplot2::aes(x = ng + seq_len(nx),
                                        y = .fitted),
                           color="blue") +
       ggplot2::geom_ribbon(data=X,
-                           ggplot2::aes(x = nrow(Phistory)+seq_len(nx), 
+                           ggplot2::aes(x = ng + seq_len(nx), 
                                         ymin = .lower, ymax = .upper), 
                            alpha=.2, fill="lightgreen") +
       ggplot2::geom_hline(ggplot2::aes(yintercept=0), color="red") +
