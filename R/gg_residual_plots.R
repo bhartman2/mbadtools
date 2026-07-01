@@ -6,13 +6,12 @@
 #' @param .data an lm() regression object
 #' @param items a vector of integers from 0 to 7; which of 7 plots to select; default 1:3
 #' @return a patchwork array of ggplot objects
+#' 
 #' @seealso \href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtzFq9LnQE23CVAUg?e=52crMv}{Residual Plot Examples},
 #' \code{\link[ggfortify]{autoplot.lm}}, 
-#' \code{\link[ggResidpanel]{resid_panel}} 
-#' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col 
-#'             geom_qq aes geom_abline geom_histogram geom_function
-#'             geom_qq_line
-#'
+#' \code{\link[ggResidpanel]{resid_panel}}
+#'  
+#' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
 #' @importFrom magrittr %>%
 #' @importFrom broom augment
 #' @importFrom stats dnorm density sd filter
@@ -22,9 +21,9 @@
 #' data(freeny, package="datasets")
 #' fit = lm(y ~ ., data=freeny)
 #' gg_residual_plots(fit)
-#' gg_residual_plots(fit, items=4:6)
+#' gg_residual_plots(fit, items=4:7)
 #'
-gg_residual_plots = function(.data, items=1:3) {
+gg_residual_plots = function(.data, items=c(1:3,7)) {
   
   fit = .data
   afit = fit %>% broom::augment()
