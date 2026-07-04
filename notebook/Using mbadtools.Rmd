@@ -1,0 +1,39 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Packages
+
+```{r}
+if(!("devtools" %in% installed.packages())) install.packages("devtools")
+```
+```{r}
+# install mbadtools from github
+if(!("mbadtools" %in% installed.packages())) 
+  devtools::install_github("bhartman2/mbadtools", 
+                           force=TRUE, upgrade = "never", quiet=TRUE)
+```
+
+
+```{r}
+library(mbadtools) # make package available to notebook
+```
+
+# Simple Test
+```{r}
+cars
+f = lm(dist~speed, data=cars)
+f |> tidy(conf.int=TRUE) |> gt_add_significance()
+f |> gg_residual_plots()
+f |> gglm()
+```
+# Reprex?
+```{r}
+library(gglm)
+f = lm(dist~speed, data=cars)
+gglm(f)
+```
+
+
+

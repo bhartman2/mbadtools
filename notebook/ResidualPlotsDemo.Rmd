@@ -14,7 +14,6 @@ library(gt) # nice displays of printed data
 library(patchwork) # arranging graphs
 library(car) # useful tools for regression analysis
 library(yardstick) # for model performance metrics
-library(ggResidpanel) # for diagnostic residual plots
 ```
 
 # Example for package
@@ -22,7 +21,6 @@ library(ggResidpanel) # for diagnostic residual plots
 ```{r}
 data(freeny, package="datasets")
 fit = lm(y ~ ., data=freeny)
-fit %>% tidy
 gg_residual_plots(fit)
 gg_partial_residual_plots(fit)
 ```

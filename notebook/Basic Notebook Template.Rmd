@@ -33,16 +33,9 @@ if(!("mbadtools" %in% installed.packages()))
                            force=TRUE, upgrade = "never", quiet=TRUE)
 ```
 
-The `mbad_standard_packages` object contains a list of required packages for this course that you will need to install first. Use this chunk if you are unsure which packages have been installed.
+**Use this chunk in every new notebook!!** This is the key step: make the `mbadtools` package available to the notebook.
 ```{r}
-data('mbad_standard_packages', package='mbadtools')
-mbad_standard_packages
-```
-
-This is the key step: load the `mbadtools` package and then the standard packages using the `lib_packages()` function. **Use this chunk in every new notebook!!**
-```{r}
-library(mbadtools) # make package available to notebook
-lib_packages(mbad_standard_packages, quiet=TRUE) # mbdtools function loads packages to the notebook
+library(mbadtools)
 ```
 
 # Data {-}

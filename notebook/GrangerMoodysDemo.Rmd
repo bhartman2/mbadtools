@@ -32,12 +32,11 @@ We load the standard MBAD packages.
 Install and load:
 ```{r}
 library(mbadtools)
-lib_packages(mbad_standard_packages)
 library(lmtest)
 ```
 
 # Data
-The next sections show how to get the data for the Moody report. But we have already installed the data required inthe `mbadtools` package as dataset `moody`.
+The next sections show how to get the data for the Moody report. But we have already installed the data required in the `mbadtools` package as dataset `moody`.
 
 ## Atlanta Fed Wage Tracker
 First we load this dataset.
@@ -150,14 +149,14 @@ We will test Granger causality between these two series, using 4 lags, with the 
 lmtest::grangertest(Wgrowth~ICS, data=moody, order=4)
 ```
 
-Yes, it appears `ICS` does Granger-cause `Wgrowth`.
+Yes, it appears `ICS` does Granger-cause `Wgrowth` when 4 lags are used.
 
 ## `Wgrowth` =G=> `ICS`
 ```{r}
 lmtest::grangertest(ICS~Wgrowth, data=moody, order=4)
 ```
 
-`Wgrowth` does not Granger-cause `ICS.`
+`Wgrowth` does not Granger-cause `ICS` with 4 lags.
 
 # Granger Causality with `mbadtools`
 We will tune the order parameter, which represents the number of lags, by choosing different lags of 1 through 10 (or a user-chosen number) for the Granger-causality test. We'll run both directions of causality, and plot the results. Package `mbadtools` contains functions to test and plot for all lags up to a number given by `max.lags`, which defaults to 10.
@@ -169,21 +168,21 @@ moody %>% str
 
 The dataset is a data frame. so we use the data frame functions from `mbadtools`.
 ```{r fig.height=7}
-moody %>% GrangerTable(ICS, Wgrowth) %>% 
-  GrangerPlot() %>% patchwork::wrap_plots(nrow=2)
+moody |>  GrangerTable(ICS, Wgrowth) |>  
+  GrangerPlot() |>  patchwork::wrap_plots(nrow=2)
 ```
 
 We can also do it as a time series.
 ```{r fig.height=7}
-ICSt = moody %>% select(ICS) %>% ts
-Wgrt = moody %>% select(Wgrowth) %>% ts
+ICSt = moody  |>   select(ICS)  |>  ts()
+Wgrt = moody  |>  select(Wgrowth) |>  ts()
 GrangerTestPvals(ICSt, Wgrt)
-GrangerTestTune(ICSt, Wgrt) %>% patchwork::wrap_plots(nrow=2)
+GrangerTestTune(ICSt, Wgrt)  |>  patchwork::wrap_plots(nrow=2)
 ```
 
-Clearly ICS =G=> Wgrowth, with better than .05 p-value for lags 1, 4, 7, and 8.  And for all lags, p-value is below .10.
+Clearly `ICS` =G=> `Wgrowth`, with better than .05 p-value for lags 1, 4, 7, and 8.  And for all lags, p-value is below .10.
 
-On the other hand, Wgrowth !=G=> ICS for any tested lag, with all p-values exceeding .25.
+On the other hand, `Wgrowth` !=G=> ICS for any tested lag, with all p-values exceeding .25.
 
 # EU Stock Markets
 This dataset from the `datasets` package contains time series of four indices from the EU stockmarkets. Does any of them Granger-cause another? We will test `FTSE` and `DAX`.
@@ -192,10 +191,10 @@ Perform Granger causality test (e.g., `DAX` causing `FTSE` and the reverse), usi
 
 ```{r fig.height=7}
 data(EuStockMarkets)
-EuStockMarkets %>% glimpse
+EuStockMarkets  |>  glimpse()
 # Convert to data frame for non-time-series handling.
-EuStockMarkets %>% data.frame %>% 
-  GrangerTable(DAX, FTSE) %>% 
+EuStockMarkets  |>  data.frame() |>  
+  GrangerTable(DAX, FTSE) |>  
   GrangerPlot() %>% patchwork::wrap_plots(nrow=2)
 ```
 
@@ -204,7 +203,7 @@ Using time-series directly: columns of `EuStockMarkets` are time series.
 DAX = EuStockMarkets[,"DAX"]
 FTSE = EuStockMarkets[,"FTSE"]
 GrangerTestPvals(DAX, FTSE)
-GrangerTestTune(DAX, FTSE) %>% 
+GrangerTestTune(DAX, FTSE) |>  
   wrap_plots(nrow=2)
 ```
 
