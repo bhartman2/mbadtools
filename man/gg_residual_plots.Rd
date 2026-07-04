@@ -4,7 +4,7 @@
 \alias{gg_residual_plots}
 \title{gg_residual_plots}
 \usage{
-gg_residual_plots(.data, items = 1:3)
+gg_residual_plots(.data, items = c(1:3, 7))
 }
 \arguments{
 \item{.data}{an lm() regression object}
@@ -22,7 +22,7 @@ residual plots.
 data(freeny, package="datasets")
 fit = lm(y ~ ., data=freeny)
 gg_residual_plots(fit)
-gg_residual_plots(fit, items=4:6)
+gg_residual_plots(fit, items=4:7)
 
 }
 \seealso{

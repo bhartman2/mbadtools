@@ -20,7 +20,10 @@ were taken at the same times
 \examples{
 \dontrun{
 data(moody, package="mbadtools")
-moody \%>\% GrangerTable(ICS, Wgrowth) \%>\% GrangerPlot() \%>\% patchwork::wrap_plots(nrow=2)
+patchwork::wrap_plots(
+    GrangerPlot(
+        GrangerTable(moody, ICS, Wgrowth)
+        ),nrow=2)
 }
 }
 \seealso{
