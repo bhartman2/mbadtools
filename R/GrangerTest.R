@@ -13,7 +13,10 @@
 #' @examples
 #' \dontrun{
 #' data(moody, package="mbadtools")
-#' moody %>% GrangerTable(ICS, Wgrowth) %>% GrangerPlot() %>% patchwork::wrap_plots(nrow=2)
+#' patchwork::wrap_plots(
+#'     GrangerPlot(
+#'         GrangerTable(moody, ICS, Wgrowth)
+#'         ),nrow=2)
 #' }
 #' @export
 #' 
@@ -27,6 +30,10 @@ GrangerPlot = function (.data) {
   gpd1 = ggplot2::ggplot(d) +
     ggh4x::geom_pointpath(ggplot2::aes(lag, .data[[nm[2]]], color="P-values"),
                           linewidth=1.2) +
+    ggplot2::geom_hline(
+      ggplot2::aes(yintercept=.05, 
+                   color="Significance level 95%"), 
+      linewidth=1.5, linetype="dotted") +
     ggplot2::geom_hline(
       ggplot2::aes(yintercept=.05, 
                    color="Significance level 95%"), 

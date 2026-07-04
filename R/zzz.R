@@ -1,8 +1,9 @@
 # List the packages you want to attach attached when your meta-package loads
 core_packages <- c(
   "tidyverse", "ggfortify", "GGally", "skimr",
-  "broom", "gt", "patchwork", "car",
-  "yardstick", "gglm", "ggh4x", "ggpubr"
+  "gt", "patchwork", "car", "lmtest",
+  "yardstick", 
+  "ggh4x", "ggpubr"
 )
 
 # Function to check which packages are already loaded

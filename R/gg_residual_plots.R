@@ -29,11 +29,15 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
   afit = fit %>% broom::augment()
   
   # item 1
-  gRF = ggplot2::ggplot(afit,
-                    ggplot2::aes(x = .fitted, y = .resid)) +
+  gRF = ggplot2::ggplot(afit,ggplot2::aes(x = .fitted, y = .resid)) +
     ggplot2::geom_point() +
     ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
     ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+  # gRF = ggplot2::ggplot(afit,
+  #                   ggplot2::aes(x = .fitted, y = .resid)) +
+  #   ggplot2::geom_point() +
+  #   ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
+  #   ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
     ggplot2::labs(title="Residuals vs Fitted",
          x = "Fitted value", y = "Residual")
   
@@ -47,7 +51,8 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
          y = "Observed quantiles")
   
   # item 3 
-  gSL = ggplot2::ggplot(afit, ggplot2::aes(x = .fitted, 
+  gSL = ggplot2::ggplot(afit, 
+                        ggplot2::aes(x = .fitted, 
                                            y = sqrt(abs(.std.resid)))) +
     ggplot2::geom_point() +
     ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
@@ -87,12 +92,12 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
   # item 7
   gHI =  ggplot2::ggplot(afit) +
     ggplot2::geom_histogram(
-      ggplot2::aes(x=.resid,
+      ggplot2::aes(x=.std.resid,
                    y=ggplot2::after_stat(density)), 
-      fill="lightgray", color="black") +
+      fill="lightgray", color="black", bins=30) +
     ggplot2::geom_function(fun = dnorm, 
-                  args = list(mean = mean(afit$.resid), 
-                              sd = sd(afit$.resid)),
+                  args = list(mean = 0, 
+                              sd = 1),
                   linetype="dashed") +
     ggplot2::labs(title="Histogram of Residuals",
          x="Residuals",
