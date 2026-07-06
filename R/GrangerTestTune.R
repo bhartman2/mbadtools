@@ -8,6 +8,8 @@
 #' @param max.lags maximum number of lags to try, default 10
 #'
 #' @return a list containing two ggplot objects, showing variation in p-value of Granger causality test in each  directionwith number of lags; can be plotted by new('ggmultiplot') or other means.
+#' @importFrom ggplot2 ggplot aes geom_hline scale_x_continuous labs geom_smooth scale_color_manual theme
+#' @importFrom lmtest grangertest
 #' @export
 #'
 #' @examples

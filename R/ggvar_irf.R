@@ -6,7 +6,8 @@
 #'
 #' @returns a ggplot
 #' @export
-#'
+#' @importFrom stringr str_c
+#' 
 #' @examples
 #' data("Canada", package="vars")
 #' var.2c <- vars::VAR(Canada, p = 2, type = "const")
@@ -75,7 +76,7 @@ ggvar_irf = function (varirf) {
 #'   
 #' If you want one or just some plots, make them into a list first
 #'
-#' @param varstabil a \code{\link[vars]{varstabil}} list object or 
+#' @param varstabil a `varstabil` list object from \code{\link[vars]{stability}} or 
 #'   a list of \code{\link[strucchange]{efp}} objects
 #' @param lines logical, plot the boundary lines? default TRUE
 #' @param breaks logical, plot vertical line at break and value, default TRUE
@@ -84,6 +85,7 @@ ggvar_irf = function (varirf) {
 #'
 #' @returns a list of ggplots one for each variable
 #' @export
+#' @importFrom stringr str_c
 #'
 #' @examples
 #' data("Canada", package="vars")
@@ -227,20 +229,22 @@ ggvar_plot_stability_lines = function(a=1.2516) {
 
 #' bvarirf_to_varirf
 #' 
-#' Transforms a \code{\link[bvartools]{bvarirf}} object into 
-#'  a \code{\link[vars]{varirf}} skeleton object
-#'  for \code{\link{ggvar_irf}} to plot. \code{\link[bvartools]{bvarirf}} 
-#'  only contains one response at a time.
+#' Transforms a `bvarirf` object from\code{\link[bvartools]{irf}} into 
+#'  a `varirf` skeleton object from\code{\link[vars]{irf}}, 
+#'  for \code{\link{ggvar_irf}} to plot. The `bvarirf` object only contains one response at a time.
 #'
-#' @param bvarirf a bvarirf object made by \code{\link{bvartools}}
+#' @param bvarirf a `bvarirf` object made by \code{\link{bvartools}}
 #' @param impulse character, the impulse column name
 #' @param response character, the response column name
 #' @param cumulative logical, default TRUE
 #' @param ortho logical, default TRUE
 #' @param boot logical, default TRUE
+#' @param ci numeric p-value for confidence interval; in (0,1), default .05
+#' @param runs integer, number of runs, default 100
 #'
 #' @returns a `varirf` skeleton object good enough for \code{\link{ggvar_irf}} to plot.
 #' @export
+#' @importFrom stats setNames
 #'
 #' @examples
 #' # Load data
@@ -293,11 +297,14 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 #' plot multiple timeseries and forecasts made with \code{\link{predict}}; 
 #'  use design and \code{\link[patchwork]{wrap_plots}} to plot from list.
 #'
-#' @param bvar_pred predictions of class \code{\link[bvartools]{bvarprd}}
-#'  or \code{\link[vars]{varprd}}.
-#'  @param trun integer, start index of data to plot for all predictions; default 1
+#' @param bvar_pred predictions of class `bvarprd` from\code{\link[bvartools]{predict.bvar}} or
+#'    `varprd` from \code{\link[vars]{predict}}.
+#' @param trun integer, start index of data to plot for all predictions; default 1
 #'
 #' @returns a list of ggplots
+#' @importFrom methods is
+#' @importFrom stats lag
+#' @importFrom dplyr bind_rows
 #' @export
 #'
 #' @examples
@@ -378,16 +385,18 @@ ggvar_forecastplot = function (bvar_pred, trun=1) {
 
 #' ggvar_fevdplot
 #' 
-#' Forecast Error Variance Decomposition plots for \code{\link[bvartools]{bvar}} objects; 
-#'   plots all responses or any one 
+#' Forecast Error Variance Decomposition plots for `bvartools::bvar` objects
+#'   from \code{\link[bvartools]{bvartools}}; plots all responses or any one 
 #'  
-#' @param bvarobject a \code{\link[bvartools]{bvarest}} object 
+#' @param bvarobject a `bvarest` object from \code{\link[bvartools]{bvartools}}
 #' @param type character, type of fevd to create, no default, allowed types are
 #'    c("oir","gir","sir", "sgir"); only "oir" has sum to unity.
 #' @param ... other parameters for \code{\link[bvartools]{fevd.bvar}}; see documentation for details.
 #'
 #' @returns a named list of ggplots, named by response variables of model. 
 #'   Display with patchwork or just plot one list member.
+#' @importFrom tibble tibble
+#' @importFrom tidyr pivot_longer
 #' @export
 #'
 #' @examples
