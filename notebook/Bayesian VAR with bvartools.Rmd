@@ -10,18 +10,18 @@ output:
     toc_float: TRUE
     theme: united
 abstract: |
-  We work some bayesian VAR applications with the `bvartools` package, from [Mohr, 2024](#r1). This package gives you a lot more options that the `vars` package, and can produce the same results.
+  We work some Bayesian VAR applications with the `bvartools` package, from [Mohr, 2024](#r1). This package gives you a lot more options than the `vars` package, and can produce the same results.
 ---
 
 # Introduction {-}
-We are going to reproduce and check some of the examples from [(Mohr, 2024)](#r1).
+We are going to reproduce and check a simple Vector Autocorrelation Regression (VAR) model using the `bvartools` package and an example from [(Mohr, 2024)](#r1). This package gives you more flexibility than the `vars` package, and you can get the same results by making the Bayesian part--- the prior distribution of variables--- independent and not correlated.
 
 # Packages {-}
 Load `bvartools` and the `mbadtools` package and then the standard packages using the `lib_packages()` function. Other packages needed are for special uses.
 ```{r}
 library(bvartools)
 library(vars)
-library(forecast)
+library(forecast) # nice plots
 # load github packages
 library(mbadtools)
 # list of packages to install
@@ -47,7 +47,7 @@ e1 %>% skim
 ```
 
 # Research Problem {-}
-We demonstrate use of the `bvartools` package functions to produce a VAR model on the `e1` dataset. We then compare the result with a similar model processed with `vars` to demonstrate the same results.`bvartools` i muych more flexible and allows Bayesian versions of VAR.
+We demonstrate use of the `bvartools` package functions to produce a VAR model on the `e1` dataset. We then compare the result with a similar model processed with `vars` to demonstrate the same results.`bvartools` is much more flexible and allows Bayesian versions of VAR.
 
 # Data Wrangling {-}
 We work with first differences of the logged timeseries.
@@ -102,16 +102,8 @@ bvar_est <- draw_posterior(model_with_priors)
 bvar_est %>% summary
 ```
 
-
 ## IRF Plots
-Functions currently sourced from `mbadtools` source.
-```{r}
-source("C:/Users/bruce/OneDrive/Documents/R Material/mbadtools/R/ggvar_irf.R")
-```
-
-`bvartools` only lets you do one response at a time. 
-
-And you have to convert the model output to the `vars::varirf` format using `mbadtools::bvarirf_to_varirf()`.
+`bvartools` only lets you plot one response at a time. And you have to convert the model output to the `vars::varirf` format using `mbadtools::bvarirf_to_varirf()`.
 
 Impulse `invest`:
 ```{r}
@@ -163,19 +155,42 @@ list(
 
 We see the long term effects of an impulse to any of the three variables.
 
+## FEVD Plots
+Forecast error variance decomposition is usually visualized in a plot. The standard `bvartools` way is to produce an object of class `bvarfevd` with the function `fevd.bvar()`, and then plot it. To compute it, specify which response estimate to use with the 'response' parameter. The result is just 3 time series. To keep consistent with the forecast length below, we set 'n.ahead=10'
+```{r}
+vd = fevd(bvar_est, response="cons", n.ahead=10) # this is `fevd.bvar()`
+plot(vd, main="OIR-based FEVD of consumption")
+```
+
+With the `mbadtools::ggvar_fevdplot()` function we can create plots for all the responses at once. They are stored in a list, any or all of which which can be plotted using `patchwork` logic. This function also creates the `bvartools::bvarfevd` output object so we must specify the `fevd` input parameters for it. See the [documentation for `bvartools::fevd.bvar`.](https://www.rdocumentation.org/packages/bvartools/topics/fevd.bvar)
+
+All responses at once:
+```{r fig.width=12}
+bvar_est %>% 
+  ggvar_fevdplot(bvar_est, type="oir", n.ahead=10) %>% 
+  wrap_plots(ncol=2, guides="collect")
+```
+
+A single response, `cons`:
+```{r}
+P = bvar_est %>% 
+  ggvar_fevdplot(bvar_est, type="oir", n.ahead=10)
+P[["cons"]] 
+```
+
 ## Forecasts
 Predict 10 periods ahead, with confidence bands. Use the `mbadtools::ggvar_forecastplot()` function directly on the predictions class `bvarprd` object.
 
 ```{r}
 bvar_pred <- predict(bvar_est, n.ahead = 10, new_d = rep(1, 10))
-bvar_pred %>% glimpse
+# bvar_pred %>% glimpse
 # plot(bvar_pred)
 bvar_pred %>% ggvar_forecastplot() %>%
   wrap_plots(design="12\n3#")
 ```
 
 # VAR Analysis {-}
-We are doing the VAR analysis with the `vars::VAR` function for comparison.
+We are doing the VAR analysis with the `vars::VAR` function for comparison. View [the `vars` documentation](https://www.rdocumentation.org/packages/vars/versions/1.6-1) for details.
 
 ## `vars` Model
 ```{r}
@@ -190,7 +205,7 @@ V.covariance = (modelV %>% summary)[["covres"]]
 B.covariance = (bvar_est %>% summary)[["sigma"]]$means
 #Compare using `covequal::test_covequal()`
 if(interactive()) cat("\nEqual covariance test `covequal::test_covequal()`\n")
-test_covequal(V.covariance,B.covariance)
+covequal::test_covequal(V.covariance,B.covariance)
 #Compare using `mvhtests::equal.cov()`:
 if(interactive()) cat("\nEqual covariance test `mvhtests::equal.cov()`\n")
 mvhtests::equal.cov(V.covariance,B.covariance)
@@ -215,7 +230,7 @@ modelV %>% arch.test(lags.multi = 5)
 stab_test <- stability(modelV, type = "OLS-CUSUM")
 # stab_test %>% plot() # defaults to 1.2516 for limits
 # stab_test %>% plot(ylim=c(-1.2516, 1.2516 )) # shows what the limits are, 1.2516
-stab_test %>% ggvar_plot_stability() %>% wrap_plots(nrow=3)
+stab_test %>% ggvar_plot_stability() %>% wrap_plots(design="12\n3#")
 ```
 ## IRF plots
 ```{r}
@@ -242,9 +257,9 @@ list(
 ```
 
 # Conclusion {-}
-We have modeled the E1 dataset from [Lütkepohl (2006)](#r2) using `bvartools`.  We compared the simplest model with one made by `vars::VAR()`. They are essentially the same, as we used simple independent priors, presented in [Mohr, 2024](#r1) for the Bayesian part. The covariance matrices of coefficients tested essentially the same at the .05 level of significance.
+We have modeled the E1 dataset from [Lütkepohl (2006)](#r2) using `bvartools`.  We compared the simplest model with one made by `vars::VAR()`. They are essentially the same, as we used simple independent priors, presented in [Mohr, 2024](#r1), for the Bayesian part. The covariance matrices of coefficients tested essentially the same at the .05 level of significance.
 
-The `bvartools` package is much more flexible and permits different modeling techniques to be used. It's designed for academics and people who need to hve modeling flexibility.
+The `bvartools` package is much more flexible and permits different modeling techniques to be used. It's designed for academics and people who need to have modeling flexibility.
 
 # References {-}
 ::: {#r1}

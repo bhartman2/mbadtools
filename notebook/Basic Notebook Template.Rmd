@@ -18,19 +18,18 @@ abstract: |
 Here write what you are going to do. Add a reference: [(Hartman, 2004)](#r1). Use '# ' at beginning of a line to make a new header (note the space after the '#').
 
 # Packages {-}
-The `devtools` package will be installed, if you have not already done so, and loaded. 
-**You only need to do this once in the term.** 
+**You only need to do this once in the term.** The `pak` package for managing packages will be installed, if you have not already done so. 
+
 ```{r}
 # allow package installation from github
-if(!("devtools" %in% installed.packages())) install.packages("devtools")
+if(!("pak" %in% installed.packages())) install.packages("pak")
 ```
 
-Then we install package `mbadtools` from GitHub. This package is used in USF's MBAD courses and is not on CRAN. **We only need to do this once, after we do the above. **
+**We only need to do this once, after we do the above. ** Then we install package `mbadtools` from GitHub, using the `pak` function. This package is used in USF's MBAD courses and is not on CRAN. 
 ```{r}
 # install mbadtools from github
 if(!("mbadtools" %in% installed.packages())) 
-  devtools::install_github("bhartman2/mbadtools", 
-                           force=TRUE, upgrade = "never", quiet=TRUE)
+  pak::pak("bhartman2/mbadtools")
 ```
 
 **Use this chunk in every new notebook!!** This is the key step: make the `mbadtools` package available to the notebook.

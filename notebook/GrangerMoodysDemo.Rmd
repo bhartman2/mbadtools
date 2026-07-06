@@ -32,7 +32,6 @@ We load the standard MBAD packages.
 Install and load:
 ```{r}
 library(mbadtools)
-library(lmtest)
 ```
 
 # Data
@@ -68,7 +67,7 @@ redbk01a
 
 ## AFWT
 ```{r warning=FALSE}
-waget = wage_growth_data %>% select(1,2) %>% rename(Date=1, Wgrowth=2) %>%
+waget = wage_growth_data %>% dplyr::select(1,2) %>% rename(Date=1, Wgrowth=2) %>%
   mutate(Wgrowth=as.numeric(Wgrowth)) %>% na.omit %>%
   mutate(Month = lubridate::month(Date), Year=lubridate::year(Date))
 glimpse(waget)
@@ -117,9 +116,9 @@ waget[1,]$Date
 ```{r}
 umics1 = umics %>% 
   dplyr::filter(Datep>=waget[1,]$Date) %>% 
-  select(Datep, ICS) #%>% 
+  dplyr::select(Datep, ICS) #%>% 
 umics2 = umics1 %>% mutate(Datep=Datep + days(1) + hours(6) + minutes(59))
-waget1 = waget %>% select(Date, Wgrowth)
+waget1 = waget %>% dplyr::select(Date, Wgrowth)
 data.frame(umics2, waget1)
 ```
 
@@ -142,11 +141,11 @@ ggplot(moody) +
 It seems that consumer confidence drops hard just after wage growth peaks. The `moody` data matches the data gleaned form the other sources. 
 
 # Granger Causality
-We will test Granger causality between these two series, using 4 lags, with the `lmtest::grangertest()` function. Its limitation is that you have to do one lag at a time, and one direction at a time.
+We will test Granger causality between these two series, using 4 lags, with the `grangertest()` function. Its limitation is that you have to do one lag at a time, and one direction at a time.
 
 ## `ICS` =G=> `Wgrowth`
 ```{r}
-lmtest::grangertest(Wgrowth~ICS, data=moody, order=4)
+grangertest(Wgrowth~ICS, data=moody, order=4)
 ```
 
 Yes, it appears `ICS` does Granger-cause `Wgrowth` when 4 lags are used.
@@ -166,7 +165,7 @@ Test the `moody` data with `wgrowth` and `ICS`.
 moody %>% str
 ```
 
-The dataset is a data frame. so we use the data frame functions from `mbadtools`.
+The dataset is a data frame. So we use the data frame functions from `mbadtools`.
 ```{r fig.height=7}
 moody |>  GrangerTable(ICS, Wgrowth) |>  
   GrangerPlot() |>  patchwork::wrap_plots(nrow=2)
@@ -174,10 +173,10 @@ moody |>  GrangerTable(ICS, Wgrowth) |>
 
 We can also do it as a time series.
 ```{r fig.height=7}
-ICSt = moody  |>   select(ICS)  |>  ts()
-Wgrt = moody  |>  select(Wgrowth) |>  ts()
+ICSt = moody  |>   dplyr::select(ICS)  |>  ts()
+Wgrt = moody  |>  dplyr::select(Wgrowth) |>  ts()
 GrangerTestPvals(ICSt, Wgrt)
-GrangerTestTune(ICSt, Wgrt)  |>  patchwork::wrap_plots(nrow=2)
+GrangerTestTune(ICSt, Wgrt)  |>  wrap_plots(nrow=2)
 ```
 
 Clearly `ICS` =G=> `Wgrowth`, with better than .05 p-value for lags 1, 4, 7, and 8.  And for all lags, p-value is below .10.

@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2026-07-03" />
+<meta name="date" content="2026-07-05" />
 
 <title>Basic Notebook Template</title>
 
@@ -2978,7 +2978,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Basic Notebook Template</h1>
 <h4 class="author">Bruce Hartman</h4>
 <address class="author_afil">
-University of St. Francis<br><h4 class="date">2026-07-03</h4>
+University of St. Francis<br><h4 class="date">2026-07-05</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>This is a good notebook template to start with.</p>
@@ -2995,30 +2995,30 @@ new header (note the space after the ‘#’).</p>
 </div>
 <div id="packages" class="section level1 unnumbered">
 <h1 class="unnumbered">Packages</h1>
-<p>The <code>devtools</code> package will be installed, if you have not
-already done so, and loaded. <strong>You only need to do this once in
-the term.</strong></p>
+<p><strong>You only need to do this once in the term.</strong> The
+<code>pak</code> package for managing packages will be installed, if you
+have not already done so.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJoYkd4dmR5QndZV05yWVdkbElHbHVjM1JoYkd4aGRHbHZiaUJtY205dElHZHBkR2gxWWx4dWFXWW9JU2hjSW1SbGRuUnZiMnh6WENJZ0pXbHVKU0JwYm5OMFlXeHNaV1F1Y0dGamEyRm5aWE1vS1NrcElHbHVjM1JoYkd3dWNHRmphMkZuWlhNb1hDSmtaWFowYjI5c2Mxd2lLVnh1WUdCZ0luMD0gLS0+XG5cbmBgYHJcbiMgYWxsb3cgcGFja2FnZSBpbnN0YWxsYXRpb24gZnJvbSBnaXRodWJcbmlmKCEoXCJkZXZ0b29sc1wiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSBpbnN0YWxsLnBhY2thZ2VzKFwiZGV2dG9vbHNcIilcbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGdpdGh1YlxuaWYoIShcImRldnRvb2xzXCIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGluc3RhbGwucGFja2FnZXMoXCJkZXZ0b29sc1wiKVxuYGBgIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJoYkd4dmR5QndZV05yWVdkbElHbHVjM1JoYkd4aGRHbHZiaUJtY205dElHZHBkR2gxWWx4dWFXWW9JU2hjSW5CaGExd2lJQ1ZwYmlVZ2FXNXpkR0ZzYkdWa0xuQmhZMnRoWjJWektDa3BLU0JwYm5OMFlXeHNMbkJoWTJ0aFoyVnpLRndpY0dGclhDSXBYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbiMgYWxsb3cgcGFja2FnZSBpbnN0YWxsYXRpb24gZnJvbSBnaXRodWJcbmlmKCEoXCJwYWtcIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgaW5zdGFsbC5wYWNrYWdlcyhcInBha1wiKVxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGdpdGh1YlxuaWYoIShcInBha1wiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSBpbnN0YWxsLnBhY2thZ2VzKFwicGFrXCIpXG5gYGAifQ== -->
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># allow package installation from github</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="st">&quot;devtools&quot;</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>())) <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="st">&quot;pak&quot;</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>())) <span class="fu">install.packages</span>(<span class="st">&quot;pak&quot;</span>)</span></code></pre></div>
 <!-- rnb-source-end -->
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Then we install package <code>mbadtools</code> from GitHub. This
-package is used in USF’s MBAD courses and is not on CRAN. <strong>We
-only need to do this once, after we do the above. </strong></p>
+<p><strong>We only need to do this once, after we do the above.
+</strong> Then we install package <code>mbadtools</code> from GitHub,
+using the <code>pak</code> function. This package is used in USF’s MBAD
+courses and is not on CRAN.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJwYm5OMFlXeHNJRzFpWVdSMGIyOXNjeUJtY205dElHZHBkR2gxWWx4dWFXWW9JU2hjSW0xaVlXUjBiMjlzYzF3aUlDVnBiaVVnYVc1emRHRnNiR1ZrTG5CaFkydGhaMlZ6S0NrcEtTQmNiaUFnWkdWMmRHOXZiSE02T21sdWMzUmhiR3hmWjJsMGFIVmlLRndpWW1oaGNuUnRZVzR5TDIxaVlXUjBiMjlzYzF3aUxDQmNiaUFnSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdJR1p2Y21ObFBWUlNWVVVzSUhWd1ozSmhaR1VnUFNCY0ltNWxkbVZ5WENJc0lIRjFhV1YwUFZSU1ZVVXBYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWJcbmlmKCEoXCJtYmFkdG9vbHNcIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgXG4gIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YihcImJoYXJ0bWFuMi9tYmFkdG9vbHNcIiwgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICBmb3JjZT1UUlVFLCB1cGdyYWRlID0gXCJuZXZlclwiLCBxdWlldD1UUlVFKVxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1YlxuaWYoIShcIm1iYWR0b29sc1wiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSBcbiAgZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKFwiYmhhcnRtYW4yL21iYWR0b29sc1wiLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIGZvcmNlPVRSVUUsIHVwZ3JhZGUgPSBcIm5ldmVyXCIsIHF1aWV0PVRSVUUpXG5gYGAifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJwYm5OMFlXeHNJRzFpWVdSMGIyOXNjeUJtY205dElHZHBkR2gxWWx4dWFXWW9JU2hjSW0xaVlXUjBiMjlzYzF3aUlDVnBiaVVnYVc1emRHRnNiR1ZrTG5CaFkydGhaMlZ6S0NrcEtTQmNiaUFnY0dGck9qcHdZV3NvWENKaWFHRnlkRzFoYmpJdmJXSmhaSFJ2YjJ4elhDSXBYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWJcbmlmKCEoXCJtYmFkdG9vbHNcIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgXG4gIHBhazo6cGFrKFwiYmhhcnRtYW4yL21iYWR0b29sc1wiKVxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1YlxuaWYoIShcIm1iYWR0b29sc1wiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSBcbiAgcGFrOjpwYWsoXCJiaGFydG1hbjIvbWJhZHRvb2xzXCIpXG5gYGAifQ== -->
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># install mbadtools from github</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="st">&quot;mbadtools&quot;</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>())) </span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;bhartman2/mbadtools&quot;</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                           <span class="at">force=</span><span class="cn">TRUE</span>, <span class="at">upgrade =</span> <span class="st">&quot;never&quot;</span>, <span class="at">quiet=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">&quot;bhartman2/mbadtools&quot;</span>)</span></code></pre></div>
 <!-- rnb-source-end -->
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
@@ -3091,7 +3091,7 @@ document: <a href="#eq1">Equation 1</a></p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkJhc2ljIE5vdGVib29rIFRlbXBsYXRlIg0KYXV0aG9yOg0KICBuYW1lOiAiQnJ1Y2UgSGFydG1hbiINCiAgYWZmaWxpYXRpb246ICJVbml2ZXJzaXR5IG9mIFN0LiBGcmFuY2lzIg0KZGF0ZTogImByIGx1YnJpZGF0ZTo6dG9kYXkoKWAiDQpvdXRwdXQ6IA0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogVFJVRQ0KICAgIHRvY19mbG9hdDogVFJVRQ0KICAgIHRoZW1lOiB1bml0ZWQNCiAgICBoaWdobGlnaHQ6IHRhbmdvDQphYnN0cmFjdDogfA0KICBUaGlzIGlzIGEgZ29vZCBub3RlYm9vayB0ZW1wbGF0ZSB0byBzdGFydCB3aXRoLiANCi0tLQ0KDQojIEludHJvZHVjdGlvbiB7LX0NCkhlcmUgd3JpdGUgd2hhdCB5b3UgYXJlIGdvaW5nIHRvIGRvLiBBZGQgYSByZWZlcmVuY2U6IFsoSGFydG1hbiwgMjAwNCldKCNyMSkuIFVzZSAnIyAnIGF0IGJlZ2lubmluZyBvZiBhIGxpbmUgdG8gbWFrZSBhIG5ldyBoZWFkZXIgKG5vdGUgdGhlIHNwYWNlIGFmdGVyIHRoZSAnIycpLg0KDQojIFBhY2thZ2VzIHstfQ0KVGhlIGBkZXZ0b29sc2AgcGFja2FnZSB3aWxsIGJlIGluc3RhbGxlZCwgaWYgeW91IGhhdmUgbm90IGFscmVhZHkgZG9uZSBzbywgYW5kIGxvYWRlZC4gDQoqKllvdSBvbmx5IG5lZWQgdG8gZG8gdGhpcyBvbmNlIGluIHRoZSB0ZXJtLioqIA0KYGBge3J9DQojIGFsbG93IHBhY2thZ2UgaW5zdGFsbGF0aW9uIGZyb20gZ2l0aHViDQppZighKCJkZXZ0b29scyIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGluc3RhbGwucGFja2FnZXMoImRldnRvb2xzIikNCmBgYA0KDQpUaGVuIHdlIGluc3RhbGwgcGFja2FnZSBgbWJhZHRvb2xzYCBmcm9tIEdpdEh1Yi4gVGhpcyBwYWNrYWdlIGlzIHVzZWQgaW4gVVNGJ3MgTUJBRCBjb3Vyc2VzIGFuZCBpcyBub3Qgb24gQ1JBTi4gKipXZSBvbmx5IG5lZWQgdG8gZG8gdGhpcyBvbmNlLCBhZnRlciB3ZSBkbyB0aGUgYWJvdmUuICoqDQpgYGB7cn0NCiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWINCmlmKCEoIm1iYWR0b29scyIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIA0KICBkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoImJoYXJ0bWFuMi9tYmFkdG9vbHMiLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgIGZvcmNlPVRSVUUsIHVwZ3JhZGUgPSAibmV2ZXIiLCBxdWlldD1UUlVFKQ0KYGBgDQoNCioqVXNlIHRoaXMgY2h1bmsgaW4gZXZlcnkgbmV3IG5vdGVib29rISEqKiBUaGlzIGlzIHRoZSBrZXkgc3RlcDogbWFrZSB0aGUgYG1iYWR0b29sc2AgcGFja2FnZSBhdmFpbGFibGUgdG8gdGhlIG5vdGVib29rLg0KYGBge3J9DQpsaWJyYXJ5KG1iYWR0b29scykNCmBgYA0KDQojIERhdGEgey19DQpIZXJlIHdlIGdldCB0aGUgZGF0YSB1c2luZyAqSW1wb3J0IERhdGFzZXQqIGJ1dHRvbiBvciBmcm9tIGEgcGFja2FnZS4NCg0KIyBEYXRhIERlc2NyaXB0aW9uIHstfQ0KRGVzY3JpYmUgdGhlIGRhdGEgdXNpbmcgc2ltcGxlIGRpc3BsYXksIG9yIGBza2ltYC4gWW91IG1pZ2h0IHdhbnQgYGdsaW1wc2VgIHRvIHNlZSBqdXN0IHRoZSBjb2x1bW5zIGFuZCBhIHNob3J0IHNhbXBsZS4NCg0KIyBSZXNlYXJjaCBQcm9ibGVtIHstfQ0KU3RhdGUgdGhlIHByb2JsZW0geW91IHdpbGwgc29sdmUuIFRoaXMgY291bGQgYWZmZWN0IGhvdyB5b3UgbmVlZCB0byB3cmFuZ2xlIHRoZSBkYXRhLg0KDQojIERhdGEgV3JhbmdsaW5nIHstfQ0KTWFrZSBjaGFuZ2VzIHRvIHRoZSBkYXRhIHRvIHByZXBhcmUgaXQgZm9yIGFuYWx5c2lzLg0KDQojIERhdGEgVmlzdWFsaXphdGlvbg0KR3JhcGhpYyBkaXNwbGF5cyBvZiBkYXRhIHN1Y2ggYXMgcGFpcnMgcGxvdC4NCg0KIyBBbmFseXNpcyB7LX0NCkV4cGxhaW4gd2hhdCBhbmFseXNpcyB5b3UgYXJlIGRvaW5nLiBBZGQgYSBmb3JtdWxhIGluIG1hdGggbm90YXRpb24gbGlrZSB0aGlzOg0KDQo6OjogeyNlcTF9DQokJEUgPSBtY14yXGhzcGFjZXsxMDBwdH0gKDEpJCQNCjo6Og0KDQojIyBBbmFseXNpcyBTZWN0aW9uIHstfQ0KQW4gZXh0ZW5zaW9uIG9mIHRoZSBhbmFseXNpcy4gTm90aWNlICcjIyAnLCB0d28gIyMgYW5kIHNwYWNlIGZvciBoZWFkZXIgbGV2ZWwgMi4NCg0KPiBCbG9ja3F1b3RlIHRleHQgY29waWVkIGZyb20gdGhlIHRleHQgb3IgYW4gYXJ0aWNsZQ0KDQojIENvbmNsdXNpb24gey19DQpNeSBjb25jbHVzaW9ucyBhcmUgLi4uICBSZWZlciBiYWNrIHRvIGEgZm9ybXVsYSBvciBsb2NhdGlvbiBpbiB0aGlzIGRvY3VtZW50OiBbRXF1YXRpb24gMV0oI2VxMSkNCg0KIyBSZWZlcmVuY2VzIHstfQ0KOjo6IHsjcjF9DQoxLiBIYXJ0bWFuLCBCLiAoMjAyNCkgQmFzaWMgTm90ZWJvb2sgVGVtcGxhdGUuIChodHRwczovL2dpdGh1Yi5jb20vYmhhcnRtYW4yL21iYWR0b29scy9ibG9iL21haW4vbm90ZWJvb2svQmFzaWMlMjBOb3RlYm9vayUyMFRlbXBsYXRlLlJtZCkNCjo6Og0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkJhc2ljIE5vdGVib29rIFRlbXBsYXRlIg0KYXV0aG9yOg0KICBuYW1lOiAiQnJ1Y2UgSGFydG1hbiINCiAgYWZmaWxpYXRpb246ICJVbml2ZXJzaXR5IG9mIFN0LiBGcmFuY2lzIg0KZGF0ZTogImByIGx1YnJpZGF0ZTo6dG9kYXkoKWAiDQpvdXRwdXQ6IA0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogVFJVRQ0KICAgIHRvY19mbG9hdDogVFJVRQ0KICAgIHRoZW1lOiB1bml0ZWQNCiAgICBoaWdobGlnaHQ6IHRhbmdvDQphYnN0cmFjdDogfA0KICBUaGlzIGlzIGEgZ29vZCBub3RlYm9vayB0ZW1wbGF0ZSB0byBzdGFydCB3aXRoLiANCi0tLQ0KDQojIEludHJvZHVjdGlvbiB7LX0NCkhlcmUgd3JpdGUgd2hhdCB5b3UgYXJlIGdvaW5nIHRvIGRvLiBBZGQgYSByZWZlcmVuY2U6IFsoSGFydG1hbiwgMjAwNCldKCNyMSkuIFVzZSAnIyAnIGF0IGJlZ2lubmluZyBvZiBhIGxpbmUgdG8gbWFrZSBhIG5ldyBoZWFkZXIgKG5vdGUgdGhlIHNwYWNlIGFmdGVyIHRoZSAnIycpLg0KDQojIFBhY2thZ2VzIHstfQ0KKipZb3Ugb25seSBuZWVkIHRvIGRvIHRoaXMgb25jZSBpbiB0aGUgdGVybS4qKiBUaGUgYHBha2AgcGFja2FnZSBmb3IgbWFuYWdpbmcgcGFja2FnZXMgd2lsbCBiZSBpbnN0YWxsZWQsIGlmIHlvdSBoYXZlIG5vdCBhbHJlYWR5IGRvbmUgc28uIA0KDQpgYGB7cn0NCiMgYWxsb3cgcGFja2FnZSBpbnN0YWxsYXRpb24gZnJvbSBnaXRodWINCmlmKCEoInBhayIgJWluJSBpbnN0YWxsZWQucGFja2FnZXMoKSkpIGluc3RhbGwucGFja2FnZXMoInBhayIpDQpgYGANCg0KKipXZSBvbmx5IG5lZWQgdG8gZG8gdGhpcyBvbmNlLCBhZnRlciB3ZSBkbyB0aGUgYWJvdmUuICoqIFRoZW4gd2UgaW5zdGFsbCBwYWNrYWdlIGBtYmFkdG9vbHNgIGZyb20gR2l0SHViLCB1c2luZyB0aGUgYHBha2AgZnVuY3Rpb24uIFRoaXMgcGFja2FnZSBpcyB1c2VkIGluIFVTRidzIE1CQUQgY291cnNlcyBhbmQgaXMgbm90IG9uIENSQU4uIA0KYGBge3J9DQojIGluc3RhbGwgbWJhZHRvb2xzIGZyb20gZ2l0aHViDQppZighKCJtYmFkdG9vbHMiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSANCiAgcGFrOjpwYWsoImJoYXJ0bWFuMi9tYmFkdG9vbHMiKQ0KYGBgDQoNCioqVXNlIHRoaXMgY2h1bmsgaW4gZXZlcnkgbmV3IG5vdGVib29rISEqKiBUaGlzIGlzIHRoZSBrZXkgc3RlcDogbWFrZSB0aGUgYG1iYWR0b29sc2AgcGFja2FnZSBhdmFpbGFibGUgdG8gdGhlIG5vdGVib29rLg0KYGBge3J9DQpsaWJyYXJ5KG1iYWR0b29scykNCmBgYA0KDQojIERhdGEgey19DQpIZXJlIHdlIGdldCB0aGUgZGF0YSB1c2luZyAqSW1wb3J0IERhdGFzZXQqIGJ1dHRvbiBvciBmcm9tIGEgcGFja2FnZS4NCg0KIyBEYXRhIERlc2NyaXB0aW9uIHstfQ0KRGVzY3JpYmUgdGhlIGRhdGEgdXNpbmcgc2ltcGxlIGRpc3BsYXksIG9yIGBza2ltYC4gWW91IG1pZ2h0IHdhbnQgYGdsaW1wc2VgIHRvIHNlZSBqdXN0IHRoZSBjb2x1bW5zIGFuZCBhIHNob3J0IHNhbXBsZS4NCg0KIyBSZXNlYXJjaCBQcm9ibGVtIHstfQ0KU3RhdGUgdGhlIHByb2JsZW0geW91IHdpbGwgc29sdmUuIFRoaXMgY291bGQgYWZmZWN0IGhvdyB5b3UgbmVlZCB0byB3cmFuZ2xlIHRoZSBkYXRhLg0KDQojIERhdGEgV3JhbmdsaW5nIHstfQ0KTWFrZSBjaGFuZ2VzIHRvIHRoZSBkYXRhIHRvIHByZXBhcmUgaXQgZm9yIGFuYWx5c2lzLg0KDQojIERhdGEgVmlzdWFsaXphdGlvbg0KR3JhcGhpYyBkaXNwbGF5cyBvZiBkYXRhIHN1Y2ggYXMgcGFpcnMgcGxvdC4NCg0KIyBBbmFseXNpcyB7LX0NCkV4cGxhaW4gd2hhdCBhbmFseXNpcyB5b3UgYXJlIGRvaW5nLiBBZGQgYSBmb3JtdWxhIGluIG1hdGggbm90YXRpb24gbGlrZSB0aGlzOg0KDQo6OjogeyNlcTF9DQokJEUgPSBtY14yXGhzcGFjZXsxMDBwdH0gKDEpJCQNCjo6Og0KDQojIyBBbmFseXNpcyBTZWN0aW9uIHstfQ0KQW4gZXh0ZW5zaW9uIG9mIHRoZSBhbmFseXNpcy4gTm90aWNlICcjIyAnLCB0d28gIyMgYW5kIHNwYWNlIGZvciBoZWFkZXIgbGV2ZWwgMi4NCg0KPiBCbG9ja3F1b3RlIHRleHQgY29waWVkIGZyb20gdGhlIHRleHQgb3IgYW4gYXJ0aWNsZQ0KDQojIENvbmNsdXNpb24gey19DQpNeSBjb25jbHVzaW9ucyBhcmUgLi4uICBSZWZlciBiYWNrIHRvIGEgZm9ybXVsYSBvciBsb2NhdGlvbiBpbiB0aGlzIGRvY3VtZW50OiBbRXF1YXRpb24gMV0oI2VxMSkNCg0KIyBSZWZlcmVuY2VzIHstfQ0KOjo6IHsjcjF9DQoxLiBIYXJ0bWFuLCBCLiAoMjAyNCkgQmFzaWMgTm90ZWJvb2sgVGVtcGxhdGUuIChodHRwczovL2dpdGh1Yi5jb20vYmhhcnRtYW4yL21iYWR0b29scy9ibG9iL21haW4vbm90ZWJvb2svQmFzaWMlMjBOb3RlYm9vayUyMFRlbXBsYXRlLlJtZCkNCjo6Og0K</div>
 
 
 </div>
