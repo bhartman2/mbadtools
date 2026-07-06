@@ -13,20 +13,16 @@ gg_residual_plots(.data, items = c(1:3, 7))
 }
 \value{
 a patchwork array of ggplot objects
+
+#' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
 }
 \description{
-ggplot versions of common residual plots meant to mimic the plot.lm() and ggfortify::autoplot.lm()
+ggplot versions of common residual plots meant to mimic the \code{plot.lm} and \code{ggfortify::autoplot.lm}
 residual plots.
 }
 \examples{
 data(freeny, package="datasets")
 fit = lm(y ~ ., data=freeny)
 gg_residual_plots(fit)
-gg_residual_plots(fit, items=4:7)
 
-}
-\seealso{
-\href{https://1drv.ms/u/s!AvpG0vuEDBBQoOtzFq9LnQE23CVAUg?e=52crMv}{Residual Plot Examples},
-\code{\link[ggfortify]{autoplot.lm}},
-\code{\link[ggResidpanel]{resid_panel}}
 }

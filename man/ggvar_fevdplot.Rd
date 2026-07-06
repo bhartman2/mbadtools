@@ -7,7 +7,7 @@
 ggvar_fevdplot(bvarobject, type = "oir", ...)
 }
 \arguments{
-\item{bvarobject}{a \code{\link[bvartools]{bvarest}} object}
+\item{bvarobject}{a \code{bvarest} object from \code{\link[bvartools]{bvartools}}}
 
 \item{type}{character, type of fevd to create, no default, allowed types are
 c("oir","gir","sir", "sgir"); only "oir" has sum to unity.}
@@ -19,8 +19,8 @@ a named list of ggplots, named by response variables of model.
 Display with patchwork or just plot one list member.
 }
 \description{
-Forecast Error Variance Decomposition plots for \code{\link[bvartools]{bvar}} objects;
-plots all responses or any one
+Forecast Error Variance Decomposition plots for \code{bvartools::bvar} objects
+from \code{\link[bvartools]{bvartools}}; plots all responses or any one
 }
 \examples{
 #' # Load data

@@ -7,7 +7,7 @@
 ggvar_plot_stability(varstabil, lines = TRUE, breaks = TRUE, a = 1.2516)
 }
 \arguments{
-\item{varstabil}{a \code{\link[vars]{varstabil}} list object or
+\item{varstabil}{a \code{varstabil} list object from \code{\link[vars]{stability}} or
 a list of \code{\link[strucchange]{efp}} objects}
 
 \item{lines}{logical, plot the boundary lines? default TRUE}

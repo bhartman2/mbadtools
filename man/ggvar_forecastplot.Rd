@@ -7,9 +7,10 @@
 ggvar_forecastplot(bvar_pred, trun = 1)
 }
 \arguments{
-\item{bvar_pred}{predictions of class \code{\link[bvartools]{bvarprd}}
-or \code{\link[vars]{varprd}}.
-@param trun integer, start index of data to plot for all predictions; default 1}
+\item{bvar_pred}{predictions of class \code{bvarprd} from\code{\link[bvartools]{predict.bvar}} or
+\code{varprd} from \code{\link[vars]{predict}}.}
+
+\item{trun}{integer, start index of data to plot for all predictions; default 1}
 }
 \value{
 a list of ggplots

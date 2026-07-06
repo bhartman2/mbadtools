@@ -6,7 +6,7 @@
 \alias{mbadtools-package}
 \title{mbadtools: MBAD Data Analytics Functions}
 \description{
-Some functions useful for my MBAD courses on Data Analytics. Includes Residual plots, Pareto plots, and adding significance color to pvalues in a gt table.
+Some functions useful for my MBAD courses on Data Analytics. Loads packages from core packages list on library call Includes Residual plots, Pareto plots, and adding significance color to pvalues in a gt table. Includes Granger causality table and plot functions. Includes functions for handling VAR models with bvartools and plotting.
 }
 \seealso{
 Useful links:
@@ -18,6 +18,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Bruce Hartman \email{bruce@ahartman.net}
+
+Authors:
+\itemize{
+  \item Bruce Hartman \email{bruce@ahartman.net}
+}
 
 }
 \keyword{internal}
