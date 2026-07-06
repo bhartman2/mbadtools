@@ -1,6 +1,6 @@
 Package: mbadtools
 Title: MBAD Data Analytics Functions
-Version: 0.0.2.0001
+Version: 0.0.2.0002
 Authors@R: 
     person("Bruce", "Hartman", , "bruce@ahartman.net", role = c("aut", "cre"))
 Description: Some functions useful for my MBAD courses on Data Analytics. 
@@ -12,16 +12,18 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Depends: 
-  R (>= 3.5.0), 
-  magrittr (>= 2.0.3),
+  R (>= 3.5.0),
+  methods,
   broom,
   dplyr,
   ggplot2,
+  stringr, 
+  tibble,
+  tidyr,
+  magrittr (>= 2.0.3),
   rlang (>= 1.1.4), 
-  lmtest (>= 0.9-40), 
-  qcc (>= 2.7),
-  bvartools (>= 0.2.4),
-  vars (>= 1.6-1)
+  bvartools,
+  vars
 Imports: 
   tidyverse,
   ggfortify,
@@ -29,13 +31,14 @@ Imports:
   skimr,
   gt,
   patchwork,
-  car,
+  car, 
+  lmtest,
   yardstick,
-  gglm,
   ggh4x,
   ggpubr
 LazyData: true
 Suggests: knitr, rmarkdown
+Enhances: qcc
 URL: https://github.com/bhartman2/mbadtools
 BugReports: https://github.com/bhartman2/mbadtools/Issues
 Config/roxygen2/version: 8.0.0
