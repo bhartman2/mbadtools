@@ -1,0 +1,29 @@
+---
+title: "ResidualPlotsDemo"
+output: html_notebook
+---
+
+# Packages
+```{r}
+library(tidyverse) # used to manipulate data and plot
+library(ggfortify) # some extra ggplot functions
+library(GGally) # pairs ggplot and other options
+library(skimr) # nice summaries
+library(broom) # neat model summary
+library(gt) # nice displays of printed data
+library(patchwork) # arranging graphs
+library(car) # useful tools for regression analysis
+library(yardstick) # for model performance metrics
+```
+
+# Example for package
+
+```{r}
+data(freeny, package="datasets")
+fit = lm(y ~ ., data=freeny)
+gg_residual_plots(fit)
+gg_partial_residual_plots(fit)
+```
+
+# Conclusion
+This shows that the residual plots are working.

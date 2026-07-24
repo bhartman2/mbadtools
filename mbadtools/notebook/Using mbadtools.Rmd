@@ -1,0 +1,36 @@
+---
+title: "Using mbadtools"
+output: html_notebook
+---
+
+# Packages
+
+```{r}
+if(!("devtools" %in% installed.packages())) install.packages("devtools")
+```
+
+```{r}
+# install mbadtools from github
+if(!("mbadtools" %in% installed.packages())) 
+  pak::pak("bhartman2/mbadtools")
+```
+
+
+```{r}
+library(mbadtools) # make package available to notebook
+# Tell R to always prefer dplyr's select or filter function over any other package
+conflicted::conflict_prefer_matching("select|filter", "dplyr", quiet=T)
+```
+
+# Using regression helpers
+```{r}
+cars
+f = lm(dist~speed, data=cars) 
+f |> tidy(conf.int=TRUE) |> gt_add_significance() # tests broom
+f |> gg_residual_plots() # tests plots
+f |> gg_partial_residual_plots() # tests plots
+```
+
+
+
+

@@ -1,0 +1,27 @@
+---
+title: "mbadtools"
+author: 
+  name: Bruce Hartman
+  affiliation: University of St. Francis
+  email: bruce@ahartman.net
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mbadtools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This is the proper way to load `mbadtools` to your R environment, once you have installed from GitHub.
+```{r setup}
+library(mbadtools)
+conflicted::conflict_prefer_matching("select|filter", "dplyr", quiet=T)
+```
+
+

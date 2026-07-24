@@ -1,0 +1,185 @@
+---
+title: "Tukey Test Notebook"
+output: html_notebook
+---
+
+# Introduction
+Try to match the Tukey test calculations from `car::residualPlots()`
+
+# Packages
+
+```{r}
+library(tidyverse)
+library(ISLR2)
+library(broom)
+library(skimr)
+library(gt)
+library(patchwork)
+library(car)
+```
+
+# Data
+```{r}
+data(Auto)
+Auto %>% skim
+```
+
+# Regression Model
+```{r}
+fit = lm(mpg ~ horsepower + weight + acceleration, data=Auto)
+fit %>% glance
+fit %>% tidy
+fit %>% summary
+```
+# Target 
+```{r}
+residualPlots(fit, plot=F)
+```
+
+# Focus on `horsepower`
+
+## Simple form
+
+Augment the model with the squared `horsepower`.  Calculate the F test for the improvement.
+```{r}
+fit_h_orig = fit = lm(mpg ~ horsepower + weight + acceleration,
+                      data=Auto)
+fit_h_quad = lm(mpg ~ horsepower + I(horsepower^2) + weight + acceleration,
+                data=Auto)
+
+anova(fit_h_orig, fit_h_quad)
+A = anova(fit_h_orig, fit_h_quad); 
+A %>%  tidy %>% gt()
+```
+
+Match calculation:
+```{r}
+# matches anova result
+coefs = names(coef(fit_h_quad))
+linearHypothesis(fit_h_quad, coefs[grep("2", coefs)], test="F")
+```
+
+The numbers do not match the first line of the Tukey test.
+
+# Partial Residuals
+
+---
+
+## Mathematical Discussion
+The model is:
+$$ Y = \beta_0 + \sum_{i=1}^3 \beta_i X_i + \epsilon .$$
+
+Here variable $X_1$ is `horsepower`.
+
+We can write the residuals as 
+$$ \epsilon = Y - \beta_0 - \beta_1 X_1 - \sum_{i=2}^3 \beta_i X_i $$
+
+The adjusted residuals are then:
+$$
+\nu = \epsilon + \sum_{i=2}^3 \beta_i X_i \\
+= Y -\beta_0 - \beta_1 X_1 \\
+= Y - (\beta_0 + \beta_1 X_1)
+$$
+
+Therefore the adjusted model is:
+$$ Y = \beta_0 + \beta_1 X_1 + \nu $$
+We can compute $\nu$ from $\epsilon$ in the formula above, so we know these values and can compute adjusted RSS.
+
+---
+
+## Compute Adjusted Residuals 
+
+We do this from the anova object A for the original model.
+
+```{r}
+A$RSS[1]
+c_orig = coef(fit_h_orig)
+X2X3 = Auto %>% select(weight, acceleration) %>% as.matrix
+co = c_orig[c("weight", "acceleration")]
+adj=X2X3 %*% co; adj %>% head
+resids_adj = residuals(fit_h_orig) + adj1
+RSS[1] = sum(resids_adj^2)
+RSS[1]
+```
+
+We can do the same for the quad model.
+```{r}
+A$RSS[2]
+c_quad = coef(fit_h_quad)
+X2X3 = Auto %>% select(weight, acceleration) %>% as.matrix
+coq = c_quad[c("weight", "acceleration")]
+adj_q = X2X3 %*% coq; adj_q %>% head
+resids_adj_q = residuals(fit_h_quad) + adj_q
+RSS[2] = sum(resids_adj_q^2)
+RSS[2]
+```
+
+```{r}
+top = RSS[1]; top
+bot = RSS[1]-RSS[2] ; bot
+top/bot
+```
+
+
+
+# Regressions
+
+```{r}
+fit_h = lm(mpg ~ horsepower, data=Auto)
+fit_h_aug = lm(mpg ~ horsepower + I(horsepower^2), data=Auto)
+summary(fit_h_aug)
+anova(fit_h, fit_h_aug)
+sum(residuals(fit_h)^2)
+```
+
+# ChatGPT do  this:
+To reconcile the results:
+
+-1. Manually residualize the predictor X by regressing it on all other predictors.
+```{r}
+# step 1
+fit_hp = lm(horsepower ~ weight + acceleration, data=Auto)
+summary(fit_hp)
+residualized_hp = fit_hp %>% fitted.values()
+```
+
+-2. Re-fit the model with the residualized X and its square $X_{residual}^2$.
+
+```{r}
+#step 2
+fit_mpg1 = lm(mpg ~ residualized_hp + weight + acceleration,
+     data=Auto)
+
+fit_mpg2 = 
+  lm(mpg ~ residualized_hp + I(residualized_hp^2) +
+       weight+acceleration,
+     data=Auto)
+
+anova(fit_mpg1, fit_mpg2)
+
+car::linearHypothesis(fit_mpg2, diag(5), c(1,1,0,1,1))
+```
+
+Not coming out.
+
+-3. Perform an F-test on the quadratic term.
+
+
+
+
+
+```{r}
+T = residualPlots(fit_h_aug, plot=F) %>% data.frame %>% 
+      rownames_to_column(var="Variable") %>% as_tibble %>% 
+      rename(`Curvature Stat`=`Test.stat`, p.value = `Pr...Test.stat..`)
+T
+```
+# Conclusion 
+It's not working to emulate the calculation, and requires more research.
+
+Best bet is to make a function using the `car::residualPlots()` function and extracting just the curvature tests.
+
+# References
+
+
+
