@@ -32,10 +32,14 @@ if(!("mbadtools" %in% installed.packages()))
   pak::pak("bhartman2/mbadtools")
 ```
 
-**Use this chunk in every new notebook!!** This is the key step: make the `mbadtools` package available to the notebook.
+**Use this chunk in every new notebook!!** This is the key step: make the `mbadtools` package available to the notebook. Also make sure the `select()` and `filter()` functions come from the `dplyr` package. 
 ```{r}
 library(mbadtools)
+# Tell R to always prefer dplyr's select or filter function over any other package
+conflicted::conflict_prefer_matching("select|filter", "dplyr", quiet=T)
 ```
+
+
 
 # Data {-}
 Here we get the data using *Import Dataset* button or from a package.
@@ -57,7 +61,6 @@ Explain what analysis you are doing. Add a formula in math notation like this:
 
 ::: {#eq1}
 $$E = mc^2\hspace{100pt} (1)$$
-:::
 
 ## Analysis Section {-}
 An extension of the analysis. Notice '## ', two ## and space for header level 2.
@@ -70,4 +73,4 @@ My conclusions are ...  Refer back to a formula or location in this document: [E
 # References {-}
 ::: {#r1}
 1. Hartman, B. (2024) Basic Notebook Template. (https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd)
-:::
+
