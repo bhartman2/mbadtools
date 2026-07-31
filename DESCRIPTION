@@ -1,11 +1,12 @@
 Package: mbadtools
 Title: MBAD Data Analytics Functions
-Version: 0.0.2.0002
+Version: 0.0.2.0003
 Authors@R: 
     person("Bruce", "Hartman", , "bruce@ahartman.net", role = c("aut", "cre"))
 Description: Some functions useful for my MBAD courses on Data Analytics. 
     Loads packages from core packages list on library call
-    Includes Residual plots, Pareto plots, and adding significance color to pvalues in a gt table.
+    Includes Residual plots, Pareto plots, and adding significance 
+      color to pvalues in a gt table.
     Includes Granger causality table and plot functions.
     Includes functions for handling VAR models with bvartools and plotting.
 License: MIT + file LICENSE
@@ -42,3 +43,4 @@ Enhances: qcc
 URL: https://github.com/bhartman2/mbadtools
 BugReports: https://github.com/bhartman2/mbadtools/Issues
 Config/roxygen2/version: 8.0.0
+VignetteBuilder: knitr
