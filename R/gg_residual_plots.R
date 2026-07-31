@@ -8,10 +8,12 @@
 #' @return a patchwork array of ggplot objects
 #' 
 #' #' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
-#' @importFrom magrittr %>%
+#' @importFrom magrittr %>% 
 #' @importFrom broom augment
 #' @importFrom stats dnorm density sd filter
 #' @importFrom ggplot2 aes
+#' @importFrom patchwork wrap_plots
+#' @importFrom GGally ggally_blank
 #' 
 #' @export
 #' @examples
@@ -46,17 +48,17 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
          x = "Theoretical quantiles", 
          y = "Observed quantiles")
   
-  # item 3 
+  # item 3 "ls"
   gSL = ggplot2::ggplot(afit, 
                         ggplot2::aes(x = .fitted, 
-                                           y = sqrt(abs(.std.resid)))) +
+                                     y = sqrt(abs(.std.resid)))) +
     ggplot2::geom_point() +
     ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
     ggplot2::labs(title="Scale-Location",
          x = "Fitted value", 
          y = expression(sqrt(abs("Standard Residual")))
     )
-  # item 4
+  # item 4 "cd"
   gCD = ggplot2::ggplot(afit,
                         ggplot2::aes(x = seq_along(.cooksd), y = .cooksd)) +
     ggplot2::geom_col() +
@@ -64,7 +66,7 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
          x = "Obs number", 
          y = "Cook's distance")
   
-  # item 5
+  # item 5 "lev"
   gRH = ggplot2::ggplot(afit, 
                         ggplot2::aes(x=.hat, y = .std.resid))+
     ggplot2::geom_point() +
@@ -74,7 +76,7 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
          x = "Leverage", 
          y = "Standardized Residuals")
   
-  # item 6
+  # item 6 "cl"
   gCH = ggplot2::ggplot(afit, ggplot2::aes(x = .hat/(1-.hat), y = .cooksd)) +
     ggplot2::geom_point() +
     ggplot2::labs(title="Cook's Distance vs Leverage/(1-Leverage)",
@@ -85,7 +87,7 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
          function(i) gCH <<- gCH + 
            ggplot2::geom_abline(aes(slope=i, intercept=0), linetype="dashed") )
   
-  # item 7
+  # item 7 "hist"
   gHI =  ggplot2::ggplot(afit) +
     ggplot2::geom_histogram(
       ggplot2::aes(x=.std.resid,
@@ -99,11 +101,24 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
          x="Residuals",
          y="Density")
   
-  # item 0
+  # item 0 "bl"
   gB = GGally::ggally_blank()
   
+  # item 8 "yp"
+  gYP =  ggplot2::ggplot(afit) +
+    ggplot2::geom_point(
+      ggplot2::aes(x=y,
+                   y=.fitted) 
+      ) +
+    ggplot2::geom_abline(ggplot2::aes(slope=1, intercept=0),
+                         color="red") +
+    ggplot2::labs(title="Y vs Predicted",
+                  x="Y",
+                  y="Predicted")
+  
+  
   # list
-  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI)
+  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP)
   
   # layout 
   return(
