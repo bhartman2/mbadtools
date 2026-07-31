@@ -24,6 +24,7 @@ fit = lm(y ~ ., data=freeny)
 gg_residual_plots(fit)
 gg_partial_residual_plots(fit)
 gg_residual_plots(fit, items=c(1:3,8))
+gg_residual_plots(fit, items=8)
 ```
 
 # Conclusion
