@@ -5,6 +5,7 @@
 #'
 #' @param .data an lm() regression object
 #' @param items a vector of integers from 0 to 7; which of 7 plots to select; default 1:3
+#' @param ... parameters to be passed to `patchwork::wrap_plots()`
 #' @return a patchwork array of ggplot objects
 #' 
 #' #' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
@@ -21,7 +22,7 @@
 #' fit = lm(y ~ ., data=freeny)
 #' gg_residual_plots(fit)
 #'
-gg_residual_plots = function(.data, items=c(1:3,7)) {
+gg_residual_plots = function(.data, items=c(1:3,7), ...) {
   
   fit = .data
   afit = fit %>% broom::augment()
@@ -107,9 +108,7 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
   # item 8 "yp"
   gYP =  ggplot2::ggplot(afit) +
     ggplot2::geom_point(
-      ggplot2::aes(x=y,
-                   y=.fitted) 
-      ) +
+      ggplot2::aes(x=y, y=.fitted) ) +
     ggplot2::geom_abline(ggplot2::aes(slope=1, intercept=0),
                          color="red") +
     ggplot2::labs(title="Y vs Predicted",
@@ -122,7 +121,7 @@ gg_residual_plots = function(.data, items=c(1:3,7)) {
   
   # layout 
   return(
-    P[items] %>% patchwork::wrap_plots(ncol=2)
+    patchwork::wrap_plots(plots=P[items],...)
   )
   
 }
