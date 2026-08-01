@@ -4,6 +4,7 @@ author:
   name: Bruce Hartman
   affiliation: University of St. Francis
   email: bruce@ahartman.net
+date: 2026-07-30
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{mbadtools}
@@ -21,6 +22,7 @@ knitr::opts_chunk$set(
 This is the proper way to load `mbadtools` to your R environment, once you have installed from GitHub.
 ```{r setup}
 library(mbadtools)
+require(conflicted)
 conflicted::conflict_prefer_matching("select|filter", "dplyr", quiet=T)
 ```
 

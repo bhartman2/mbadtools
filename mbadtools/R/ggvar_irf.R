@@ -294,11 +294,11 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 
 #' ggvar_forecastplot
 #' 
-#' plot multiple timeseries and forecasts made with \code{\link{predict}}; 
-#'  use design and \code{\link[patchwork]{wrap_plots}} to plot from list.
+#' plot multiple timeseries and forecasts made with `predict`; 
+#'  use design and `patchwork::wrap_plots` to plot from list.
 #'
-#' @param bvar_pred predictions of class `bvarprd` from\code{\link[bvartools]{predict.bvar}} or
-#'    `varprd` from \code{\link[vars]{predict}}.
+#' @param bvar_pred predictions of class `bvarprd` from `bvartools::predict.bvar()` or
+#'    `varprd` from `vars::predict()`.
 #' @param trun integer, start index of data to plot for all predictions; default 1
 #'
 #' @returns a list of ggplots
@@ -309,7 +309,7 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 #'
 #' @examples
 #' # Load data
-#' library(bvartools)
+#' require(bvartools)
 #' data("e1")
 #' e1 <- diff(log(e1)) * 100
 #' # Generate model data
