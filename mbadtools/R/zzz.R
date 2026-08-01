@@ -12,9 +12,7 @@ core_packages <- c(
 #' @returns a list of packages that have not been loaded yet
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' }
+
 core_unloaded <- function() {
   search <- search()
   ins <- paste0("package:", core_packages)
@@ -30,9 +28,6 @@ core_unloaded <- function() {
 #' @returns package startup message, list of newly loaded packages in printable grid
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' }
 .onAttach <- function(libname, pkgname) {
   needed <- core_unloaded()
 

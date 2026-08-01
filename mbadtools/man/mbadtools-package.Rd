@@ -4,9 +4,13 @@
 \name{mbadtools-package}
 \alias{mbadtools}
 \alias{mbadtools-package}
-\title{mbadtools: MBAD Data Analytics Functions}
+\title{mbadtools: Tools for ...}
 \description{
-Some functions useful for my MBAD courses on Data Analytics. Loads packages from core packages list on library call Includes Residual plots, Pareto plots, and adding significance color to pvalues in a gt table. Includes Granger causality table and plot functions. Includes functions for handling VAR models with bvartools and plotting.
+Description of the package.
+}
+\details{
+See the package README:
+\url{https://github.com/bhartman2/mbadtools#readme}
 }
 \seealso{
 Useful links:

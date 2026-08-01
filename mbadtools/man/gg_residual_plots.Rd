@@ -4,17 +4,17 @@
 \alias{gg_residual_plots}
 \title{gg_residual_plots}
 \usage{
-gg_residual_plots(.data, items = c(1:3, 7))
+gg_residual_plots(.data, items = c(1:3, 7), ...)
 }
 \arguments{
 \item{.data}{an lm() regression object}
 
 \item{items}{a vector of integers from 0 to 7; which of 7 plots to select; default 1:3}
+
+\item{...}{parameters to be passed to \code{patchwork::wrap_plots()}}
 }
 \value{
 a patchwork array of ggplot objects
-
-#' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
 }
 \description{
 ggplot versions of common residual plots meant to mimic the \code{plot.lm} and \code{ggfortify::autoplot.lm}

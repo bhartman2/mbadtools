@@ -17,7 +17,3 @@ package startup message, list of newly loaded packages in printable grid
 \description{
 .onAttach
 }
-\examples{
-\dontrun{
-}
-}
