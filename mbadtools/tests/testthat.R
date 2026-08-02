@@ -6,7 +6,17 @@
 # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview
 # * https://testthat.r-lib.org/articles/special-files.html
 
+# library(testthat)
+# library(mbadtools)
+# 
+# test_check("mbadtools")
+
 library(testthat)
+
+# we use a setup.R file
+
 library(mbadtools)
 
-test_check("mbadtools")
+suppressPackageStartupMessages({
+  test_check("mbadtools")
+})

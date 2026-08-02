@@ -24,9 +24,17 @@ ggvar_irf = function (varirf) {
   tau = 1:length(irf)
   
   irf_df = data.frame(tau, irf)
-  irf_df = dplyr::case_when (varirf$boot ~  irf_df %>% 
-                               dplyr::mutate(hi=hi, lo=lo),
-                       .default = irf_df)
+  
+  if(!is.null(varirf$boot)) {
+    irf_df = irf_df %>% dplyr::mutate(hi=hi, lo=lo) 
+    }
+  
+  # 
+  # irf_df = dplyr::case_when (
+  #   varirf$boot == irf_df ~  irf_df %>% 
+  #                              dplyr::mutate(hi=hi, lo=lo),
+  #   .default = irf_df)
+  
   nm = names(irf_df)
 
   # graph labels
@@ -289,6 +297,7 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
     ci=ci,
     runs=runs
   )
+  class(bvar_irdf) = "varirf"
   return(bvar_irdf)
 }
 

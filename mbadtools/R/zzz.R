@@ -38,7 +38,10 @@ core_unloaded <- function() {
 
   # Gently load each package silently
   for (pkg in needed) {
-    library(pkg, character.only = TRUE, warn.conflicts = FALSE, quietly = TRUE)
+    library(pkg, character.only = TRUE, 
+            warn.conflicts = FALSE, 
+            quietly = TRUE,
+            verbose = FALSE)
   }
 
   # Format a nice printable grid of the loaded packages

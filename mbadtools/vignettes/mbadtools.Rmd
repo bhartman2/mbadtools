@@ -17,12 +17,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+require(conflicted)
 ```
 
 This is the proper way to load `mbadtools` to your R environment, once you have installed from GitHub.
 ```{r setup}
 library(mbadtools)
-require(conflicted)
 conflicted::conflict_prefer_matching("select|filter", "dplyr", quiet=T)
 ```
 
