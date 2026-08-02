@@ -1,0 +1,126 @@
+#' gg_residual_plots
+#' 
+#' ggplot versions of common residual plots meant to mimic the `plot.lm` and `ggfortify::autoplot.lm` 
+#' residual plots.
+#'
+#' @param .data an lm() regression object
+#' @param items a vector of integers from 0 to 7; which of 7 plots to select; default 1:3
+#' @param ... parameters to be passed to `patchwork::wrap_plots()`
+#' @return a patchwork array of ggplot objects
+#' 
+#' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
+#' @importFrom magrittr %>% 
+#' @importFrom broom augment
+#' @importFrom stats dnorm density sd filter
+#' @importFrom ggplot2 aes
+#' @importFrom patchwork wrap_plots
+#' @importFrom GGally ggally_blank
+#' 
+#' @export
+#' @examples
+#' data(freeny, package="datasets")
+#' fit = lm(y ~ ., data=freeny)
+#' gg_residual_plots(fit)
+#'
+gg_residual_plots = function(.data, items=c(1:3,7), ...) {
+  
+  fit = .data
+  afit = fit %>% broom::augment()
+  
+  # item 1
+  gRF = ggplot2::ggplot(afit,ggplot2::aes(x = .fitted, y = .resid)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
+    ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+  # gRF = ggplot2::ggplot(afit,
+  #                   ggplot2::aes(x = .fitted, y = .resid)) +
+  #   ggplot2::geom_point() +
+  #   ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
+  #   ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+    ggplot2::labs(title="Residuals vs Fitted",
+         x = "Fitted value", y = "Residual")
+  
+  # item 2
+  gQQ = ggplot2::ggplot(afit, 
+                        ggplot2::aes(sample = .std.resid)) +
+    ggplot2::geom_qq() +
+    ggplot2::geom_qq_line(linetype="dashed") +
+    ggplot2::labs(title = "Normal Q-Q",
+         x = "Theoretical quantiles", 
+         y = "Observed quantiles")
+  
+  # item 3 "ls"
+  gSL = ggplot2::ggplot(afit, 
+                        ggplot2::aes(x = .fitted, 
+                                     y = sqrt(abs(.std.resid)))) +
+    ggplot2::geom_point() +
+    ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+    ggplot2::labs(title="Scale-Location",
+         x = "Fitted value", 
+         y = expression(sqrt(abs("Standard Residual")))
+    )
+  # item 4 "cookd"
+  gCD = ggplot2::ggplot(afit,
+                        ggplot2::aes(x = seq_along(.cooksd), y = .cooksd)) +
+    ggplot2::geom_col() +
+    ggplot2::labs(title="Cook's Distance",
+         x = "Obs number", 
+         y = "Cook's distance")
+  
+  # item 5 "lev"
+  gRH = ggplot2::ggplot(afit, 
+                        ggplot2::aes(x=.hat, y = .std.resid))+
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
+    ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
+    ggplot2::labs(title="Residuals vs Leverage",
+         x = "Leverage", 
+         y = "Standardized Residuals")
+  
+  # item 6 "cookl"
+  gCH = ggplot2::ggplot(afit, ggplot2::aes(x = .hat/(1-.hat), y = .cooksd)) +
+    ggplot2::geom_point() +
+    ggplot2::labs(title="Cook's Distance vs Leverage/(1-Leverage)",
+         x = "Leverage/(1-Leverage)", 
+         y = "Cook's distance")
+  
+  lapply(0:7, 
+         function(i) gCH <<- gCH + 
+           ggplot2::geom_abline(aes(slope=i, intercept=0), linetype="dashed") )
+  
+  # item 7 "hist"
+  gHI =  ggplot2::ggplot(afit) +
+    ggplot2::geom_histogram(
+      ggplot2::aes(x=.std.resid,
+                   y=ggplot2::after_stat(density)), 
+      fill="lightgray", color="black", bins=30) +
+    ggplot2::geom_function(fun = dnorm, 
+                  args = list(mean = 0, 
+                              sd = 1),
+                  linetype="dashed") +
+    ggplot2::labs(title="Histogram of Residuals",
+         x="Residuals",
+         y="Density")
+  
+  # item 0 "bl"
+  gB = GGally::ggally_blank()
+  
+  # item 8 "yvf"
+  gYP =  ggplot2::ggplot(afit) +
+    ggplot2::geom_point(
+      ggplot2::aes(x=1, y=.fitted) ) +
+    ggplot2::geom_abline(ggplot2::aes(slope=1, intercept=0),
+                         color="red") +
+    ggplot2::labs(title="Y vs Fitted",
+                  x="Actual",
+                  y="Fitted")
+  
+  # list
+  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP)
+  
+  # layout 
+  return(
+    patchwork::wrap_plots(plots=P[items],...)
+  )
+  
+}
