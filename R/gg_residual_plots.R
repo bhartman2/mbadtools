@@ -109,7 +109,7 @@ gg_residual_plots = function(.data, items=c(1:3,7), ...) {
   nm = ifelse(colnames(afit)[1] == ".rownames", 
               colnames(afit)[2], 
               colnames(afit)[1])
-  response = afit[,nm]
+  response = dplyr::pull(afit,nm)
   
   gYP =  ggplot2::ggplot(afit) +
     ggplot2::geom_point(
