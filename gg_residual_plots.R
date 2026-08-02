@@ -106,13 +106,14 @@ gg_residual_plots = function(.data, items=c(1:3,7), ...) {
   gB = GGally::ggally_blank()
   
   # item 8 "yvf"
+  nm = names(afit)[1]
   gYP =  ggplot2::ggplot(afit) +
     ggplot2::geom_point(
-      ggplot2::aes(x=1, y=.fitted) ) +
+      ggplot2::aes(x=afit[[nm]], y=.fitted) ) +
     ggplot2::geom_abline(ggplot2::aes(slope=1, intercept=0),
                          color="red") +
     ggplot2::labs(title="Y vs Fitted",
-                  x="Actual",
+                  x=nm,
                   y="Fitted")
   
   # list
