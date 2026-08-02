@@ -8,7 +8,7 @@
 #' @param ... parameters to be passed to `patchwork::wrap_plots()`
 #' @return a patchwork array of ggplot objects
 #' 
-#' #' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
+#' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
 #' @importFrom magrittr %>% 
 #' @importFrom broom augment
 #' @importFrom stats dnorm density sd filter
@@ -59,7 +59,7 @@ gg_residual_plots = function(.data, items=c(1:3,7), ...) {
          x = "Fitted value", 
          y = expression(sqrt(abs("Standard Residual")))
     )
-  # item 4 "cd"
+  # item 4 "cookd"
   gCD = ggplot2::ggplot(afit,
                         ggplot2::aes(x = seq_along(.cooksd), y = .cooksd)) +
     ggplot2::geom_col() +
@@ -77,7 +77,7 @@ gg_residual_plots = function(.data, items=c(1:3,7), ...) {
          x = "Leverage", 
          y = "Standardized Residuals")
   
-  # item 6 "cl"
+  # item 6 "cookl"
   gCH = ggplot2::ggplot(afit, ggplot2::aes(x = .hat/(1-.hat), y = .cooksd)) +
     ggplot2::geom_point() +
     ggplot2::labs(title="Cook's Distance vs Leverage/(1-Leverage)",
@@ -105,16 +105,16 @@ gg_residual_plots = function(.data, items=c(1:3,7), ...) {
   # item 0 "bl"
   gB = GGally::ggally_blank()
   
-  # item 8 "yp"
+  # item 8 "yvf"
+  nm = names(afit)[1]
   gYP =  ggplot2::ggplot(afit) +
     ggplot2::geom_point(
-      ggplot2::aes(x=y, y=.fitted) ) +
+      ggplot2::aes(x=nm, y=.fitted) ) +
     ggplot2::geom_abline(ggplot2::aes(slope=1, intercept=0),
                          color="red") +
-    ggplot2::labs(title="Y vs Predicted",
-                  x="Y",
-                  y="Predicted")
-  
+    ggplot2::labs(title="Y vs Fitted",
+                  x="Actual",
+                  y="Fitted")
   
   # list
   P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP)
