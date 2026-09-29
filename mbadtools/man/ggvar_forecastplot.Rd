@@ -25,9 +25,9 @@ require(bvartools)
 data("e1")
 e1 <- diff(log(e1)) * 100
 # Generate model data
-model <- gen_var(e1, p = 2, deterministic = 2,
+model <- bvartools::gen_var(e1, p = 2, deterministic = 2,
                  iterations = 100, burnin = 10)
-model <- add_priors(model)
+model <- bvartools::add_priors(model)
 # Obtain posterior draws
 object <- draw_posterior(model)
 # Calculate forecasts

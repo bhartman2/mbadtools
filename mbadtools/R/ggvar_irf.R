@@ -7,6 +7,9 @@
 #' @returns a ggplot
 #' @export
 #' @importFrom stringr str_c
+#' @importFrom vars VAR
+#' @importFrom bvartools bvar
+#' @import rlang
 #' 
 #' @examples
 #' data("Canada", package="vars")
@@ -237,11 +240,12 @@ ggvar_plot_stability_lines = function(a=1.2516) {
 
 #' bvarirf_to_varirf
 #' 
-#' Transforms a `bvarirf` object from\code{\link[bvartools]{irf}} into 
-#'  a `varirf` skeleton object from\code{\link[vars]{irf}}, 
-#'  for \code{\link{ggvar_irf}} to plot. The `bvarirf` object only contains one response at a time.
-#'
-#' @param bvarirf a `bvarirf` object made by \code{\link{bvartools}}
+#' Transforms a `bvarirf` object from [bvartools::irf()] into 
+#' a `varirf` skeleton object from [vars::irf()], 
+#' for [ggvar_irf()] to plot. The `bvarirf` object only contains one
+#'  response at a time.
+#'  
+#' @param bvarirf a `bvarirf` object made by [bvartools::irf()]
 #' @param impulse character, the impulse column name
 #' @param response character, the response column name
 #' @param cumulative logical, default TRUE
@@ -322,10 +326,10 @@ bvarirf_to_varirf = function(bvarirf, impulse, response,
 #' data("e1")
 #' e1 <- diff(log(e1)) * 100
 #' # Generate model data
-#' model <- gen_var(e1, p = 2, deterministic = 2,
+#' model <- bvartools::gen_var(e1, p = 2, deterministic = 2,
 #'                  iterations = 100, burnin = 10)
 # Add prior specifications
-#' model <- add_priors(model)
+#' model <- bvartools::add_priors(model)
 #' # Obtain posterior draws
 #' object <- draw_posterior(model)
 #' # Calculate forecasts
@@ -395,12 +399,12 @@ ggvar_forecastplot = function (bvar_pred, trun=1) {
 #' ggvar_fevdplot
 #' 
 #' Forecast Error Variance Decomposition plots for `bvartools::bvar` objects
-#'   from \code{\link[bvartools]{bvartools}}; plots all responses or any one 
+#'   from [bvartools]; plots all responses or any one 
 #'  
-#' @param bvarobject a `bvarest` object from \code{\link[bvartools]{bvartools}}
+#' @param bvarobject a `bvarest` object from `bvartools`
 #' @param type character, type of fevd to create, no default, allowed types are
 #'    c("oir","gir","sir", "sgir"); only "oir" has sum to unity.
-#' @param ... other parameters for \code{\link[bvartools]{fevd.bvar}}; see documentation for details.
+#' @param ... other parameters for `bvartools:fevd.bvar()`; see documentation for details.
 #'
 #' @returns a named list of ggplots, named by response variables of model. 
 #'   Display with patchwork or just plot one list member.
@@ -415,14 +419,14 @@ ggvar_forecastplot = function (bvar_pred, trun=1) {
 #' e1 <- diff(log(e1)) * 100
 #' 
 #' # Generate model data
-#' model <- gen_var(e1, p = 2, deterministic = 2,
+#' model <- bvartools::gen_var(e1, p = 2, deterministic = 2,
 #'                  iterations = 100, burnin = 10)
 #' 
 # Add prior specifications
-#' model <- add_priors(model)
+#' model <- bvartools::add_priors(model)
 #' 
 #' # Obtain posterior draws
-#' object <- draw_posterior(model)
+#' object <- bvartools::draw_posterior(model)
 #' 
 #' ggvar_fevdplot(object, type="oir", n.ahead=7)
 #' 

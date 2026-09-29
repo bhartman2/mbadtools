@@ -1,9 +1,9 @@
 # List the packages you want to attach attached when your meta-package loads
 core_packages <- c(
-  "tidyverse", "ggfortify", "GGally", "skimr",
-  "gt", "patchwork", "car", "lmtest",
-  "yardstick", 
-  "ggh4x", "ggpubr"
+  "tidyverse", "tidymodels", "workflowsets",
+  "ggfortify", "GGally",
+  "skimr", "gt", "patchwork", "car", "lmtest",
+  "ggh4x"
 )
 
 # Function to check which packages are already loaded
@@ -37,13 +37,14 @@ core_unloaded <- function() {
   packageStartupMessage(paste0("Loading mbadtools packages: "))
 
   # Gently load each package silently
-  for (pkg in needed) {
-    library(pkg, character.only = TRUE, 
-            warn.conflicts = FALSE, 
-            quietly = TRUE,
-            verbose = FALSE)
-  }
+  # for (pkg in needed) {
+  #   library(pkg, character.only = TRUE, 
+  #           warn.conflicts = FALSE, 
+  #           quietly = TRUE,
+  #           verbose = FALSE)
+  # }
 
+  conflicted::conflict_prefer_matching("select|filter", "dplyr")
   # Format a nice printable grid of the loaded packages
   # (Simulating the tidyverse startup look)
   packageStartupMessage(paste(needed, collapse = "  "))

@@ -5,12 +5,14 @@
 #'
 #' @param .data an lm() regression object
 #' @param items a vector of integers from 0 to 7; which of 7 plots to select; default 1:3
+#' @param new_data data set model was trained on if class is `_lm`; default NULL
 #' @param ... parameters to be passed to `patchwork::wrap_plots()`
 #' @return a patchwork array of ggplot objects
 #' 
 #' @importFrom ggplot2 geom_point geom_hline geom_smooth labs geom_col geom_qq aes geom_abline geom_histogram geom_function geom_qq_line
 #' @importFrom magrittr %>% 
 #' @importFrom broom augment
+#' @importFrom parsnip augment
 #' @importFrom stats dnorm density sd filter
 #' @importFrom ggplot2 aes
 #' @importFrom patchwork wrap_plots
@@ -22,10 +24,21 @@
 #' fit = lm(y ~ ., data=freeny)
 #' gg_residual_plots(fit)
 #'
-gg_residual_plots = function(.data, items=c(1:3,7), ...) {
+gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
   
   fit = .data
-  afit = fit %>% broom::augment()
+  
+  if (inherits(fit, "lm")) {
+    afit = fit %>% broom::augment()
+  } else if (inherits(fit, "_lm")) { # doesnt work without new_data argument
+    if(is.null(new_data)) stop("parsnip model must have new_data.")
+    afit = fit %>% parsnip::augment(new_data = new_data) %>%
+      relocate(starts_with("."), .after=last_col()) %>% 
+      rename(.fitted = .pred) %>% 
+      mutate(.std.resid = scale(.resid))
+  } else{
+    stop("Unknown class.")
+  }
   
   # item 1
   gRF = ggplot2::ggplot(afit,ggplot2::aes(x = .fitted, y = .resid)) +
@@ -106,13 +119,18 @@ gg_residual_plots = function(.data, items=c(1:3,7), ...) {
   gB = GGally::ggally_blank()
   
   # item 8 "yvf"
+  nm = ifelse(colnames(afit)[1] == ".rownames", 
+              colnames(afit)[2], 
+              colnames(afit)[1])
+  response = dplyr::pull(afit,nm)
+  fitted = dplyr::pull(afit, .fitted)
   gYP =  ggplot2::ggplot(afit) +
     ggplot2::geom_point(
-      ggplot2::aes(x=y, y=.fitted) ) +
+      ggplot2::aes(x=response, y=.fitted) ) +
     ggplot2::geom_abline(ggplot2::aes(slope=1, intercept=0),
                          color="red") +
-    ggplot2::labs(title="Y vs Fitted",
-                  x="Actual",
+    ggplot2::labs(title=paste0(nm," vs Fitted"),
+                  x=nm,
                   y="Fitted")
   
   # list

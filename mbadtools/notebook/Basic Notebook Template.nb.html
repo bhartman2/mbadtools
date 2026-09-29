@@ -10,7 +10,6 @@
 
 
 
-<meta name="date" content="2026-07-30" />
 
 <title>Basic Notebook Template</title>
 
@@ -2978,7 +2977,8 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Basic Notebook Template</h1>
 <h4 class="author">Bruce Hartman</h4>
 <address class="author_afil">
-University of St. Francis<br><h4 class="date">2026-07-30</h4>
+University of St. Francis<br><h4 class="date">2026-09-28 Revised
+2026-09-29</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>This is a good notebook template to start with.</p>
@@ -2990,8 +2990,9 @@ University of St. Francis<br><h4 class="date">2026-07-30</h4>
 <!-- rnb-text-begin -->
 <div id="introduction" class="section level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
-<p>Here write what you are going to do. Add a reference: <a href="#r1">(Hartman, 2004)</a>. Use ‘#’ at beginning of a line to make a
-new header (note the space after the ‘#’).</p>
+<p>Here write what you are going to do. Add a reference: <a href="#r1">(Hartman, 2004)</a>.</p>
+<p>Use ‘#’ at beginning of a line to make a new header (note the space
+after the ‘#’).</p>
 </div>
 <div id="packages" class="section level1 unnumbered">
 <h1 class="unnumbered">Packages</h1>
@@ -3009,25 +3010,23 @@ have not already done so.</p>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p><strong>We only need to do this once, after we do the above.
-</strong> Then we install package <code>mbadtools</code> from GitHub,
-using the <code>pak</code> function. This package is used in USF’s MBAD
+</strong> We install package <code>mbadtools</code> from GitHub, using
+the <code>pak</code> function. This package is used in USF’s MBAD
 courses and is not on CRAN.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJwYm5OMFlXeHNJRzFpWVdSMGIyOXNjeUJtY205dElHZHBkR2gxWWx4dWFXWW9JU2hjSW0xaVlXUjBiMjlzYzF3aUlDVnBiaVVnYVc1emRHRnNiR1ZrTG5CaFkydGhaMlZ6S0NrcEtTQmNiaUFnY0dGck9qcHdZV3NvWENKaWFHRnlkRzFoYmpJdmJXSmhaSFJ2YjJ4elhDSXBYRzVnWUdBaWZRPT0gLS0+XG5cbmBgYHJcbiMgaW5zdGFsbCBtYmFkdG9vbHMgZnJvbSBnaXRodWJcbmlmKCEoXCJtYmFkdG9vbHNcIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgXG4gIHBhazo6cGFrKFwiYmhhcnRtYW4yL21iYWR0b29sc1wiKVxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1YlxuaWYoIShcIm1iYWR0b29sc1wiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSBcbiAgcGFrOjpwYWsoXCJiaGFydG1hbjIvbWJhZHRvb2xzXCIpXG5gYGAifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHVJeUJwYm5OMFlXeHNJRzFpWVdSMGIyOXNjeUJtY205dElHZHBkR2gxWWx4dWNHRnJPanB3WVdzb1hDSmlhR0Z5ZEcxaGJqSXZiV0poWkhSdmIyeHpYQ0lwSUNNZ2FXWWdhWFFuY3lCaGJISmxZV1I1SUhWd0lIUnZJR1JoZEdVZ2JtOTBhR2x1WnlCM2FXeHNJR2hoY0hCbGJseHVZR0JnSW4wPSAtLT5cblxuYGBgclxuIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1YlxucGFrOjpwYWsoXCJiaGFydG1hbjIvbWJhZHRvb2xzXCIpICMgaWYgaXQncyBhbHJlYWR5IHVwIHRvIGRhdGUgbm90aGluZyB3aWxsIGhhcHBlblxuYGBgXG5cbjwhLS0gcm5iLXNvdXJjZS1lbmQgLS0+XG4ifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1YlxucGFrOjpwYWsoXCJiaGFydG1hbjIvbWJhZHRvb2xzXCIpICMgaWYgaXQncyBhbHJlYWR5IHVwIHRvIGRhdGUgbm90aGluZyB3aWxsIGhhcHBlblxuYGBgIn0= -->
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># install mbadtools from github</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span>(<span class="st">&quot;mbadtools&quot;</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>())) </span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">&quot;bhartman2/mbadtools&quot;</span>)</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">&quot;bhartman2/mbadtools&quot;</span>) <span class="co"># if it&#39;s already up to date nothing will happen</span></span></code></pre></div>
 <!-- rnb-source-end -->
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p><strong>Use this chunk in every new notebook!!</strong> This is the
-key step: make the <code>mbadtools</code> package available to the
-notebook. Also make sure the <code>select()</code> and
-<code>filter()</code> functions come from the <code>dplyr</code>
-package, rather than from any other.</p>
+<p><strong>Use this chunk in every new notebook!!</strong> Make the
+<code>mbadtools</code> package available to the notebook. Also make sure
+the <code>select()</code> and <code>filter()</code> functions come from
+the <code>dplyr</code> package, rather than from any other.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-output-begin eyJkYXRhIjoiXG48IS0tIHJuYi1zb3VyY2UtYmVnaW4gZXlKa1lYUmhJam9pWUdCZ2NseHViR2xpY21GeWVTaHRZbUZrZEc5dmJITXBYRzRqSUZSbGJHd2dVaUIwYnlCaGJIZGhlWE1nY0hKbFptVnlJR1J3YkhseUozTWdjMlZzWldOMElHOXlJR1pwYkhSbGNpQm1kVzVqZEdsdmJpQnZkbVZ5SUdGdWVTQnZkR2hsY2lCd1lXTnJZV2RsWEc1amIyNW1iR2xqZEdWa09qcGpiMjVtYkdsamRGOXdjbVZtWlhKZmJXRjBZMmhwYm1jb1hDSnpaV3hsWTNSOFptbHNkR1Z5WENJc0lGd2laSEJzZVhKY0lpd2djWFZwWlhROVZDbGNibUJnWUNKOSAtLT5cblxuYGBgclxubGlicmFyeShtYmFkdG9vbHMpXG4jIFRlbGwgUiB0byBhbHdheXMgcHJlZmVyIGRwbHlyJ3Mgc2VsZWN0IG9yIGZpbHRlciBmdW5jdGlvbiBvdmVyIGFueSBvdGhlciBwYWNrYWdlXG5jb25mbGljdGVkOjpjb25mbGljdF9wcmVmZXJfbWF0Y2hpbmcoXCJzZWxlY3R8ZmlsdGVyXCIsIFwiZHBseXJcIiwgcXVpZXQ9VClcbmBgYFxuXG48IS0tIHJuYi1zb3VyY2UtZW5kIC0tPlxuIn0= -->
@@ -3087,7 +3086,7 @@ document: <a href="#eq1">Equation 1</a></p>
 <h1 class="unnumbered">References</h1>
 <div id="r1">
 <ol style="list-style-type: decimal">
-<li>Hartman, B. (2024) Basic Notebook Template. (<a href="https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd" class="uri">https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd</a>)</li>
+<li>Hartman, B. (2026) Basic Notebook Template. (<a href="https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd" class="uri">https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd</a>)</li>
 </ol>
 <!-- rnb-text-end -->
 </div>
@@ -3095,7 +3094,7 @@ document: <a href="#eq1">Equation 1</a></p>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkJhc2ljIE5vdGVib29rIFRlbXBsYXRlIg0KYXV0aG9yOg0KICBuYW1lOiAiQnJ1Y2UgSGFydG1hbiINCiAgYWZmaWxpYXRpb246ICJVbml2ZXJzaXR5IG9mIFN0LiBGcmFuY2lzIg0KZGF0ZTogImByIGx1YnJpZGF0ZTo6dG9kYXkoKWAiDQpvdXRwdXQ6IA0KICBodG1sX25vdGVib29rOg0KICAgIHRvYzogVFJVRQ0KICAgIHRvY19mbG9hdDogVFJVRQ0KICAgIHRoZW1lOiB1bml0ZWQNCiAgICBoaWdobGlnaHQ6IHRhbmdvDQphYnN0cmFjdDogfA0KICBUaGlzIGlzIGEgZ29vZCBub3RlYm9vayB0ZW1wbGF0ZSB0byBzdGFydCB3aXRoLiANCi0tLQ0KDQojIEludHJvZHVjdGlvbiB7LX0NCkhlcmUgd3JpdGUgd2hhdCB5b3UgYXJlIGdvaW5nIHRvIGRvLiBBZGQgYSByZWZlcmVuY2U6IFsoSGFydG1hbiwgMjAwNCldKCNyMSkuIFVzZSAnIyAnIGF0IGJlZ2lubmluZyBvZiBhIGxpbmUgdG8gbWFrZSBhIG5ldyBoZWFkZXIgKG5vdGUgdGhlIHNwYWNlIGFmdGVyIHRoZSAnIycpLg0KDQojIFBhY2thZ2VzIHstfQ0KKipZb3Ugb25seSBuZWVkIHRvIGRvIHRoaXMgb25jZSBpbiB0aGUgdGVybS4qKiANClRoZSBgcGFrYCBwYWNrYWdlIGZvciBtYW5hZ2luZyBwYWNrYWdlcyB3aWxsIGJlIGluc3RhbGxlZCwgaWYgeW91IGhhdmUgbm90IGFscmVhZHkgZG9uZSBzby4gDQoNCmBgYHtyfQ0KIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGdpdGh1Yg0KaWYoISgicGFrIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgaW5zdGFsbC5wYWNrYWdlcygicGFrIikNCmBgYA0KDQoqKldlIG9ubHkgbmVlZCB0byBkbyB0aGlzIG9uY2UsIGFmdGVyIHdlIGRvIHRoZSBhYm92ZS4gKiogDQpUaGVuIHdlIGluc3RhbGwgcGFja2FnZSBgbWJhZHRvb2xzYCBmcm9tIEdpdEh1YiwgdXNpbmcgdGhlIGBwYWtgIGZ1bmN0aW9uLiBUaGlzIHBhY2thZ2UgaXMgdXNlZCBpbiBVU0YncyBNQkFEIGNvdXJzZXMgYW5kIGlzIG5vdCBvbiBDUkFOLiANCmBgYHtyfQ0KIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1Yg0KaWYoISgibWJhZHRvb2xzIiAlaW4lIGluc3RhbGxlZC5wYWNrYWdlcygpKSkgDQogIHBhazo6cGFrKCJiaGFydG1hbjIvbWJhZHRvb2xzIikNCmBgYA0KDQoqKlVzZSB0aGlzIGNodW5rIGluIGV2ZXJ5IG5ldyBub3RlYm9vayEhKiogDQpUaGlzIGlzIHRoZSBrZXkgc3RlcDogbWFrZSB0aGUgYG1iYWR0b29sc2AgcGFja2FnZSBhdmFpbGFibGUgdG8gdGhlIG5vdGVib29rLiBBbHNvIG1ha2Ugc3VyZSB0aGUgYHNlbGVjdCgpYCBhbmQgYGZpbHRlcigpYCBmdW5jdGlvbnMgY29tZSBmcm9tIHRoZSBgZHBseXJgIHBhY2thZ2UsIHJhdGhlciB0aGFuIGZyb20gYW55IG90aGVyLg0KYGBge3J9DQpsaWJyYXJ5KG1iYWR0b29scykNCiMgVGVsbCBSIHRvIGFsd2F5cyBwcmVmZXIgZHBseXIncyBzZWxlY3Qgb3IgZmlsdGVyIGZ1bmN0aW9uIG92ZXIgYW55IG90aGVyIHBhY2thZ2UNCmNvbmZsaWN0ZWQ6OmNvbmZsaWN0X3ByZWZlcl9tYXRjaGluZygic2VsZWN0fGZpbHRlciIsICJkcGx5ciIsIHF1aWV0PVQpDQpgYGANCg0KIyBEYXRhIHstfQ0KSGVyZSB3ZSBnZXQgdGhlIGRhdGEgdXNpbmcgKkltcG9ydCBEYXRhc2V0KiBidXR0b24gb3IgZnJvbSBhIHBhY2thZ2UuDQoNCiMgRGF0YSBEZXNjcmlwdGlvbiB7LX0NCkRlc2NyaWJlIHRoZSBkYXRhIHVzaW5nIHNpbXBsZSBkaXNwbGF5LCBvciBgc2tpbSgpYC4gWW91IG1pZ2h0IHdhbnQgYGdsaW1wc2UoKWAgdG8gc2VlIGp1c3QgdGhlIGNvbHVtbnMgYW5kIGEgc2hvcnQgc2FtcGxlLg0KDQojIFJlc2VhcmNoIFByb2JsZW0gey19DQpTdGF0ZSB0aGUgcHJvYmxlbSB5b3Ugd2lsbCBzb2x2ZS4gVGhpcyBjb3VsZCBhZmZlY3QgaG93IHlvdSBuZWVkIHRvIHdyYW5nbGUgdGhlIGRhdGEuDQoNCiMgRGF0YSBXcmFuZ2xpbmcgey19DQpNYWtlIGNoYW5nZXMgdG8gdGhlIGRhdGEgdG8gcHJlcGFyZSBpdCBmb3IgYW5hbHlzaXMuDQoNCiMgRGF0YSBWaXN1YWxpemF0aW9uDQpHcmFwaGljIGRpc3BsYXlzIG9mIGRhdGEgc3VjaCBhcyBwYWlycyBwbG90Lg0KDQojIEFuYWx5c2lzIHstfQ0KRXhwbGFpbiB3aGF0IGFuYWx5c2lzIHlvdSBhcmUgZG9pbmcuIEFkZCBhIGZvcm11bGEgaW4gbWF0aCBub3RhdGlvbiBsaWtlIHRoaXM6DQoNCjo6OiB7I2VxMX0NCiQkRSA9IG1jXjJcaHNwYWNlezEwMHB0fSAoMSkkJA0KDQojIyBBbmFseXNpcyBTZWN0aW9uIHstfQ0KQW4gZXh0ZW5zaW9uIG9mIHRoZSBhbmFseXNpcy4gTm90aWNlICcjIyAnLCB0d28gIyMgYW5kIHNwYWNlIGZvciBoZWFkZXIgbGV2ZWwgMi4NCg0KPiBCbG9ja3F1b3RlIHRleHQgY29waWVkIGZyb20gdGhlIHRleHQgb3IgYW4gYXJ0aWNsZQ0KDQojIENvbmNsdXNpb24gey19DQpNeSBjb25jbHVzaW9ucyBhcmUgLi4uICBSZWZlciBiYWNrIHRvIGEgZm9ybXVsYSBvciBsb2NhdGlvbiBpbiB0aGlzIGRvY3VtZW50OiBbRXF1YXRpb24gMV0oI2VxMSkNCg0KIyBSZWZlcmVuY2VzIHstfQ0KOjo6IHsjcjF9DQoxLiBIYXJ0bWFuLCBCLiAoMjAyNCkgQmFzaWMgTm90ZWJvb2sgVGVtcGxhdGUuIChodHRwczovL2dpdGh1Yi5jb20vYmhhcnRtYW4yL21iYWR0b29scy9ibG9iL21haW4vbm90ZWJvb2svQmFzaWMlMjBOb3RlYm9vayUyMFRlbXBsYXRlLlJtZCkNCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogQmFzaWMgTm90ZWJvb2sgVGVtcGxhdGUNCmF1dGhvcjoNCiAgbmFtZTogQnJ1Y2UgSGFydG1hbg0KICBhZmZpbGlhdGlvbjogVW5pdmVyc2l0eSBvZiBTdC4gRnJhbmNpcw0KZGF0ZTogMjAyNi0wOS0yOCBSZXZpc2VkIGByIGx1YnJpZGF0ZTo6dG9kYXkoKWANCm91dHB1dDogDQogIGh0bWxfbm90ZWJvb2s6DQogICAgdG9jOiBUUlVFDQogICAgdG9jX2Zsb2F0OiBUUlVFDQogICAgdGhlbWU6IHVuaXRlZA0KICAgIGhpZ2hsaWdodDogdGFuZ28NCmFic3RyYWN0OiB8DQogIFRoaXMgaXMgYSBnb29kIG5vdGVib29rIHRlbXBsYXRlIHRvIHN0YXJ0IHdpdGguIA0KLS0tDQoNCiMgSW50cm9kdWN0aW9uIHstfQ0KSGVyZSB3cml0ZSB3aGF0IHlvdSBhcmUgZ29pbmcgdG8gZG8uIEFkZCBhIHJlZmVyZW5jZTogWyhIYXJ0bWFuLCAyMDA0KV0oI3IxKS4gDQoNClVzZSAnIyAnIGF0IGJlZ2lubmluZyBvZiBhIGxpbmUgdG8gbWFrZSBhIG5ldyBoZWFkZXIgKG5vdGUgdGhlIHNwYWNlIGFmdGVyIHRoZSAnIycpLg0KDQojIFBhY2thZ2VzIHstfQ0KKipZb3Ugb25seSBuZWVkIHRvIGRvIHRoaXMgb25jZSBpbiB0aGUgdGVybS4qKiANClRoZSBgcGFrYCBwYWNrYWdlIGZvciBtYW5hZ2luZyBwYWNrYWdlcyB3aWxsIGJlIGluc3RhbGxlZCwgaWYgeW91IGhhdmUgbm90IGFscmVhZHkgZG9uZSBzby4gDQoNCmBgYHtyfQ0KIyBhbGxvdyBwYWNrYWdlIGluc3RhbGxhdGlvbiBmcm9tIGFsbCBzb3VyY2VzDQppZighKCJwYWsiICVpbiUgaW5zdGFsbGVkLnBhY2thZ2VzKCkpKSBpbnN0YWxsLnBhY2thZ2VzKCJwYWsiKQ0KYGBgDQoNCioqV2Ugb25seSBuZWVkIHRvIGRvIHRoaXMgb25jZSwgYWZ0ZXIgd2UgZG8gdGhlIGFib3ZlLiAqKiANCldlIGluc3RhbGwgcGFja2FnZSBgbWJhZHRvb2xzYCBmcm9tIEdpdEh1YiwgdXNpbmcgdGhlIGBwYWtgIGZ1bmN0aW9uLiBUaGlzIHBhY2thZ2UgaXMgdXNlZCBpbiBVU0YncyBNQkFEIGNvdXJzZXMgYW5kIGlzIG5vdCBvbiBDUkFOLiANCmBgYHtyfQ0KIyBpbnN0YWxsIG1iYWR0b29scyBmcm9tIGdpdGh1Yg0KcGFrOjpwYWsoImJoYXJ0bWFuMi9tYmFkdG9vbHMiKSAjIGlmIGl0J3MgYWxyZWFkeSB1cCB0byBkYXRlIG5vdGhpbmcgd2lsbCBoYXBwZW4NCmBgYA0KDQoqKlVzZSB0aGlzIGNodW5rIGluIGV2ZXJ5IG5ldyBub3RlYm9vayEhKiogDQpNYWtlIHRoZSBgbWJhZHRvb2xzYCBwYWNrYWdlIGF2YWlsYWJsZSB0byB0aGUgbm90ZWJvb2suIEFsc28gbWFrZSBzdXJlIHRoZSBgc2VsZWN0KClgIGFuZCBgZmlsdGVyKClgIGZ1bmN0aW9ucyBjb21lIGZyb20gdGhlIGBkcGx5cmAgcGFja2FnZSwgcmF0aGVyIHRoYW4gZnJvbSBhbnkgb3RoZXIuDQpgYGB7cn0NCmxpYnJhcnkobWJhZHRvb2xzLCBxdWlldGx5PVRSVUUpDQojIFRlbGwgUiB0byBhbHdheXMgcHJlZmVyIGRwbHlyJ3Mgc2VsZWN0IG9yIGZpbHRlciBmdW5jdGlvbiBvdmVyIGFueSBvdGhlciBwYWNrYWdlDQpjb25mbGljdGVkOjpjb25mbGljdF9wcmVmZXJfbWF0Y2hpbmcoDQogICJzZWxlY3R8ZmlsdGVyIiwgImRwbHlyIiwgcXVpZXQ9VCkNCmBgYA0KDQojIERhdGEgey19DQpIZXJlIHdlIGdldCB0aGUgZGF0YSB1c2luZyAqSW1wb3J0IERhdGFzZXQqIGJ1dHRvbiBvciBmcm9tIGEgcGFja2FnZS4NCg0KIyBEYXRhIERlc2NyaXB0aW9uIHstfQ0KRGVzY3JpYmUgdGhlIGRhdGEgdXNpbmcgc2ltcGxlIGRpc3BsYXksIG9yIGBza2ltKClgLiBZb3UgbWlnaHQgd2FudCBgZ2xpbXBzZSgpYCB0byBzZWUganVzdCB0aGUgY29sdW1ucyBhbmQgYSBzaG9ydCBzYW1wbGUuDQoNCiMgUmVzZWFyY2ggUHJvYmxlbSB7LX0NClN0YXRlIHRoZSBwcm9ibGVtIHlvdSB3aWxsIHNvbHZlLiBUaGlzIGNvdWxkIGFmZmVjdCBob3cgeW91IG5lZWQgdG8gd3JhbmdsZSB0aGUgZGF0YS4NCg0KIyBEYXRhIFdyYW5nbGluZyB7LX0NCk1ha2UgY2hhbmdlcyB0byB0aGUgZGF0YSB0byBwcmVwYXJlIGl0IGZvciBhbmFseXNpcy4NCg0KIyBEYXRhIFZpc3VhbGl6YXRpb24NCkdyYXBoaWMgZGlzcGxheXMgb2YgZGF0YSBzdWNoIGFzIHBhaXJzIHBsb3QuDQoNCiMgQW5hbHlzaXMgey19DQpFeHBsYWluIHdoYXQgYW5hbHlzaXMgeW91IGFyZSBkb2luZy4gQWRkIGEgZm9ybXVsYSBpbiBtYXRoIG5vdGF0aW9uIGxpa2UgdGhpczoNCg0KOjo6IHsjZXExfQ0KJCRFID0gbWNeMlxoc3BhY2V7MTAwcHR9ICgxKSQkDQoNCiMjIEFuYWx5c2lzIFNlY3Rpb24gey19DQpBbiBleHRlbnNpb24gb2YgdGhlIGFuYWx5c2lzLiBOb3RpY2UgJyMjICcsIHR3byAjIyBhbmQgc3BhY2UgZm9yIGhlYWRlciBsZXZlbCAyLg0KDQo+IEJsb2NrcXVvdGUgdGV4dCBjb3BpZWQgZnJvbSB0aGUgdGV4dCBvciBhbiBhcnRpY2xlDQoNCiMgQ29uY2x1c2lvbiB7LX0NCk15IGNvbmNsdXNpb25zIGFyZSAuLi4gIFJlZmVyIGJhY2sgdG8gYSBmb3JtdWxhIG9yIGxvY2F0aW9uIGluIHRoaXMgZG9jdW1lbnQ6IFtFcXVhdGlvbiAxXSgjZXExKQ0KDQojIFJlZmVyZW5jZXMgey19DQo6OjogeyNyMX0NCjEuIEhhcnRtYW4sIEIuICgyMDI2KSBCYXNpYyBOb3RlYm9vayBUZW1wbGF0ZS4gKGh0dHBzOi8vZ2l0aHViLmNvbS9iaGFydG1hbjIvbWJhZHRvb2xzL2Jsb2IvbWFpbi9ub3RlYm9vay9CYXNpYyUyME5vdGVib29rJTIwVGVtcGxhdGUuUm1kKQ0KDQo=</div>
 
 
 </div>
