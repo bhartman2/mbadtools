@@ -4,10 +4,14 @@
 \alias{gg_partial_residual_plots}
 \title{Partial Residual Plots}
 \usage{
-gg_partial_residual_plots(.data)
+gg_partial_residual_plots(.data, new_data = NULL, ...)
 }
 \arguments{
 \item{.data}{an lm object}
+
+\item{new_data}{data set model was trained on if class is \verb{_lm}; default NULL}
+
+\item{...}{parameters to be passed to \code{patchwork::wrap_plots()}}
 }
 \value{
 a patchwork plot layout containing the partial residual plots.

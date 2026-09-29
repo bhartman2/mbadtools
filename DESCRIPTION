@@ -1,6 +1,6 @@
 Package: mbadtools
 Title: MBAD Data Analytics Functions
-Version: 0.0.3.0001
+Version: 0.0.3.0928
 Authors@R: 
     person("Bruce", "Hartman", , "bruce@ahartman.net", role = c("aut", "cre"))
 Description: Some functions useful for my MBAD courses on Data Analytics. 
@@ -21,12 +21,14 @@ Depends:
   stringr, 
   tibble,
   tidyr,
+  parsnip,
   magrittr (>= 2.0.3),
   rlang (>= 1.1.4), 
   bvartools,
   vars
 Imports: 
   tidyverse,
+  tidymodels,
   ggfortify,
   GGally, 
   skimr,
@@ -35,8 +37,7 @@ Imports:
   car, 
   lmtest,
   yardstick,
-  ggh4x,
-  ggpubr
+  ggh4x
 LazyData: true
 Suggests: 
     knitr,

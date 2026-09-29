@@ -12,7 +12,3 @@ a list of packages that have not been loaded yet
 \description{
 core_unloaded
 }
-\examples{
-\dontrun{
-}
-}

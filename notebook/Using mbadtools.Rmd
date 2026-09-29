@@ -18,21 +18,19 @@ if(!("mbadtools" %in% installed.packages()))
 
 ```{r}
 library(mbadtools) # make package available to notebook
+# Tell R to always prefer dplyr's select or filter function over any other package
+conflicted::conflict_prefer_matching("select|filter", "dplyr", quiet=T)
 ```
 
-# Simple Test
+# Using regression helpers
 ```{r}
 cars
 f = lm(dist~speed, data=cars) 
 f |> tidy(conf.int=TRUE) |> gt_add_significance() # tests broom
 f |> gg_residual_plots() # tests plots
+f |> gg_partial_residual_plots() # tests plots
 ```
-# Reprex?
-```{r}
-library(gglm)
-f = lm(dist~speed, data=cars)
-gglm(f)
-```
+
 
 
 

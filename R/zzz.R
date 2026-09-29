@@ -1,9 +1,8 @@
 # List the packages you want to attach attached when your meta-package loads
 core_packages <- c(
-  "tidyverse", "ggfortify", "GGally", "skimr",
-  "gt", "patchwork", "car", "lmtest",
-  "yardstick", 
-  "ggh4x", "ggpubr"
+  "tidyverse", "tidymodels", "ggfortify", "GGally",
+  "skimr", "gt", "patchwork", "car", "lmtest",
+  "yardstick", "ggh4x"
 )
 
 # Function to check which packages are already loaded
@@ -12,9 +11,7 @@ core_packages <- c(
 #' @returns a list of packages that have not been loaded yet
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' }
+
 core_unloaded <- function() {
   search <- search()
   ins <- paste0("package:", core_packages)
@@ -30,9 +27,6 @@ core_unloaded <- function() {
 #' @returns package startup message, list of newly loaded packages in printable grid
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' }
 .onAttach <- function(libname, pkgname) {
   needed <- core_unloaded()
 
@@ -43,7 +37,10 @@ core_unloaded <- function() {
 
   # Gently load each package silently
   for (pkg in needed) {
-    library(pkg, character.only = TRUE, warn.conflicts = FALSE, quietly = TRUE)
+    library(pkg, character.only = TRUE, 
+            warn.conflicts = FALSE, 
+            quietly = TRUE,
+            verbose = FALSE)
   }
 
   # Format a nice printable grid of the loaded packages

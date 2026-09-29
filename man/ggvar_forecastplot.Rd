@@ -7,8 +7,8 @@
 ggvar_forecastplot(bvar_pred, trun = 1)
 }
 \arguments{
-\item{bvar_pred}{predictions of class \code{bvarprd} from\code{\link[bvartools]{predict.bvar}} or
-\code{varprd} from \code{\link[vars]{predict}}.}
+\item{bvar_pred}{predictions of class \code{bvarprd} from \code{bvartools::predict.bvar()} or
+\code{varprd} from \code{vars::predict()}.}
 
 \item{trun}{integer, start index of data to plot for all predictions; default 1}
 }
@@ -16,12 +16,12 @@ ggvar_forecastplot(bvar_pred, trun = 1)
 a list of ggplots
 }
 \description{
-plot multiple timeseries and forecasts made with \code{\link{predict}};
-use design and \code{\link[patchwork]{wrap_plots}} to plot from list.
+plot multiple timeseries and forecasts made with \code{predict};
+use design and \code{patchwork::wrap_plots} to plot from list.
 }
 \examples{
 # Load data
-library(bvartools)
+require(bvartools)
 data("e1")
 e1 <- diff(log(e1)) * 100
 # Generate model data

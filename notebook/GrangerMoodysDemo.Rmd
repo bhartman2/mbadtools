@@ -32,6 +32,8 @@ We load the standard MBAD packages.
 Install and load:
 ```{r}
 library(mbadtools)
+# Tell R to always prefer dplyr's select or filter function over any other package
+conflicted::conflict_prefer_matching("select|filter", "dplyr", quiet=T)
 ```
 
 # Data

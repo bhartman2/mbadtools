@@ -1,9 +1,9 @@
 ---
-title: "Basic Notebook Template"
+title: Basic Notebook Template
 author:
-  name: "Bruce Hartman"
-  affiliation: "University of St. Francis"
-date: "`r lubridate::today()`"
+  name: Bruce Hartman
+  affiliation: University of St. Francis
+date: 2026-09-28 Revised `r lubridate::today()`
 output: 
   html_notebook:
     toc: TRUE
@@ -39,7 +39,7 @@ if(!("mbadtools" %in% installed.packages()))
 **Use this chunk in every new notebook!!** 
 Make the `mbadtools` package available to the notebook. Also make sure the `select()` and `filter()` functions come from the `dplyr` package, rather than from any other.
 ```{r}
-library(mbadtools)
+library(mbadtools, quietly=TRUE)
 # Tell R to always prefer dplyr's select or filter function over any other package
 conflicted::conflict_prefer_matching(
   "select|filter", "dplyr", quiet=T)
@@ -76,5 +76,5 @@ My conclusions are ...  Refer back to a formula or location in this document: [E
 
 # References {-}
 ::: {#r1}
-1. Hartman, B. (2024) Basic Notebook Template. (https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd)
+1. Hartman, B. (2026) Basic Notebook Template. (https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.Rmd)
 
