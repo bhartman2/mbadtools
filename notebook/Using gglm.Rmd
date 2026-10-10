@@ -1,0 +1,33 @@
+---
+title: "Using gglm"
+output: html_notebook
+---
+
+# Packages
+```{r}
+library(magrittr)
+```
+
+# Make a `gglm` plot
+```{r}
+p1 = gglm(fit) 
+```
+
+# Make another residual plot
+```{r}
+p2 = ggplot(fit) +
+      geom_histogram(aes(x=scale(residuals(fit)),
+                     y = after_stat(density)),
+                     fill="red", color='black'
+                     ) + 
+      geom_function(fun = dnorm, 
+                args=list(mean=0, sd=1), 
+                linetype = "dashed",
+                color="blue") +
+  labs(x="Standardized Residuals")
+```
+
+# Plot them with `patchwork`
+```{r fig.height=10, fig.width=12}
+list(p1, p2) |> wrap_plots(design="AA\nAA\nB#")
+```
