@@ -9,7 +9,7 @@ gg_residual_plots(.data, items = c(1:3, 7), new_data = NULL, ...)
 \arguments{
 \item{.data}{an lm() regression object}
 
-\item{items}{a vector of integers from 0 to 7; which of 7 plots to select; default 1:3}
+\item{items}{a vector of integers from 0 to 9; which of 9 plots to select; default c(1:3,7)}
 
 \item{new_data}{data set model was trained on if class is \verb{_lm}; default NULL}
 

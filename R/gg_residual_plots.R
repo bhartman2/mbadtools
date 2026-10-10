@@ -4,7 +4,7 @@
 #' residual plots.
 #'
 #' @param .data an lm() regression object
-#' @param items a vector of integers from 0 to 7; which of 7 plots to select; default 1:3
+#' @param items a vector of integers from 0 to 9; which of 9 plots to select; default c(1:3,7)
 #' @param new_data data set model was trained on if class is `_lm`; default NULL
 #' @param ... parameters to be passed to `patchwork::wrap_plots()`
 #' @return a patchwork array of ggplot objects
@@ -138,7 +138,7 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
   gTT = patchwork::wrap_table(Tukey_test(.data)$gt)
     
   # list
-  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gTT)
+  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT)
   
   # layout 
   return(
