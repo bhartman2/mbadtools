@@ -51,6 +51,8 @@ Suggests:
     conflicted,
     randomForest,
     pak
+Remotes: 
+    bgreenwell/vip
 Enhances: qcc
 URL: https://github.com/bhartman2/mbadtools
 BugReports: https://github.com/bhartman2/mbadtools/Issues
