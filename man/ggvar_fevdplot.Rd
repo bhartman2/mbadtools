@@ -7,12 +7,12 @@
 ggvar_fevdplot(bvarobject, type = "oir", ...)
 }
 \arguments{
-\item{bvarobject}{a \code{bvarest} object from \code{\link[bvartools]{bvartools}}}
+\item{bvarobject}{a \code{bvarest} object from \code{bvartools}}
 
 \item{type}{character, type of fevd to create, no default, allowed types are
 c("oir","gir","sir", "sgir"); only "oir" has sum to unity.}
 
-\item{...}{other parameters for \code{\link[bvartools]{fevd.bvar}}; see documentation for details.}
+\item{...}{other parameters for \code{bvartools:fevd.bvar()}; see documentation for details.}
 }
 \value{
 a named list of ggplots, named by response variables of model.
@@ -20,7 +20,7 @@ Display with patchwork or just plot one list member.
 }
 \description{
 Forecast Error Variance Decomposition plots for \code{bvartools::bvar} objects
-from \code{\link[bvartools]{bvartools}}; plots all responses or any one
+from \link[bvartools:bvartools]{bvartools}; plots all responses or any one
 }
 \examples{
 #' # Load data
@@ -29,13 +29,13 @@ data("e1")
 e1 <- diff(log(e1)) * 100
 
 # Generate model data
-model <- gen_var(e1, p = 2, deterministic = 2,
+model <- bvartools::gen_var(e1, p = 2, deterministic = 2,
                  iterations = 100, burnin = 10)
 
-model <- add_priors(model)
+model <- bvartools::add_priors(model)
 
 # Obtain posterior draws
-object <- draw_posterior(model)
+object <- bvartools::draw_posterior(model)
 
 ggvar_fevdplot(object, type="oir", n.ahead=7)
 
