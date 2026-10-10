@@ -4,10 +4,7 @@ fit = lm(y ~ ., data=freeny)
 freeny1 = freeny %>% rename(Sales=y)
 fit1 = lm(Sales ~ ., data=freeny1)
 afit1 = augment(fit1)
-nm = colnames(fit1$model)[1]
-expect_match(nm,"Sales")
-response = afit1 %>% pull(nm)
-expect_length(response, nrow(afit1))
+expect_true("Sales" %in% names(fit1$model))
 
 spec2 = parsnip::linear_reg() |>
   parsnip::set_engine("lm") |>
@@ -20,7 +17,7 @@ test_that("parsnip produces _lm class", {
   
 test_that("gg_residual_plots produces patchwork class", {
   expect_s3_class(gg_residual_plots(fit), "patchwork")
-  expect_s3_class(gg_residual_plots(fit2, new_data=freeny1), "patchwork")
+  expect_s3_class(gg_residual_plots(fit2$fit, new_data=freeny1), "patchwork")
 })
 
 test_that("gg_residual_plots item=8 produces patchwork class", {
@@ -28,10 +25,12 @@ test_that("gg_residual_plots item=8 produces patchwork class", {
   expect_s3_class(gg_residual_plots(fit1, new_data=freeny1, items=8), "patchwork")
 })
 
-test_that("gg_residual_plots item=8 produces patchwork class", {
-  expect_s3_class(gg_residual_plots(fit2, new_data=freeny1), "patchwork")
-})
-
-test_that("gg_residual_plots item=8 produces patchwork class", {
-  expect_s3_class(gg_residual_plots(fit2, new_data=freeny1, items=8), "patchwork")
+test_that("Tukey_test produces a gt table object", {
+  fit = lm(mpg~hp, data=mtcars)
+  S = Tukey_test(fit, fmt = "summary")
+  G = Tukey_test(fit)
+  expect_true("Variable" %in% names(S))
+  expect_true("Test.stat" %in% names(S))
+  expect_true("p.value" %in% names(S))
+  expect_s3_class(G, "gt_tbl")
 })

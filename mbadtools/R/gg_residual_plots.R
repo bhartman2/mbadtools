@@ -17,6 +17,7 @@
 #' @importFrom ggplot2 aes
 #' @importFrom patchwork wrap_plots
 #' @importFrom GGally ggally_blank
+#' @importFrom car residualPlots
 #' 
 #' @export
 #' @examples
@@ -41,7 +42,7 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
   }
   
   # item 1
-  gRF = ggplot2::ggplot(afit,ggplot2::aes(x = .fitted, y = .resid)) +
+  gRF = ggplot2::ggplot(afit, ggplot2::aes(x = .fitted, y = .resid)) +
     ggplot2::geom_point() +
     ggplot2::geom_hline(ggplot2::aes(yintercept=0), linetype="dashed")+
     ggplot2::geom_smooth(method="loess", se = FALSE, formula='y~x') +
@@ -133,12 +134,59 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
                   x=nm,
                   y="Fitted")
   
+  # item 9 "Tukey test"
+  gTT = patchwork::wrap_table(Tukey_test(.data)$gt)
+    
   # list
-  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP)
+  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gTT)
   
   # layout 
   return(
-    patchwork::wrap_plots(plots=P[items],...)
+    patchwork::wrap_plots(plots=P[items], ...)
   )
   
 }
+
+#' Tukey_test
+#' 
+#' Tukey test of curvature in linear regression models
+#'
+#' @param .data an lm() regression object
+#' @param fmt character c("gt", "summary"), default "gt"
+#' @return a list;
+#'      summary a data frame with the variables, statistics and p-values
+#'      gt a gt table with the same
+#' 
+#' @importFrom car residualPlots
+#' @importFrom rlang .data
+#'  
+#' @export
+#' @examples
+#' fit = lm(mpg~hp, data=mtcars)
+#' Tukey_test(fit, fmt = "summary")
+#' Tukey_test(fit)
+#'
+Tukey_test = function (.data, fmt = c("gt", "summary")) {
+
+  fmt = match.arg(fmt)
+
+  # Force the model call to contain the actual dataframe, not just the name
+  # This prevents stats::update() from searching the environment for the data
+  if (!is.null(.data$model)) {
+    .data$call$data <- .data$model 
+  } else {
+    # Fallback if the user ran lm(..., model = FALSE)
+    .data$call$data <- stats::model.frame(.data)
+  }
+  
+  TT = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
+  TT = tibble::rownames_to_column(TT, var="Variable")
+  TT = dplyr::rename(TT, p.value = .data$Pr...Test.stat..)
+  if (fmt == "summary") return(TT) 
+    else if (fmt =="gt") {
+    TTgt = gt_add_significance(TT) |>
+    gt::tab_header(title="Tukey test of curvature")
+    return(TTgt)
+    }
+}
+
