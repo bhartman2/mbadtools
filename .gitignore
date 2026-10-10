@@ -1,0 +1,24 @@
+# History files
+.Rhistory
+.RData
+.Ruserdata
+
+# RStudio files
+.Rproj.user/
+
+# Compiled native code binaries (C/C++/Fortran)
+src/*.o
+src/*.so
+src/*.dll
+src/*.dylib
+
+# Package build and check artifacts
+/*.Rcheck/
+*.tar.gz
+
+# Auto-generated documentation cache (if using roxygen2)
+/.Robjlookup
+inst/doc
+
+/.quarto/
+**/*.quarto_ipynb

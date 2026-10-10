@@ -1,0 +1,41 @@
+---
+title: "mbadtools"
+author: 
+  name: Bruce Hartman
+  affiliation: University of St. Francis
+  email: bruce@ahartman.net
+date: 2026-07-30
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mbadtools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+Sys.setenv(R_USER_CACHE_DIR = tempfile())
+# Your other setup code...
+```
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+require(conflicted)
+require(pak)
+```
+
+Install `mbadtools` and `vip` from GitHub.
+If it's already installed, it will skip.
+```{r, results='hide', message=FALSE}
+pak::pak("bgreenwell/vip@main") # package vip comes from GitHub
+pak::pak("bhartman2/mbadtools")
+```
+
+Load `mbadtools` to your R environment properly.
+```{r, results='hide', message=FALSE}
+library(mbadtools)
+```
+
+
