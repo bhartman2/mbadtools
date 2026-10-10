@@ -22,17 +22,17 @@ The goal of `mbadtools` is to provide MBAD students with the key packages the co
 
 ## Installation
 
-You can install the current version of `mbadtools` like so; it installs latest version, andskips if already there:
+You can install the current version of `mbadtools` like so; it installs latest version, and skips if it's already there:
 
-```{r}
+```{r results='hide', message=FALSE}
 pak::pak("bhartman2/mbadtools")
 ```
 
 ## Notebook or Script Usage
 
-This is a basic example which shows you how to load `mbadtools`; that is, make `mbadtools` available to your notebook. The initial output of this example is shown here, but you cn suppress it in your notebook; it's only informative if you have a problem.
+This is a basic example which shows you how to load `mbadtools`; that is, make `mbadtools` available to your notebook. Any messages are suppressed here, but you can make them available by setting 'message=TRUE'.
 
-```{r}
+```{r results='hide', message=FALSE}
 library(mbadtools)
 ```
 
@@ -62,7 +62,7 @@ A basic notebook template is provided to help you set up a notebook to write an 
 
 [View Basic Notebook Template](https://htmlpreview.github.io/?https://github.com/bhartman2/mbadtools/blob/main/notebook/Basic%20Notebook%20Template.nb.html)
 
-## Functions in `mbadtools`
+## Functions in `mbadtools` 
 
 Some useful functions are included in `mbadtools`.
 
