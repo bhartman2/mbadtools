@@ -55,6 +55,7 @@ core_packages_display <- function() {
     dplyr::select,
     dplyr::filter,
     vip::vi,
+    pdp::partial,
     .quiet=TRUE)
   # Format a nice printable grid of the loaded packages
   # (Simulating the tidyverse startup look)

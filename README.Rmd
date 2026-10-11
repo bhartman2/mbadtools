@@ -37,12 +37,13 @@ library(mbadtools)
 ```
 
 ## Packages Loaded
-Here is a current list of the packages loaded with `mbadtools`.
+Current list of the packages loaded with `mbadtools`.
 
 | Package | Use |
 |:-------- | ---------- |
 | tidyverse | host of packages for modern data and code handling in R |
 | tidymodels | host of packages for tidy modeling |
+| conflicted | prefer certain conflicts in function names |
 | ggfortify | tools to improve use of `ggplot2` graphics |
 | GGally | tools for `ggplot2` graphics especially the `ggpairs()` function |
 | skimr | better than `summary()` for quickly exploring and summarizing data |
