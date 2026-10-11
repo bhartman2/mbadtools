@@ -119,7 +119,7 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
   # item 0 "bl"
   gB = GGally::ggally_blank()
   
-  # item 8 "yvf"
+  # item 8 "yvp"
   nm = ifelse(colnames(afit)[1] == ".rownames", 
               colnames(afit)[2], 
               colnames(afit)[1])
@@ -135,7 +135,7 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
                   y="Fitted")
   
   # item 9 "Tukey test"
-  gTT = patchwork::wrap_table(Tukey_test(.data)$gt)
+  gTT = patchwork::wrap_table(Tukey_test(.data))
     
   # list
   P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT)
