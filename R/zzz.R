@@ -2,7 +2,7 @@
 core_packages <- c(
   "tidyverse",
   "tidymodels",
-  "workflowsets",
+  "conflicted",
   "ggfortify",
   "skimr",
   "GGally", 
@@ -44,19 +44,21 @@ core_packages_display <- function() {
 #' @export
 #'
 .onAttach <- function(libname, pkgname) {
-  needed <- core_unloaded()
-
+ 
+  conflicted::conflicts_prefer(
+      dplyr::select,
+      dplyr::filter,
+      vip::vi,
+      pdp::partial,
+      .quiet=TRUE)
+  
+  needed <- core_unloaded() 
   if (length(needed) == 0) return()
 
   # Create a clean header message
   packageStartupMessage(paste0("Loading mbadtools packages: "))
 
-  conflicted::conflicts_prefer(
-    dplyr::select,
-    dplyr::filter,
-    vip::vi,
-    pdp::partial,
-    .quiet=TRUE)
+  
   # Format a nice printable grid of the loaded packages
   # (Simulating the tidyverse startup look)
   packageStartupMessage(paste(needed, collapse = "  "))
