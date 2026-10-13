@@ -135,14 +135,8 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
                   y="Fitted")
   
   # item 9 "Tukey test"
-  if (9 %in% items) {
-    tryCatch({
     J = Tukey_test(.data)
     gTT = patchwork::wrap_table(J)
-    }, 
-    error = function (e) {return("Model not supported")}
-    )
-  }
     
   # list
   P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT)
@@ -188,7 +182,7 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
   
   # TT = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
   tryCatch({
-    TT = car::residualPlots(lm.fitint1, plot=FALSE, tests=FALSE)
+    TT = car::residualPlots(.data, plot=FALSE, tests=FALSE)
     TT = tibble::rownames_to_column(TT, var="Variable")
     TT = dplyr::rename(TT, p.value = .data$Pr...Test.stat..)
   },
