@@ -135,7 +135,14 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
                   y="Fitted")
   
   # item 9 "Tukey test"
-  gTT = patchwork::wrap_table(Tukey_test(.data))
+  if (9 %in% items) {
+    tryCatch({
+    J = Tukey_test(.data)
+    gTT = patchwork::wrap_table(J)
+    }, 
+    error = function (e) {return("Model not supported")}
+    )
+  }
     
   # list
   P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT)
@@ -179,9 +186,17 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
     .data$call$data <- stats::model.frame(.data)
   }
   
-  TT = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
-  TT = tibble::rownames_to_column(TT, var="Variable")
-  TT = dplyr::rename(TT, p.value = .data$Pr...Test.stat..)
+  # TT = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
+  tryCatch({
+    TT = car::residualPlots(lm.fitint1, plot=FALSE, tests=FALSE)
+    TT = tibble::rownames_to_column(TT, var="Variable")
+    TT = dplyr::rename(TT, p.value = .data$Pr...Test.stat..)
+  },
+   error = function (e) {
+     TT = data.frame("Model not supported")
+   }
+  )
+ 
   if (fmt == "summary") return(TT) 
     else if (fmt =="gt") {
     TTgt = gt_add_significance(TT) |>
@@ -190,3 +205,37 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
     }
 }
 
+# Tukey_test2 = function(.data, fmt = c("gt", "summary")) {
+#   fmt = match.arg(fmt)
+  
+#   # Check for interaction terms (terms with order > 1)
+#   if (any(attr(stats::terms(.data), "order") > 1)) {
+#     msg = "Tukey test not supported for models with order > 1 or interaction terms."
+#   }
+
+#   # Force the model call to contain the actual dataframe, not just the name
+#   # This prevents stats::update() from searching the environment for the data
+#   if (!is.null(.data$model)) {
+#     .data$call$data <- .data$model
+#   } else {
+#     # Fallback if the user ran lm(..., model = FALSE)
+#     .data$call$data <- stats::model.frame(.data)
+#   }
+  
+#   # You might also want to wrap the car function in a tryCatch just in case 
+#   # other unsupported model structures slip through
+#   tryCatch({
+#     TT = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
+#     TT = tibble::rownames_to_column(TT, var="Variable")
+#     TT = dplyr::rename(TT, p.value = .data$Pr...Test.stat..)
+    
+#     if (fmt == "summary")
+#     else if (fmt =="gt") {
+#       TTgt = gt_add_significance(TT) |> 
+#         gt::tab_header(title="Tukey test of curvature")
+#       return(TTgt)
+#     }
+#   }, error = function(e) {
+#     return("Tukey test could not be computed for this model structure.")
+#   })
+# }
