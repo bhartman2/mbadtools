@@ -191,7 +191,6 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
   },
    error = function (e) {
      TT = data.frame("Model not supported")
-     return()
    }
   )
  
