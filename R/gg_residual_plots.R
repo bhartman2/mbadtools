@@ -135,8 +135,11 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
                   y="Fitted")
   
   # item 9 "Tukey test"
+  gTT = GGally::ggally_blank()
+  if(9 %in% items) {
     J = Tukey_test(.data)
     gTT = patchwork::wrap_table(J)
+  }
     
   # list
   P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT)
@@ -188,6 +191,7 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
   },
    error = function (e) {
      TT = data.frame("Model not supported")
+     return()
    }
   )
  
