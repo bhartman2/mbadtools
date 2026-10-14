@@ -34,3 +34,12 @@ test_that("Tukey_test produces a gt table object", {
   expect_true("p.value" %in% names(S))
   expect_s3_class(G, "gt_tbl")
 })
+
+test_that("Tukey_test produces a message", {
+  # fit1 is not linear
+  fit1 = lm(mpg ~ hp:disp, data=mtcars)
+  S = Tukey_test(fit1, fmt = "summary")
+  G = Tukey_test(fit1)
+  expect_s3_class(S, "data.frame")
+  expect_s3_class(G, "gt_tbl")
+})

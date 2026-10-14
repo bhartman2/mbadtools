@@ -183,24 +183,35 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
     .data$call$data <- stats::model.frame(.data)
   }
   
-  # TT = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
-  tryCatch({
-    TT = car::residualPlots(.data, plot=FALSE, tests=FALSE)
-    TT = tibble::rownames_to_column(TT, var="Variable")
-    TT = dplyr::rename(TT, p.value = .data$Pr...Test.stat..)
+  TT = tryCatch({
+    temp = car::residualPlots(.data, plot=FALSE, tests=FALSE)
+    temp = tibble::rownames_to_column(temp, var="Variable")
+    dplyr::rename(temp, p.value = .data$`Pr...Test.stat..`)
   },
    error = function (e) {
-     TT = data.frame("Model not supported")
+    data.frame(Message = "Model not supported")
    }
   )
  
-  if (fmt == "summary") return(TT) 
-    else if (fmt =="gt") {
-    TTgt = gt_add_significance(TT) |>
-    gt::tab_header(title="Tukey test of curvature")
+  # return for model not supported
+  if ( "Message" %in% names(TT) ){
+    if (fmt == "summary") return(TT)
+    if (fmt =="gt") {
+      return(gt::gt(TT) |>
+        gt::tab_options(column_labels.hidden = TRUE))
+  }
+   
+  # Normal return for successfully computed Tukey tests
+  if (fmt == "summary") {
+    return(TT)
+  } else if (fmt =="gt") {
+    TTgt = gt_add_significance(TT) |> 
+      gt::tab_header(title="Tukey test of curvature")
     return(TTgt)
-    }
+  }
 }
+}
+  
 
 # Tukey_test2 = function(.data, fmt = c("gt", "summary")) {
 #   fmt = match.arg(fmt)
@@ -235,4 +246,4 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
 #   }, error = function(e) {
 #     return("Tukey test could not be computed for this model structure.")
 #   })
-# }
+  # }
