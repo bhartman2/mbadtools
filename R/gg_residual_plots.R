@@ -195,10 +195,11 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
  
   # return for model not supported
   if ( "Message" %in% names(TT) ){
-    if (fmt == "summary") return(TT)
+    if (fmt == "summary") { return(TT) }
     if (fmt =="gt") {
       return(gt::gt(TT) |>
         gt::tab_options(column_labels.hidden = TRUE))
+    }
   }
    
   # Normal return for successfully computed Tukey tests
@@ -209,7 +210,6 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
       gt::tab_header(title="Tukey test of curvature")
     return(TTgt)
   }
-}
 }
   
 

@@ -26,6 +26,7 @@ test_that("gg_residual_plots item=8 produces patchwork class", {
 })
 
 test_that("Tukey_test produces a gt table object", {
+  # fit is linear
   fit = lm(mpg~hp, data=mtcars)
   S = Tukey_test(fit, fmt = "summary")
   G = Tukey_test(fit)
