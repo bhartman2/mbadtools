@@ -184,7 +184,7 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
   }
   
   TT = tryCatch({
-    temp = car::residualPlots(.data, plot=FALSE, tests=FALSE)
+    temp = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
     temp = tibble::rownames_to_column(temp, var="Variable")
     dplyr::rename(temp, p.value = .data$`Pr...Test.stat..`)
   },
