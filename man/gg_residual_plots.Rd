@@ -9,7 +9,8 @@ gg_residual_plots(.data, items = c(1:3, 7), new_data = NULL, ...)
 \arguments{
 \item{.data}{an lm() regression object}
 
-\item{items}{a vector of integers from 0 to 9; which of 9 plots to select; default c(1:3,7)}
+\item{items}{a vector of integers from 0 to 10; which of 10 plots to select;
+default c(1:3,7)}
 
 \item{new_data}{data set model was trained on if class is \verb{_lm}; default NULL}
 
@@ -20,7 +21,22 @@ a patchwork array of ggplot objects
 }
 \description{
 ggplot versions of common residual plots meant to mimic the \code{plot.lm} and \code{ggfortify::autoplot.lm}
-residual plots.
+residual plots. The 10 plots are:
+}
+\details{
+\enumerate{
+\item residual vs fitted (RF) "rf"
+\item Actual vs Theoretical Quantile plot (QQ) "qq"
+\item Location vs scale (sqrt(abs(standardized residuals)) plot (LS) "ls"
+\item Observation vs Cook's Distance (CD) "cookd"
+\item Standardized Residuals vs Leverage (RH) "lev"
+\item Cook's Distance vs Leverage/(1-Leverage) (CH) "cookl"
+\item fitted values histogram (HI)
+\item y vs predicted or fitted (YP) "yvp"
+\item Tukey test of curvature (TT) "Tukey test"
+\item Index vs leverage (.hat values) (IH)
+\item Blank (B) "bl"
+}
 }
 \examples{
 data(freeny, package="datasets")
