@@ -1,10 +1,25 @@
 #' gg_residual_plots
 #' 
 #' ggplot versions of common residual plots meant to mimic the `plot.lm` and `ggfortify::autoplot.lm` 
-#' residual plots.
+#' residual plots. The 10 plots are:
+#' 
+#' 1. residual vs fitted (RF) "rf"
+#' 2. Actual vs Theoretical Quantile plot (QQ) "qq"
+#' 3. Location vs scale (sqrt(abs(standardized residuals)) plot (LS) "ls"
+#' 4. Observation vs Cook's Distance (CD) "cookd"
+#' 5. Standardized Residuals vs Leverage (RH) "lev"
+#' 6. Cook's Distance vs Leverage/(1-Leverage) (CH) "cookl"
+#' 7. fitted values histogram (HI)
+#' 8. y vs predicted or fitted (YP) "yvp"
+#' 9. Tukey test of curvature (TT) "Tukey test"
+#' 10. Index vs leverage (.hat values) (IH)
+#' 0. Blank (B) "bl"
+#' 
+#' 
 #'
 #' @param .data an lm() regression object
-#' @param items a vector of integers from 0 to 9; which of 9 plots to select; default c(1:3,7)
+#' @param items a vector of integers from 0 to 10; which of 10 plots to select;
+#'  default c(1:3,7)
 #' @param new_data data set model was trained on if class is `_lm`; default NULL
 #' @param ... parameters to be passed to `patchwork::wrap_plots()`
 #' @return a patchwork array of ggplot objects
@@ -134,15 +149,27 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
                   x=nm,
                   y="Fitted")
   
+  
   # item 9 "Tukey test"
   gTT = GGally::ggally_blank()
   if(9 %in% items) {
     J = Tukey_test(.data)
     gTT = patchwork::wrap_table(J)
   }
-    
+
+  # item 10 ind index vs hat "hat"
+  afiti = dplyr::mutate(afit, ind = dplyr::row_number())
+  maxhats = dplyr::slice(dplyr::arrange(afiti, dplyr::desc(.hat)), 5)
+  gIH = ggplot2::ggplot(afiti, ggplot2::aes(x = ind, y = .hat)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_text(data=maxhats, 
+      aes(x=index, y=.hat, label = ind)) +
+    ggplot2::labs(title="Index vs Leverage",
+         x = "Index", 
+         y = "Leverage (.hat)")
+   
   # list
-  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT)
+  P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT, gIH)
   
   # layout 
   return(
@@ -212,38 +239,3 @@ Tukey_test = function (.data, fmt = c("gt", "summary")) {
   }
 }
   
-
-# Tukey_test2 = function(.data, fmt = c("gt", "summary")) {
-#   fmt = match.arg(fmt)
-  
-#   # Check for interaction terms (terms with order > 1)
-#   if (any(attr(stats::terms(.data), "order") > 1)) {
-#     msg = "Tukey test not supported for models with order > 1 or interaction terms."
-#   }
-
-#   # Force the model call to contain the actual dataframe, not just the name
-#   # This prevents stats::update() from searching the environment for the data
-#   if (!is.null(.data$model)) {
-#     .data$call$data <- .data$model
-#   } else {
-#     # Fallback if the user ran lm(..., model = FALSE)
-#     .data$call$data <- stats::model.frame(.data)
-#   }
-  
-#   # You might also want to wrap the car function in a tryCatch just in case 
-#   # other unsupported model structures slip through
-#   tryCatch({
-#     TT = data.frame(car::residualPlots(.data, plot=FALSE, tests=FALSE))
-#     TT = tibble::rownames_to_column(TT, var="Variable")
-#     TT = dplyr::rename(TT, p.value = .data$Pr...Test.stat..)
-    
-#     if (fmt == "summary")
-#     else if (fmt =="gt") {
-#       TTgt = gt_add_significance(TT) |> 
-#         gt::tab_header(title="Tukey test of curvature")
-#       return(TTgt)
-#     }
-#   }, error = function(e) {
-#     return("Tukey test could not be computed for this model structure.")
-#   })
-  # }
