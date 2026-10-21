@@ -25,8 +25,15 @@ test_that("gg_residual_plots item=8 produces patchwork class", {
   expect_s3_class(gg_residual_plots(fit1, new_data=freeny1, items=8), "patchwork")
 })
 
+test_that("gg_residual_plots item=10 produces patchwork class", {
+  expect_s3_class(gg_residual_plots(fit, items=10),
+   "patchwork")
+  expect_s3_class(gg_residual_plots(fit1, new_data=freeny1, items=10), 
+   "patchwork")
+})
+
 test_that("Tukey_test produces a gt table object", {
-  # fit is linear
+  # fit is linear class 'lm'
   fit = lm(mpg~hp, data=mtcars)
   S = Tukey_test(fit, fmt = "summary")
   G = Tukey_test(fit)
@@ -37,7 +44,7 @@ test_that("Tukey_test produces a gt table object", {
 })
 
 test_that("Tukey_test produces a message", {
-  # fit1 is not linear
+  # fit1 is not linear 'quadratic or interaction'
   fit1 = lm(mpg ~ hp:disp, data=mtcars)
   S = Tukey_test(fit1, fmt = "summary")
   G = Tukey_test(fit1)

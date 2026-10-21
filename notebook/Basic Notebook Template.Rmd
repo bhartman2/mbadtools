@@ -3,7 +3,7 @@ title: Basic Notebook Template
 author:
   name: Bruce Hartman
   affiliation: University of St. Francis
-date: 2026-09-28 Revised `r lubridate::today()`
+date: 2026-09-28 Revised `r lubridate::now() %>% format_ISO8601()`
 output: 
   html_notebook:
     toc: TRUE
@@ -36,16 +36,13 @@ pak::pak("bhartman2/mbadtools") # if it's already up to date nothing will happen
 ```
 
 **Use this chunk in every new notebook!!** 
-Make the `mbadtools` package available to the notebook. Also make sure the `select()` and `filter()` functions come from the `dplyr` package, rather than from any other.
+Make the `mbadtools` package available to the notebook. It loads several other packges wwe will use frequently.
 ```{r}
 library(mbadtools, quietly=TRUE)
-# Tell R to always prefer dplyr's select or filter function over any other package
-conflicted::conflict_prefer_matching(
-  "select|filter", "dplyr", quiet=T)
 ```
 
 # Data {-}
-Here we get the data using *Import Dataset* button or from a package.
+Here we get the data using *Import Dataset* button or from a package like ISLR2.
 
 # Data Description {-}
 Describe the data using simple display, or `skim()`. You might want `glimpse()` to see just the columns and a short sample.
