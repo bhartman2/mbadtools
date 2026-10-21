@@ -156,6 +156,20 @@ gg_residual_plots = function(.data, items=c(1:3,7), new_data=NULL, ...) {
     J = Tukey_test(.data)
     gTT = patchwork::wrap_table(J)
   }
+
+  # item 10 'index vs hat'
+  afiti = dplyr::mutate(afit, ind = 1:nrow(afit))
+  maxind = dplyr::slice(
+    dplyr::arrange(afiti, dplyr::desc(.hat)),
+    1:3)
+  gIH = ggplot2::ggplot(afiti) +
+    ggplot2::geom_point(ggplot2::aes(ind, .hat)) +
+    ggplot2::geom_text(data=maxind, 
+      ggplot2::aes(x=ind, y=.hat, label=ind)) +
+    ggplot2::labs(title="Leverage vs Index",
+         x = "Index", 
+         y = "Leverage (.hat)")
+
     
   # list
   P = list(gRF, gQQ, gSL, gCD, gRH, gCH, gHI, gYP, gTT, gIH)
